@@ -46,15 +46,11 @@ public class KMLHandler extends DefaultHandler {
 	 * The name of the current piste run we are creating data for.
 	 */
 	private String pisteName;
-	/**
-	 * The description of the current piste we are creating data for.
-	 */
-	private String description;
-	
+
 	/**
 	 * The difficulty of the ski piste we are currently building.
 	 */
-	private Difficulty diff;
+	private Difficulty difficulty;
 
 	public void startDocument() throws SAXException {
 		graphData = new ArrayList<LinkedList<Node>>();
@@ -125,7 +121,28 @@ public class KMLHandler extends DefaultHandler {
 		if (qName.equalsIgnoreCase(DESCRIPTION)) {
 			if (piste != null) {
 
-				description = sb.toString();
+				// The description element of the kml indicates the difficulty
+				// of the piste
+				// This is delimited in the string by a ":", String after ":"
+				// being the difficulty;
+				String description = sb.toString();
+				String[] tmp = description.split(":");
+				String diff = tmp[0];
+
+				// Java 7 can do switch statements on Strings! What an exciting
+				// modern world we live in.
+				switch (diff) {
+				case "Easy":
+					difficulty = Difficulty.BLUE;
+					break;
+				case "Intermediate":
+					difficulty = Difficulty.RED;
+					break;
+				case "Difficulty":
+					difficulty = Difficulty.BLACK;
+					break;
+				}
+
 				isParsing = false;
 				sb = new StringBuilder();
 			}
@@ -190,26 +207,29 @@ public class KMLHandler extends DefaultHandler {
 		// Keep track of the nodes
 		Node origin = null;
 		Node terminus = null;
-		
-		for (Node n : piste)
-		{
-			// This node is the terminus for the edge originating from the previous node
+
+		for (Node n : piste) {
+			// This node is the terminus for the edge originating from the
+			// previous node
 			terminus = n;
 			// If there was an origin node we need to build an edge between them
-			if (origin != null)
-			{
+			if (origin != null) {
 				Edge e = new Edge();
 				// Calcualte the weight of this edge
-				// We will make the weight the distance in km between the origin and terminus nodes.
-				e.setWeight(HaversineDistance.calculateDistance(origin, terminus));
-				
+				// We will make the weight the distance in km between the origin
+				// and terminus nodes.
+				e.setWeight(HaversineDistance.calculateDistance(origin,
+						terminus));
+				e.setDiff(difficulty);
+				e.setPiste(pisteName);
+
 				// Add this to the nodes
 				origin.getOutboudEdges().add(e);
 				terminus.getInboundEdges().add(e);
-			}			
+			}
 			// set this node as the origin for the next time round the loop
-			origin = n;		
-		}				
+			origin = n;
+		}
 	}
 
 	public ArrayList<LinkedList<Node>> getGraphData() {
