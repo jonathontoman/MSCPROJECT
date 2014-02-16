@@ -7,12 +7,11 @@ import skipiste.graph.Node;
  * @author s1011122
  *
  */
-public class HaversineDistance implements DistanceCalc {
+public class HaversineDistance {
 	
 	
 	
-	@Override
-	public double calculateDistance(Node node1, Node node2) {		
+	public static double calculateDistance(Node node1, Node node2) {		
 		return calculateLength(node1.getLongitude(), node1.getLattitude(), node2.getLongitude(), node2.getLattitude());
 	}
 
@@ -24,7 +23,7 @@ public class HaversineDistance implements DistanceCalc {
 	 * 
 	 * 
 	 */
-	public static double calculateLength(Double longitude1, Double latitude1,
+	private static double calculateLength(Double longitude1, Double latitude1,
 			Double longitude2, Double latitude2) {
 
 		final double R = 6371.009; // Radius of the earth

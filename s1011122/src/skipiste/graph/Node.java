@@ -1,6 +1,5 @@
 package skipiste.graph;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -23,6 +22,10 @@ public class Node  implements Comparable<Node>{
 	 * The altidue of this node;
 	 */
 	private double altitude;
+	/**
+	 * The section of a piste that this node belongs to.
+	 */
+	private Section section;
 	/**
 	 * Description of this node;
 	 */
@@ -195,6 +198,22 @@ public class Node  implements Comparable<Node>{
 	 */
 	public void setPreviousNodeInPath(Node previousNodeInPath) {
 		this.previousNodeInPath = previousNodeInPath;
+	}
+
+
+	/**
+	 * @return the section
+	 */
+	public Section getSection() {
+		return section;
+	}
+
+
+	/**
+	 * @param section the section to set
+	 */
+	public void setSection(Section section) {
+		this.section = section;
 	}
 
 }
