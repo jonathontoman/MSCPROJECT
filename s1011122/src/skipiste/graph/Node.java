@@ -1,4 +1,4 @@
-package graph;
+package skipiste.graph;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,15 +14,15 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * The longitude of this node.
 	 */
-	private BigDecimal longitude;
+	private double longitude;
 	/**
 	 * The lattitude of this node;
 	 */
-	private BigDecimal lattitude;
+	private double lattitude;
 	/**
 	 * The altidue of this node;
 	 */
-	private BigDecimal altitude;
+	private double altitude;
 	/**
 	 * Description of this node;
 	 */
@@ -73,7 +73,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @return the longitude
 	 */
-	public BigDecimal getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
@@ -81,7 +81,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @param longitude the longitude to set
 	 */
-	public void setLongitude(BigDecimal longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -89,7 +89,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @return the lattitude
 	 */
-	public BigDecimal getLattitude() {
+	public double getLattitude() {
 		return lattitude;
 	}
 
@@ -97,7 +97,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @param lattitude the lattitude to set
 	 */
-	public void setLattitude(BigDecimal lattitude) {
+	public void setLattitude(double lattitude) {
 		this.lattitude = lattitude;
 	}
 
@@ -105,7 +105,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @return the altitude
 	 */
-	public BigDecimal getAltitude() {
+	public double getAltitude() {
 		return altitude;
 	}
 
@@ -113,7 +113,7 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @param altitude the altitude to set
 	 */
-	public void setAltitude(BigDecimal altitude) {
+	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
 
