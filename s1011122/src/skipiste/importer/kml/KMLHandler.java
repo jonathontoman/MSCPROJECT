@@ -173,6 +173,8 @@ public class KMLHandler extends DefaultHandler {
 					String[] s = coords[i].split(",");
 					n.setLattitude(new Double(s[0]));
 					n.setLongitude(new Double(s[1]));
+					n.setName(pisteName);
+					
 
 					if (i == 0) {
 						// if this is the first node in the piste mark it as
@@ -186,6 +188,9 @@ public class KMLHandler extends DefaultHandler {
 						// otherwise it is a mid point.
 						n.setSection(Section.MID);
 					}
+					// Add the node to the linked list that represents the
+					// piste.
+					piste.add(n);
 				}
 
 				// From this list of nodes that make up a piste we can infer the

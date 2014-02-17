@@ -27,9 +27,9 @@ public class Node  implements Comparable<Node>{
 	 */
 	private Section section;
 	/**
-	 * Description of this node;
+	 * Name of the piste this belongs to.
 	 */
-	private String description;
+	private String name;
 	/**
 	 * Edges that are in-bound/terminate at this node
 	 */
@@ -69,7 +69,7 @@ public class Node  implements Comparable<Node>{
 
 	@Override
 	public String toString() {
-		return "PisteNode [description=" + description + "]";
+		return "PisteNode [description=" + name + "]";
 	}
 
 
@@ -124,16 +124,16 @@ public class Node  implements Comparable<Node>{
 	/**
 	 * @return the description
 	 */
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
 
 
 	/**
 	 * @param description the description to set
 	 */
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String description) {
+		this.name = description;
 	}
 
 
