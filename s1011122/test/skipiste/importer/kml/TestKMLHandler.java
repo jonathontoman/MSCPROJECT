@@ -41,6 +41,7 @@ public class TestKMLHandler {
 	 * The data the handler should return.
 	 */
 	private ArrayList<LinkedList<Node>> data;
+
 	/**
 	 * The url of the file on the classpath, use to pass to the handler.
 	 */

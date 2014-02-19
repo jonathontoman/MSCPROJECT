@@ -30,6 +30,9 @@ public class KMLHandler extends DefaultHandler {
 	 * The data set that we are populating.
 	 */
 	private ArrayList<LinkedList<Node>> graphData;
+	
+	
+	private Node[][] data;
 	/**
 	 * The List of nodes that comprise a complete ski piste.
 	 */
@@ -51,7 +54,7 @@ public class KMLHandler extends DefaultHandler {
 	 * The difficulty of the ski piste we are currently building.
 	 */
 	private Difficulty difficulty;
-
+	
 	public void startDocument() throws SAXException {
 		graphData = new ArrayList<LinkedList<Node>>();
 	}
