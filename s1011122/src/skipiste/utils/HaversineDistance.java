@@ -3,7 +3,7 @@ package skipiste.utils;
 import skipiste.graph.Node;
 
 /**
- * Calculates the distance between two nodes using the Haverside formula.
+ * Calculates the distance between two nodes using the Haversine formula.
  * @author s1011122
  *
  */
@@ -29,7 +29,7 @@ public class HaversineDistance {
 		final double R = 6371.009; // Radius of the earth
 		Double lat1 = latitude1;
 		Double lon1 = longitude1;
-		Double lat2 = latitude1;
+		Double lat2 = latitude2;
 		Double lon2 = longitude2;
 		Double latDistance = deg2rad(lat2 - lat1);
 		Double lonDistance = deg2rad(lon2 - lon1);

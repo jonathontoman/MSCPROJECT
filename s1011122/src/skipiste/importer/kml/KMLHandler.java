@@ -174,8 +174,8 @@ public class KMLHandler extends DefaultHandler {
 				for (int i = 0; i < coords.length; i++) {
 					Node n = new Node();
 					String[] s = coords[i].split(",");
-					n.setLattitude(new Double(s[0]));
-					n.setLongitude(new Double(s[1]));
+					n.setLongitude(new Double(s[0]));
+					n.setLattitude(new Double(s[1]));
 					n.setName(pisteName);
 					
 

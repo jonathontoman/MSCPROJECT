@@ -76,12 +76,13 @@ public class KMLToGraph extends AbstractGraphImporter implements GraphImporter {
 
 		Iterator<LinkedList<Node>> it1 = list.iterator();
 
+		int id = 0;
 		while (it1.hasNext()) {
 			LinkedList<Node> linkedList1 = it1.next();
 			it1.remove();
 
 			for (Node n1 : linkedList1) {
-				int id = 0;
+
 				Iterator<LinkedList<Node>> it2 = list.iterator();
 				while (it2.hasNext()) {
 					Iterator<Node> it3 = it2.next().iterator();
