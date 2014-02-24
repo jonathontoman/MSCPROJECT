@@ -234,6 +234,9 @@ public class KMLHandler extends DefaultHandler {
 				// Add this to the nodes
 				origin.getOutboudEdges().add(e);
 				terminus.getInboundEdges().add(e);
+				// set this to and from values on the edge
+				e.setFrom(origin);
+				e.setTo(terminus);
 			}
 			// set this node as the origin for the next time round the loop
 			origin = n;

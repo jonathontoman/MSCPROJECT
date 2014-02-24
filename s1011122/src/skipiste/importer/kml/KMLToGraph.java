@@ -139,7 +139,7 @@ public class KMLToGraph extends AbstractGraphImporter implements GraphImporter {
 			n1.getInboundEdges().addAll(inbound);
 
 			// 2. change the outbound edges
-			List<Edge> outbound = n2.getInboundEdges();
+			List<Edge> outbound = n2.getOutboudEdges();			
 			// All inbound edges now have a new destination which is node 1.
 			for (Edge e : outbound) {
 				e.setFrom(n1);
