@@ -23,7 +23,7 @@ public class HaversineDistance {
 	 * 
 	 * 
 	 */
-	private static double calculateLength(Double longitude1, Double latitude1,
+	public static double calculateLength(Double longitude1, Double latitude1,
 			Double longitude2, Double latitude2) {
 
 		final double R = 6371.009; // Radius of the earth
