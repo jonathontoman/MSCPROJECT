@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import skipiste.graph.Edge;
 import skipiste.graph.Graph;
-import skipiste.graph.Node;
+import skipiste.graph.elements.Edge;
+import skipiste.graph.elements.Node;
 
 public class Dijkstra {
 
@@ -49,13 +49,12 @@ public class Dijkstra {
 	 */
 	public void execute(String sourceNode, String targetNode) {
 
-		s = g.getNodes().get(sourceNode);
-		t = g.getNodes().get(targetNode);
 		// we know the distance to the source Node is 0, update out graph.
 		s.setDistanceFromOrigin(0);
 		
 		ArrayList<Node> Node = new ArrayList<Node>();
-		Iterator it = g.getNodes().entrySet().iterator();
+		
+		Iterator it = g.getNodes().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry pairs = (Map.Entry)it.next();
 	        Node.add((Node) pairs.getValue());

@@ -1,4 +1,4 @@
-package skipiste.graph;
+package skipiste.graph.elements;
 
 /**
  * Enum to represent the difficulty of a ski piste. The difficulties are in

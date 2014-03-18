@@ -1,6 +1,6 @@
 package skipiste.utils;
 
-import skipiste.graph.Node;
+import skipiste.graph.elements.Node;
 
 /**
  * Calculates the distance between two nodes using the Haversine formula.
@@ -20,7 +20,7 @@ public class HaversineDistance {
 	/**
 	 * Calculates the straight line distance between two sets of longitude and
 	 * latitude coordinates based on the Haversine formula
-	 * 
+	 * @return double - thie distance in kilometers between the two points. 
 	 * 
 	 */
 	public static double calculateLength(Double longitude1, Double latitude1,

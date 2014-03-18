@@ -1,15 +1,11 @@
 package skipiste.algorithm;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-import skipiste.graph.Edge;
 import skipiste.graph.Graph;
-import skipiste.graph.Node;
+import skipiste.graph.elements.Edge;
+import skipiste.graph.elements.Node;
 import skipiste.utils.HaversineDistance;
 
 public class AStar {
@@ -27,11 +23,6 @@ public class AStar {
 	 */
 	Map<Node, Double> distances;
 
-	// Source Node
-	Node s;
-	// Target Node
-	Node t;
-
 	public AStar(Graph graph) {
 
 		this.g = graph;
@@ -46,52 +37,48 @@ public class AStar {
 	 * @param t
 	 *            - the target Node.
 	 */
-	public void execute(String sourceNode, String targetNode) {
-
-		s = g.getNodes().get(sourceNode);
-		t = g.getNodes().get(targetNode);
-		// we know the distance to the source Node is 0, update out graph.
-		s.setDistanceFromOrigin(0);
-		
-		ArrayList<Node> Node = new ArrayList<Node>();
-		Iterator it = g.getNodes().entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pairs = (Map.Entry)it.next();
-	        
-	        // For each node in the A* algorithm we need to add a weight + heuristic, our heuristic is the distance from the destination, to do this we will get the straight line distance of this node to the destination and add this too the weight of any incoming nodes.	        
-	        Node n = (Node) pairs.getValue();
-	        for (Edge e : n.getInboundEdges())
-	        {
-	        	double newWeight = e.getWeight() + HaversineDistance.calculateDistance(n, t); 
-	        	e.setWeight(newWeight); 
-	        }
-	        Node.add(n);
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }
-		
-		pq = new PriorityQueue<Node>();
-		pq.add(s);
+	public void execute(Graph g, Node source, Node destination) {
 
 		// Log start time
 		long start = System.currentTimeMillis();
+
+		
+		Graph graph = g;
+
+		// we know the distance to the source Node is 0, update out graph.
+		source.setDistanceFromOrigin(0);
+		// For A* we need to adjust the weight of each edge with heuristic, this
+		// will be the distance from the source node to the destination node as
+		// calculated with our haversine function.
+		for (Edge e : graph.getEdges()) {
+			e.setWeight(e.getWeight()
+					+ HaversineDistance.calculateDistance(e.getFrom(),
+							destination));
+		}
+
+		// Start searching for our route.
+		pq = new PriorityQueue<Node>();
+		pq.add(source);
+
 		while (!pq.isEmpty()) {
 			// The Node we are currently search from
 			Node u = pq.poll();
 			// If this is our target we can give up searching
-			if ( u.equals(t))
-			{
-				t= u;
+			if (u.equals(destination)) {
+				destination = u;
+				break;
 			}
 
 			for (Edge e : u.getOutboudEdges()) {
-				// now we need to relax the PisteSections, examine each destination Node of these PisteSections.
+				// now we need to relax the PisteSections, examine each
+				// destination Node of these PisteSections.
 				Node n = e.getTo();
 				// get cost of getting to n from current Node u
 				double weight = e.getWeight();
 				// find the distance to the Node being examined via the current
 				// Node.
 				double distanceViaU = weight + u.getDistanceFromOrigin();
-				// if new distance is less than current  distance to Node n then
+				// if new distance is less than current distance to Node n then
 				// update the information in the priority queue, thanks to
 				// java.util.PriorityQueue we have to remove it and re add it
 				if (distanceViaU < n.getDistanceFromOrigin()) {
@@ -111,11 +98,5 @@ public class AStar {
 	}
 
 	public void printShortestPath() {
-		ArrayList<Node> path = new ArrayList<Node>();
-		for (Node n = t; n != null; n = n.getPreviousNodeInPath()) {
-			path.add(n);
-		}
-		Collections.reverse(path);
-		System.out.println(path);
 	}
 }

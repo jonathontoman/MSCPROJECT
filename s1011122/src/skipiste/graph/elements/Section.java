@@ -1,4 +1,4 @@
-package skipiste.graph;
+package skipiste.graph.elements;
 
 /**
  * Describes the section of the piste that a node belongs to. There are 4 types
