@@ -202,7 +202,7 @@ public class TestKMLHandler {
 	@Test
 	public void testNodeEgdesAreCorrect() {
 		for (Node n : nodes) {
-			if (n.getSection() == Section.START) {
+			if (n.isStart()) {
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
 						.getOutboudEdges().size());
@@ -210,7 +210,7 @@ public class TestKMLHandler {
 				assertEquals("Node " + n + "is incorrect", 0, n
 						.getInboundEdges().size());
 
-			} else if (n.getSection() == Section.END) {
+			} else if (n.isEnd()) {
 				// expect 1 inboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
 						.getInboundEdges().size());

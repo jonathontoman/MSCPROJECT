@@ -10,7 +10,6 @@ import skipiste.graph.elements.Difficulty;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.graph.elements.Section;
 
 /**
  * Parses KML from OpenSkiMap.org. This produces a List<LinkedList<Node>>. Each
@@ -41,9 +40,9 @@ public class SkiMapHandler extends KMLHandler {
 	 * The piste node we are building at any one time
 	 */
 	private Piste piste;
-	
+
 	/**
-	 *Used to modify duplicate piste names so they are unique.
+	 * Used to modify duplicate piste names so they are unique.
 	 */
 	private int i;
 
@@ -84,7 +83,7 @@ public class SkiMapHandler extends KMLHandler {
 		nodes = new ArrayList<Node>();
 		edges = new ArrayList<Edge>();
 		pistes = new ArrayList<Piste>();
-		i=0;
+		i = 0;
 	}
 
 	public void endDocument() throws SAXException {
@@ -150,12 +149,9 @@ public class SkiMapHandler extends KMLHandler {
 				// not be sure that one is just a continuation of the other we
 				// suffix an "X" onto the piste name if another piste has
 				// already been produced with the same name.
-				
-			
-				for ( Piste p : pistes)
-				{
-					if (sb.toString().equalsIgnoreCase(p.getName()))
-					{
+
+				for (Piste p : pistes) {
+					if (sb.toString().equalsIgnoreCase(p.getName())) {
 						// append the int i to the name so we make it unique
 						sb.append(i);
 						// incremeent so it is unique for the next time.
@@ -232,14 +228,11 @@ public class SkiMapHandler extends KMLHandler {
 					if (i == 0) {
 						// if this is the first node in the piste mark it as
 						// such
-						n.setSection(Section.START);
+						n.setStart(true);
 
 					} else if (coords.length - i == 1) {
 						// if this is the last node in the piste mark it as such
-						n.setSection(Section.END);
-					} else {
-						// otherwise it is a mid point.
-						n.setSection(Section.MID);
+						n.setEnd(false);
 					}
 					// Add this to the list of nodes
 					nodes.add(n);

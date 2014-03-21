@@ -8,77 +8,73 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.Describable;
 
 import skipiste.graph.Graph;
+import skipiste.graph.GraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.importer.kml.KMLToGraph;
-import skipiste.importer.kml.SkiMapHandler;
+import skipiste.utils.OutputKML;
 
-public class TestAStar 
-{
-	/**
-	 * The location of our test data. The file name here is treated as XML ,
-	 * this is just convenience for the eclipse editor and editing XML.
-	 */
-	private static final String KML = "PlagneMontalbertPisteRuns.xml";
+public class TestAStar {
 
-	private KMLToGraph graphBuidler;
+	private GraphBuilder graphBuidler;
 	private Graph g;
 
 	@Before
 	public void setup() {
-		graphBuidler = new KMLToGraph(new SkiMapHandler());
 	}
 
 	/**
 	 * This isnt really a proper test case, its a convinient way to kick of
 	 * building a graph whilst carrying out development.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	@Test
 	public void testCase1() throws IOException {
-		g = graphBuidler.importGraph(graphBuidler.getClass().getResource(KML).getFile());
-		AStar algorithm  = new AStar(g);
-		
-		HashMap<Integer, Node> searchOptions = new HashMap<Integer,Node>();
-		
-		int i = 0;
-		for (Piste p : g.getPistes())
-		{
-			for (Node n : p.getNodes())
-			{
-				searchOptions.put(new Integer(i), n);
-				i++;
-			}
-		}
-		
-		System.out.println(searchOptions);
-		System.out.println("Enter source node");
+		graphBuidler = new GraphBuilder(this.getClass()
+				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
+		g = graphBuidler.getGraph();
+		AStar algorithm = new AStar(g);
+
+		// Get the start and end of each node
+		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
+		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
+
 		Console c = System.console();
-		
-		
-		   //  open up standard input
-	      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+
+		int i = 1;
+		for (Piste p : g.getPistes()) {
+			System.out.println("Start of " + p.getName() + ":" + i);
+			startOptions.put(i, p.getNodes().getFirst());
+			i++;
+		}
+		System.out.println("Enter source node");
+
+		// open up standard input read in start node choice
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String input = br.readLine();
-		
-		Integer sourceI = new Integer(input);
+		Node source = startOptions.get(new Integer(input));
+		// read in end node choice
+
+		i = 1;
+		for (Piste p : g.getPistes()) {
+			System.out.println("End of " + p.getName() + ":" + i);
+			endOptions.put(i, p.getNodes().getLast());
+			i++;
+		}
+
 		System.out.println("Enter destination node");
 		input = br.readLine();
 		Integer desinationI = new Integer(input);
-		Node destination = searchOptions.get(desinationI);
 
+		Node destination = endOptions.get(desinationI);
+		algorithm.execute(source,destination);
 		
-		algorithm.execute(g,searchOptions.get(sourceI),searchOptions.get(desinationI));
-		
-		StringBuilder sb = new StringBuilder();
-		while (destination.getPreviousNodeInPath() != null)
+		while(destination.getPreviousNodeInPath() != null)
 		{
-			sb.append(destination.getPreviousNodeInPath().toString());
+			System.out.println(OutputKML.outputPlaceMark( destination.getPreviousNodeInPath().getLongitude(), destination.getPreviousNodeInPath().getLattitude()));
 			destination = destination.getPreviousNodeInPath();
 		}
-		System.out.println(sb.toString());
 	}
 }

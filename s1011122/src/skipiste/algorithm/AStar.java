@@ -9,8 +9,6 @@ import skipiste.graph.elements.Node;
 import skipiste.utils.HaversineDistance;
 
 public class AStar {
-
-	private Graph g;
 	/**
 	 * The priority queue holds the neighbouring Nodes we will want to visit,
 	 * stored in its 'natural order'. The Nodes implement the comparable
@@ -18,15 +16,18 @@ public class AStar {
 	 * the nearest Node is returned when we poll it.
 	 */
 	PriorityQueue<Node> pq;
+	
+	/**
+	 * The graph the algorithm runs against.
+	 */
+	Graph g;
 	/**
 	 * Holds the distance to the Node from the source Node.
 	 */
 	Map<Node, Double> distances;
 
 	public AStar(Graph graph) {
-
 		this.g = graph;
-
 	}
 
 	/**
@@ -37,20 +38,20 @@ public class AStar {
 	 * @param t
 	 *            - the target Node.
 	 */
-	public void execute(Graph g, Node source, Node destination) {
+	public void execute(Node source, Node destination) {
 
 		// Log start time
 		long start = System.currentTimeMillis();
 
-		
-		Graph graph = g;
+		// find node that matches source in our graph
 
+		
 		// we know the distance to the source Node is 0, update out graph.
 		source.setDistanceFromOrigin(0);
 		// For A* we need to adjust the weight of each edge with heuristic, this
 		// will be the distance from the source node to the destination node as
 		// calculated with our haversine function.
-		for (Edge e : graph.getEdges()) {
+		for (Edge e : g.getEdges()) {
 			e.setWeight(e.getWeight()
 					+ HaversineDistance.calculateDistance(e.getFrom(),
 							destination));

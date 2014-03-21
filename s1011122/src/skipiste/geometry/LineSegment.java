@@ -105,20 +105,6 @@ public class LineSegment {
 			return true;
 		}
 
-		// // y value of the point z, our comparrison
-		// double zy = z.getY();
-		// // y value intersection on this line
-		// double y = solveY(z.getX());
-		// // error margin as we are dealing with doubles
-		// double delta = 0.0000000001;
-		// double result = y - zy;
-		//
-		// // problems wiht double precsision use a delta value of 0.000001
-		// if (-delta <= result && result <= delta) {
-		// return true;
-		// }
-		// return false;
-
 		return z.getY() == solveY(z.getX());
 	}
 

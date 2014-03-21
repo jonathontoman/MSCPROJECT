@@ -1,13 +1,5 @@
 package skipiste.importer.kml;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
-import skipiste.graph.Graph;
-import skipiste.graph.elements.Node;
-import skipiste.graph.elements.Piste;
-import skipiste.utils.OutputKML;
 
 /**
  * Tests the KMLtoGraph class builds a graph as we expect it. We have separate

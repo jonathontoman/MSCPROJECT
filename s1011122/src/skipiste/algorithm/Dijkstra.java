@@ -3,11 +3,9 @@ package skipiste.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import skipiste.graph.Graph;
 import skipiste.graph.elements.Edge;

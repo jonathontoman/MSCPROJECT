@@ -26,10 +26,6 @@ public class Node implements Comparable<Node> {
 	 */
 	private double altitude;
 	/**
-	 * The section of a piste that this node belongs to.
-	 */
-	private Section section;
-	/**
 	 * Name of the piste this belongs to.
 	 */
 	private String name;
@@ -45,6 +41,20 @@ public class Node implements Comparable<Node> {
 	 * The pistes this node belongs to.
 	 */
 	private Set<Piste> pistes;
+	
+	/**
+	 * Flag to show whether or not this start of a node.
+	 */
+	private boolean start;
+	/**
+	 * Flag to show whether or not this start of a node.
+	 */
+	private boolean end;
+	
+	/**
+	 * Flag to indicate if this node has already been merged with another
+	 */
+	private boolean merged;
 
 	/**
 	 * Flag that shows us whether or not this node exists in the data source or
@@ -77,6 +87,9 @@ public class Node implements Comparable<Node> {
 		pistes = new HashSet<Piste>();
 		// by default assume this is not a predicted node.
 		predicted= false;
+		start = false;
+		end = false;
+		merged=false;
 	}
 	
 	/**
@@ -86,13 +99,16 @@ public class Node implements Comparable<Node> {
 	 * @param section - the section type of this node.
 	 * @param - the piste that this node is part of.(we may find later it is part of many)
 	 */
-	public Node(double longitude, double lattitude, Section section, Piste p) {
+	public Node(double longitude, double lattitude, boolean start, boolean end, Piste p) {
 		
 		this();
 		this.longitude = longitude;
 		this.lattitude = lattitude;
-		this.section = section;
 		this.getPistes().add(p);
+		this.start = start;
+		this.end = end;
+		merged=false;
+		
 	}
 
 
@@ -116,7 +132,7 @@ public class Node implements Comparable<Node> {
 		}
 		pistename = sb.toString();
 
-		return pistename + " " + section;
+		return pistename;
 	}
 
 	/**
@@ -240,21 +256,6 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @return the section
-	 */
-	public Section getSection() {
-		return section;
-	}
-
-	/**
-	 * @param section
-	 *            the section to set
-	 */
-	public void setSection(Section section) {
-		this.section = section;
-	}
-
-	/**
 	 * @return the pistes
 	 */
 	public Set<Piste> getPistes() {
@@ -352,8 +353,7 @@ public class Node implements Comparable<Node> {
 				return false;
 		} else if (!previousNodeInPath.equals(other.previousNodeInPath))
 			return false;
-		if (section != other.section)
-			return false;
+
 		return true;
 	}
 
@@ -369,6 +369,48 @@ public class Node implements Comparable<Node> {
 	 */
 	public void setPredicted(boolean predicted) {
 		this.predicted = predicted;
+	}
+
+	/**
+	 * @return the start
+	 */
+	public boolean isStart() {
+		return start;
+	}
+
+	/**
+	 * @param start the start to set
+	 */
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+
+	/**
+	 * @return the end
+	 */
+	public boolean isEnd() {
+		return end;
+	}
+
+	/**
+	 * @param end the end to set
+	 */
+	public void setEnd(boolean end) {
+		this.end = end;
+	}
+
+	/**
+	 * @return the merged
+	 */
+	public boolean isMerged() {
+		return merged;
+	}
+
+	/**
+	 * @param merged the merged to set
+	 */
+	public void setMerged(boolean merged) {
+		this.merged = merged;
 	}
 
 }

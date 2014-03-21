@@ -117,48 +117,6 @@ public class KMLImporter {
 			}
 		}
 
-		// // Stage 1: wherever we have START or END nodes that are within 10 m
-		// of
-		// // each other merge these nodes into one
-		// for (int i = 0; i < nodes.size(); i++) {
-		// for (int j = i + 1; j < nodes.size(); j++) {
-		// if (i != j) {
-		//
-		// Node nodeA = nodes.get(i);
-		// Node nodeB = nodes.get(j);
-		// // Check if they belong to the same piste, if not see if we
-		// // should merge them based on being within 10m of each
-		// // other.
-		//
-		// if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
-		// compareAndMergeStartOrEnd(nodeA, nodeB, 0.01);
-		// }
-		//
-		// }
-		// }
-		// }
-
-		// Stage 3, Stage 1 produces duplicates, merge all nodes with 1 m of
-		// each other
-
-		// for (int i = 0; i < nodes.size(); i++) {
-		// for (int j = i + 1; j < nodes.size(); j++) {
-		// if (i != j) {
-		//
-		// Node nodeA = nodes.get(i);
-		// Node nodeB = nodes.get(j);
-		// // Check if they belong to the same piste, if not see if we
-		// // should merge them based on being within 10m of each
-		// // other.
-		//
-		// if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
-		// compareAndMerge(nodeA, nodeB, 0.01);
-		// }
-		//
-		// }
-		// }
-		// }
-
 		// remove any null values from our lists
 		nodes.removeAll(Collections.singleton(null));
 		edges.removeAll(Collections.singleton(null));
@@ -216,10 +174,6 @@ public class KMLImporter {
 			// Node 1 now has the list of edges from n2 added to its List of
 			// inbound edges
 			n1.getOutboudEdges().addAll(outbound);
-
-			if (n1.getPistes().size() > 1) {
-				n1.setSection(Section.JUNCTION);
-			}
 
 			// remove node 2 from the pistes and node array
 			nodes.remove(n2);
@@ -289,8 +243,6 @@ public class KMLImporter {
 		n.setLongitude(intersection.getX());
 		n.getPistes().add(edge1.getPiste());
 		n.getPistes().add(edge2.getPiste());
-		// n of type JUNCTION as we know it will have multiple pises
-		n.setSection(Section.JUNCTION);
 		// if we are in this method the node does not exist in the origin datas
 		// so we are only really predicting its existance, set the flag on node
 		// to indicate this.
