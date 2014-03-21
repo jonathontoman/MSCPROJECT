@@ -38,6 +38,19 @@ public class Edge {
 	}
 
 	/**
+	 * Simple construcotr
+	 * @param from - the node this edge originates from. 
+	 * @param to - the node thie edge terminates at
+	 * @param piste - the piste which this edge is part of.
+	 */
+	public Edge(Node from, Node to, Piste piste) {
+		super();
+		this.from = from;
+		this.to = to;
+		this.piste = piste;
+	}
+
+	/**
 	 * @param piste
 	 *            the piste to set
 	 */

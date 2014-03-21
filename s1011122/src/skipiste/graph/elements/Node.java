@@ -11,6 +11,8 @@ import java.util.Set;
  * 
  */
 public class Node implements Comparable<Node> {
+	
+	
 	/**
 	 * The longitude of this node.
 	 */
@@ -44,6 +46,13 @@ public class Node implements Comparable<Node> {
 	 */
 	private Set<Piste> pistes;
 
+	/**
+	 * Flag that shows us whether or not this node exists in the data source or
+	 * whether this nodes existence at the intersection of two or more edges has
+	 * been predicted by our algorithm.
+	 */
+	private boolean predicted;
+
 	// These are used for the path finding and for keeping track of the route
 	// used for pathfinding.
 	/**
@@ -55,15 +64,37 @@ public class Node implements Comparable<Node> {
 	 */
 	private Node previousNodeInPath;
 
+	/**
+	 * No argmument constructor.
+	 */
 	public Node() {
 		// set distance to largest possible double
 		distanceFromOrigin = Double.MAX_VALUE;
-		// For convenience initialise these with the constructor, dont worry
+		// For convenience initialise these with the constructor, don't worry
 		// about space.
 		outboudEdges = new HashSet<Edge>();
 		inboundEdges = new HashSet<Edge>();
 		pistes = new HashSet<Piste>();
+		// by default assume this is not a predicted node.
+		predicted= false;
 	}
+	
+	/**
+	 * Basic constructor
+	 * @param longitude - longitude of this node
+	 * @param lattitude - latitude of this node
+	 * @param section - the section type of this node.
+	 * @param - the piste that this node is part of.(we may find later it is part of many)
+	 */
+	public Node(double longitude, double lattitude, Section section, Piste p) {
+		
+		this();
+		this.longitude = longitude;
+		this.lattitude = lattitude;
+		this.section = section;
+		this.getPistes().add(p);
+	}
+
 
 	@Override
 	public int compareTo(Node arg0) {
@@ -76,18 +107,15 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public String toString() {
-		
+
 		String pistename;
-		StringBuilder sb = new StringBuilder();		
-		for (Piste p : this.pistes)			
-		{
+		StringBuilder sb = new StringBuilder();
+		for (Piste p : this.pistes) {
 			sb.append(p.getName());
 			sb.append(":");
 		}
 		pistename = sb.toString();
-		
-		
-		
+
 		return pistename + " " + section;
 	}
 
@@ -241,38 +269,41 @@ public class Node implements Comparable<Node> {
 		this.pistes = pistes;
 	}
 
-// TODO  -invocation exception thrown when calling hashcode() due to null pointers.
-//	/* (non-Javadoc)
-//	 * @see java.lang.Object#hashCode()
-//	 */
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		long temp;
-//		temp = Double.doubleToLongBits(altitude);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		temp = Double.doubleToLongBits(distanceFromOrigin);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		result = prime * result
-//				+ ((inboundEdges == null) ? 0 : inboundEdges.hashCode());
-//		temp = Double.doubleToLongBits(lattitude);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		temp = Double.doubleToLongBits(longitude);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		result = prime * result + ((name == null) ? 0 : name.hashCode());
-//		result = prime * result
-//				+ ((outboudEdges == null) ? 0 : outboudEdges.hashCode());
-//		result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
-//		result = prime
-//				* result
-//				+ ((previousNodeInPath == null) ? 0 : previousNodeInPath
-//						.hashCode());
-//		result = prime * result + ((section == null) ? 0 : section.hashCode());
-//		return result;
-//	}
+	// TODO -invocation exception thrown when calling hashcode() due to null
+	// pointers.
+	// /* (non-Javadoc)
+	// * @see java.lang.Object#hashCode()
+	// */
+	// @Override
+	// public int hashCode() {
+	// final int prime = 31;
+	// int result = 1;
+	// long temp;
+	// temp = Double.doubleToLongBits(altitude);
+	// result = prime * result + (int) (temp ^ (temp >>> 32));
+	// temp = Double.doubleToLongBits(distanceFromOrigin);
+	// result = prime * result + (int) (temp ^ (temp >>> 32));
+	// result = prime * result
+	// + ((inboundEdges == null) ? 0 : inboundEdges.hashCode());
+	// temp = Double.doubleToLongBits(lattitude);
+	// result = prime * result + (int) (temp ^ (temp >>> 32));
+	// temp = Double.doubleToLongBits(longitude);
+	// result = prime * result + (int) (temp ^ (temp >>> 32));
+	// result = prime * result + ((name == null) ? 0 : name.hashCode());
+	// result = prime * result
+	// + ((outboudEdges == null) ? 0 : outboudEdges.hashCode());
+	// result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
+	// result = prime
+	// * result
+	// + ((previousNodeInPath == null) ? 0 : previousNodeInPath
+	// .hashCode());
+	// result = prime * result + ((section == null) ? 0 : section.hashCode());
+	// return result;
+	// }
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -324,6 +355,20 @@ public class Node implements Comparable<Node> {
 		if (section != other.section)
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return the predicted
+	 */
+	public boolean isPredicted() {
+		return predicted;
+	}
+
+	/**
+	 * @param predicted the predicted to set
+	 */
+	public void setPredicted(boolean predicted) {
+		this.predicted = predicted;
 	}
 
 }

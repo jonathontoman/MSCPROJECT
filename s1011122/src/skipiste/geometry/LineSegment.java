@@ -1,7 +1,5 @@
 package skipiste.geometry;
 
-import skipiste.utils.HaversineDistance;
-
 /**
  * Represents a geometric line segment
  * 
@@ -13,6 +11,14 @@ public class LineSegment {
 	private final Point b;
 	private final Slope s;
 
+	/**
+	 * Line Segment constructor
+	 * 
+	 * @param a
+	 *            - the x,y point of the start of this line
+	 * @param b
+	 *            - the x,y point of the end of this line
+	 */
 	public LineSegment(Point a, Point b) {
 		this.a = a;
 		this.b = b;
@@ -33,52 +39,7 @@ public class LineSegment {
 		}
 		double x = getIntersectionXCoordinate(line);
 		double y = getIntersectionYCoordinate(line, x);
-		Point p = new Point(x, y);
-		if (line.contains(p) && this.contains(p)) {
-			return p;
-		}
-		return null;
-	}
-
-	/**
-	 * Calculates the intersection of this line with another.
-	 * 
-	 * @param line
-	 *            the line we are calculating against
-	 * @param delta
-	 *            - if the intersection point is within deltam (using the
-	 *            haversine formula) of either points of this line then consider
-	 *            them to intersect.
-	 * @return the point where the lines intersect, null if they do not
-	 *         intersect.
-	 */
-	public Point intersectionPoint(LineSegment line, double delta) {
-
-		if (isParallelTo(line)) {
-			return null;
-		}
-		double x = getIntersectionXCoordinate(line);
-		double y = getIntersectionYCoordinate(line, x);
-		Point p = new Point(x, y);
-		if (line.contains(p) && this.contains(p)) {
-			return p;
-		}
-		// if the delta distance is greater than the distance from either the
-		// start or end of this to the intersection then we will consider this a
-		// match
-
-		// written this way so we can easily see whats going on
-
-		double distanceFormPointA = HaversineDistance.calculateLength(a.getX(),
-				a.getY(), p.getX(), p.getY());
-		double distanceFormPointB = HaversineDistance.calculateLength(b.getX(),
-				b.getY(), p.getX(), p.getY());
-
-		if (delta >= distanceFormPointA || delta >= distanceFormPointB) {
-			return p;
-		}
-
-		return null;
+		return new Point(x, y);
 	}
 
 	/**
@@ -133,25 +94,70 @@ public class LineSegment {
 	}
 
 	public boolean contains(Point z) {
-		// Test within X bounds
-		if (!isWithin(z.getX(), a.getX(), b.getX())) {
+
+		if (!isWithin(a.getX(), a.getX(), b.getX())) {
 			return false;
 		}
-		// Test within y bounds
 		if (!isWithin(z.getY(), a.getY(), b.getY())) {
 			return false;
 		}
-		// vertical test
 		if (s.isVertical()) {
 			return true;
 		}
-		double solveY = solveY(z.getX());
-		double test = solveY - z.getY();
-		// problems wiht double precsision use a delta value of 0.000001
-		if (-0.000001 <= test && test <= 0.00001) {
-			return true;
+
+		// // y value of the point z, our comparrison
+		// double zy = z.getY();
+		// // y value intersection on this line
+		// double y = solveY(z.getX());
+		// // error margin as we are dealing with doubles
+		// double delta = 0.0000000001;
+		// double result = y - zy;
+		//
+		// // problems wiht double precsision use a delta value of 0.000001
+		// if (-delta <= result && result <= delta) {
+		// return true;
+		// }
+		// return false;
+
+		return z.getY() == solveY(z.getX());
+	}
+
+	/**
+	 * Returns the distance of p3 to the segment defined by p1,p2;
+	 * 
+	 * @param a
+	 *            First point of the segment
+	 * @param b
+	 *            Second point of the segment
+	 * @param p3
+	 *            Point to which we want to know the distance of the segment
+	 *            defined by p1,p2
+	 * @return The distance of p3 to the segment defined by p1,p2
+	 */
+	public Point closestPointOnLine(Point p3) {
+
+		final double xDelta = b.getX() - a.getX();
+		final double yDelta = b.getY() - a.getY();
+
+		if ((xDelta == 0) && (yDelta == 0)) {
+			// p1 and p2 can not be the same point
+			return null;
+					
 		}
-		return false;
+
+		final double u = ((p3.getX() - a.getX()) * xDelta + (p3.getY() - a
+				.getY()) * yDelta)
+				/ (xDelta * xDelta + yDelta * yDelta);
+
+		final Point p;
+		if (u < 0) {
+			p = a;
+		} else if (u > 1) {
+			p = b;
+		} else {
+			p = new Point(a.getX() + u * xDelta, a.getY() + u * yDelta);
+		}
+		return p;
 	}
 
 	/**
@@ -162,10 +168,9 @@ public class LineSegment {
 	 * @param bound2
 	 * @return
 	 */
-	private static boolean isWithin(double test, double bound1, double bound2) {
-		// has to be greater than the min bound
+	private boolean isWithin(double test, double bound1, double bound2) {
+
 		return test >= Math.min(bound1, bound2)
-		// and lesser than the max bound
 				&& test <= Math.max(bound1, bound2);
 	}
 

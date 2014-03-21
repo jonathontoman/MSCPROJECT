@@ -20,7 +20,6 @@ import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 import skipiste.graph.elements.Section;
 import skipiste.utils.HaversineDistance;
-import skipiste.utils.OutputKML;
 
 /**
  * 
@@ -29,11 +28,11 @@ import skipiste.utils.OutputKML;
  * @author s1011122
  * 
  */
-public class KMLToGraph {
+public class KMLImporter {
+
 	/**
 	 * The SAX handler for the KML file
 	 */
-	private KMLHandler handler;
 	private SAXParserFactory spf;
 	private SAXParser saxParser;
 	private XMLReader xmlReader;
@@ -49,12 +48,13 @@ public class KMLToGraph {
 	 * Pistes that we build up from the KML file and modify in this class.
 	 */
 	private List<Piste> pistes;
-
-	public KMLToGraph(KMLHandler handler) {
-
-		// initialise the handler
-
-		this.handler = handler;
+		
+	/**
+	 * Constructor
+	 * @param handler
+	 * @param kmlFile
+	 */
+	public KMLImporter(KMLHandler handler, String kmlFile) {
 
 		// Configure the SAX parsing.
 		spf = SAXParserFactory.newInstance();
@@ -68,11 +68,7 @@ public class KMLToGraph {
 			// Do Nothing other than print stack trace
 			e.printStackTrace();
 		}
-
-	}
-
-	public Graph importGraph(String kmlFile) {
-
+		
 		try {
 			xmlReader.parse(kmlFile);
 		} catch (IOException | SAXException e) {
@@ -86,9 +82,16 @@ public class KMLToGraph {
 		nodes = handler.getNodes();
 		edges = handler.getEdges();
 		pistes = handler.getPistes();
+
+
+	}
+
+	public Graph importGraph(String kmlFile) {
+
 		
-		
-		
+		// Stage 1 predict where the edges intersect and add new nodes where we have predicted these intersections.		
+		//predictIntersections();
+
 		// Stage 1: create new nodes where ever line segments intersect. To do
 		// this we will examine all edges against each other, if those edges
 		// plotted onto a plane would intersect we will create a new node that
@@ -114,71 +117,60 @@ public class KMLToGraph {
 			}
 		}
 
-//		// Stage 1: wherever we have START or END nodes that are within 10 m of
-//		// each other merge these nodes into one
-//		for (int i = 0; i < nodes.size(); i++) {
-//			for (int j = i + 1; j < nodes.size(); j++) {
-//				if (i != j) {
-//
-//					Node nodeA = nodes.get(i);
-//					Node nodeB = nodes.get(j);
-//					// Check if they belong to the same piste, if not see if we
-//					// should merge them based on being within 10m of each
-//					// other.
-//
-//					if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
-//						compareAndMergeStartOrEnd(nodeA, nodeB, 0.01);
-//					}
-//
-//				}
-//			}
-//		}
-
-
+		// // Stage 1: wherever we have START or END nodes that are within 10 m
+		// of
+		// // each other merge these nodes into one
+		// for (int i = 0; i < nodes.size(); i++) {
+		// for (int j = i + 1; j < nodes.size(); j++) {
+		// if (i != j) {
+		//
+		// Node nodeA = nodes.get(i);
+		// Node nodeB = nodes.get(j);
+		// // Check if they belong to the same piste, if not see if we
+		// // should merge them based on being within 10m of each
+		// // other.
+		//
+		// if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
+		// compareAndMergeStartOrEnd(nodeA, nodeB, 0.01);
+		// }
+		//
+		// }
+		// }
+		// }
 
 		// Stage 3, Stage 1 produces duplicates, merge all nodes with 1 m of
 		// each other
 
-		for (int i = 0; i < nodes.size(); i++) {
-			for (int j = i + 1; j < nodes.size(); j++) {
-				if (i != j) {
-
-					Node nodeA = nodes.get(i);
-					Node nodeB = nodes.get(j);
-					// Check if they belong to the same piste, if not see if we
-					// should merge them based on being within 10m of each
-					// other.
-
-					if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
-						compareAndMerge(nodeA, nodeB, 0.001);
-					}
-
-				}
-			}
-		}
+		// for (int i = 0; i < nodes.size(); i++) {
+		// for (int j = i + 1; j < nodes.size(); j++) {
+		// if (i != j) {
+		//
+		// Node nodeA = nodes.get(i);
+		// Node nodeB = nodes.get(j);
+		// // Check if they belong to the same piste, if not see if we
+		// // should merge them based on being within 10m of each
+		// // other.
+		//
+		// if (!nodeA.getPistes().containsAll(nodeB.getPistes())) {
+		// compareAndMerge(nodeA, nodeB, 0.01);
+		// }
+		//
+		// }
+		// }
+		// }
 
 		// remove any null values from our lists
 		nodes.removeAll(Collections.singleton(null));
 		edges.removeAll(Collections.singleton(null));
 		pistes.removeAll(Collections.singleton(null));
-		
-		
+
 		// Stage 4 build the weight for each edge on the graph
-		for (Edge e : edges)
-		{
-			e.setWeight(HaversineDistance.calculateDistance(e.getFrom(), e.getTo()));
+		for (Edge e : edges) {
+			e.setWeight(HaversineDistance.calculateDistance(e.getFrom(),
+					e.getTo()));
 		}
 
 		return new Graph(pistes, nodes, edges);
-	}
-
-	private void compareAndMergeStartOrEnd(Node n1, Node n2, double delta) {
-		if (n1.getSection().equals(Section.START)
-				|| n2.getSection().equals(Section.START)
-				|| n1.getSection().equals(Section.END)
-				|| n2.getSection().equals(Section.END)) {
-			compareAndMerge(n1, n2, delta);
-		}
 	}
 
 	/**
@@ -229,11 +221,22 @@ public class KMLToGraph {
 				n1.setSection(Section.JUNCTION);
 			}
 
-			// set the node n2 to null, we no longer need it
-			n2 = null;
+			// remove node 2 from the pistes and node array
+			nodes.remove(n2);
+			for (Piste p : pistes) {
+				p.getNodes().remove(n2);
+			}
 		}
 	}
 
+	/**
+	 * Checks to see if two edges have an intersection, if they do creates a new
+	 * node that represents this intersection, and creates the new edges for
+	 * this new node as appropriate.
+	 * 
+	 * @param e1
+	 * @param e2
+	 */
 	private void intersectAndMerge(Edge e1, Edge e2) {
 
 		Point p1 = new Point(e1.getFrom().getLongitude(), e1.getFrom()
@@ -246,19 +249,16 @@ public class KMLToGraph {
 		Point p4 = new Point(e2.getTo().getLongitude(), e2.getTo()
 				.getLattitude());
 
+		// Allow a 0.001% margin of error when we check for line segment
+		// intersections as our data is not perfect, and unit tests show this is
+		// an appropriate margin of error.
 		LineSegment line1 = new LineSegment(p1, p2);
-		// Check for the intersection a delta value here of 0.00001 works nicely
-		// with the test data so it will take more trial and error.
-		Point intersection = line1.intersectionPoint(new LineSegment(p3, p4),
-				0.00001);
+		Point intersection = line1.intersectionPoint(new LineSegment(p3, p4));
 
 		// if the intersection is not null we will create a new node to
 		// represent the intersection
 		// and adjust the edges to join this node.
 		if (intersection != null) {
-			System.out.println(OutputKML.outputPlaceMark(intersection.getX(),
-					intersection.getY()));
-
 			// create a new node
 			createNewNode(e1, e2, intersection);
 			;
@@ -291,6 +291,10 @@ public class KMLToGraph {
 		n.getPistes().add(edge2.getPiste());
 		// n of type JUNCTION as we know it will have multiple pises
 		n.setSection(Section.JUNCTION);
+		// if we are in this method the node does not exist in the origin datas
+		// so we are only really predicting its existance, set the flag on node
+		// to indicate this.
+		n.setPredicted(true);
 
 		// Step 3: edge1 now terminates at the new node, we need to make an new
 		// edge, edge3, that originates at the new node and terminates and node
@@ -343,13 +347,49 @@ public class KMLToGraph {
 		// add the new node after the origin node of edge 1;
 		nodeIndex = nodeList.indexOf(edge2.getFrom());
 		nodeList.add(nodeIndex + 1, n);
+		// also add the node to the list of nodes;
+		nodes.add(n);
 	}
 
 	/**
-	 * This method reduces the number of nodes and edges within a graph. It
-	 * examines every node in a piste,
+	 * @return the nodes
 	 */
-	private void rationaliseGraph() {
+	public List<Node> getNodes() {
+		return nodes;
+	}
 
+	/**
+	 * @param nodes the nodes to set
+	 */
+	public void setNodes(List<Node> nodes) {
+		this.nodes = nodes;
+	}
+
+	/**
+	 * @return the edges
+	 */
+	public List<Edge> getEdges() {
+		return edges;
+	}
+
+	/**
+	 * @param edges the edges to set
+	 */
+	public void setEdges(List<Edge> edges) {
+		this.edges = edges;
+	}
+
+	/**
+	 * @return the pistes
+	 */
+	public List<Piste> getPistes() {
+		return pistes;
+	}
+
+	/**
+	 * @param pistes the pistes to set
+	 */
+	public void setPistes(List<Piste> pistes) {
+		this.pistes = pistes;
 	}
 }

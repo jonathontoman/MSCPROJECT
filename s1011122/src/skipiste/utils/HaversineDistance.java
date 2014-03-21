@@ -20,7 +20,7 @@ public class HaversineDistance {
 	/**
 	 * Calculates the straight line distance between two sets of longitude and
 	 * latitude coordinates based on the Haversine formula
-	 * @return double - thie distance in kilometers between the two points. 
+	 * @return double - thie distance in meters between the two points. 
 	 * 
 	 */
 	public static double calculateLength(Double longitude1, Double latitude1,
@@ -40,7 +40,7 @@ public class HaversineDistance {
 		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		Double distance = R * c;
 
-		return distance;
+		return distance *1000;
 
 	}
 

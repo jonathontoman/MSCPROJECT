@@ -5,14 +5,12 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import skipiste.graph.elements.Difficulty;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 import skipiste.graph.elements.Section;
-import skipiste.utils.HaversineDistance;
 
 /**
  * Parses KML from OpenSkiMap.org. This produces a List<LinkedList<Node>>. Each
@@ -43,13 +41,20 @@ public class SkiMapHandler extends KMLHandler {
 	 * The piste node we are building at any one time
 	 */
 	private Piste piste;
+	
+	/**
+	 *Used to modify duplicate piste names so they are unique.
+	 */
+	private int i;
 
 	/**
 	 * Flag to indicate if we are parsing the data or not.
 	 */
 	private boolean isParsing = false;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see skipiste.importer.kml.KMLHandlerInterface#getPistes()
 	 */
 	@Override
@@ -79,6 +84,7 @@ public class SkiMapHandler extends KMLHandler {
 		nodes = new ArrayList<Node>();
 		edges = new ArrayList<Edge>();
 		pistes = new ArrayList<Piste>();
+		i=0;
 	}
 
 	public void endDocument() throws SAXException {
@@ -137,6 +143,26 @@ public class SkiMapHandler extends KMLHandler {
 		// We have finished reading in the piste name
 		if (qName.equalsIgnoreCase(NAME)) {
 			if (piste != null) {
+				// In this dataset we sometimes see runs split into more than
+				// one set of coordinates, so we could for example have already
+				// processed a piste named "Piste" and then come accross another
+				// piece of xml datafor a piste also named "Piste", as we can
+				// not be sure that one is just a continuation of the other we
+				// suffix an "X" onto the piste name if another piste has
+				// already been produced with the same name.
+				
+			
+				for ( Piste p : pistes)
+				{
+					if (sb.toString().equalsIgnoreCase(p.getName()))
+					{
+						// append the int i to the name so we make it unique
+						sb.append(i);
+						// incremeent so it is unique for the next time.
+						i++;
+						break;
+					}
+				}
 				piste.setName(sb.toString());
 				sb = new StringBuilder();
 				isParsing = false;
@@ -265,7 +291,9 @@ public class SkiMapHandler extends KMLHandler {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see skipiste.importer.kml.KMLHandlerInterface#getNodes()
 	 */
 	@Override
@@ -277,7 +305,9 @@ public class SkiMapHandler extends KMLHandler {
 		this.nodes = nodes;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see skipiste.importer.kml.KMLHandlerInterface#getEdges()
 	 */
 	@Override
