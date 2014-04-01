@@ -7,41 +7,47 @@ package skipiste.geometry;
  */
 public class Slope 
 {
-	private final double  rise;
-	private final double travel;
+	/**
+	 * Difference on x axis
+	 */
+	private final double  xDifference;
+	/**
+	 * Difference on y axis
+	 */
+	private final double yDifference;
 	
-	public Slope (double rise, double travel)
+	public Slope (double yDiff, double xDiff)
 	{
-		this.rise = rise;
-		this.travel = travel;
+		this.xDifference = yDiff;
+		this.yDifference = xDiff;
 	}
 	
 	/**
 	 * @return the rise
 	 */
 	public double getRise() {
-		return rise;
+		return xDifference;
 	}
 	/**
 	 * @return the travel
 	 */
 	public double getTravel() {
-		return travel;
+		return yDifference;
 	}
 	
 	public boolean isVertical()
 	{
-		return travel == 0;
+		return yDifference == 0;
 	}
 	
 	public double asDouble()
-	{
+	{		
 		
 			if (isVertical()) 
 			{
 				throw new IllegalStateException();
 			}
-			return rise / travel;
+			return xDifference / yDifference;
 	}
 
 	/* (non-Javadoc)
@@ -52,9 +58,9 @@ public class Slope
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(rise);
+		temp = Double.doubleToLongBits(xDifference);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(travel);
+		temp = Double.doubleToLongBits(yDifference);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -69,12 +75,16 @@ public class Slope
 			return false;
 			}
 			Slope other = (Slope) object;
+			// if one is parallel and the other isnt they are not parallel
+			if ((isVertical() && !other.isVertical() )|| (other.isVertical() && !isVertical()))
+			{
+				return false;
+			}
+			// if both are vertical then they are parallel
 			if (isVertical() && other.isVertical()) {
 			return true;
 			}
-			if (isVertical() || other.isVertical()) {
-				return false;
-			}
+			// otherwise compare the values of the slopes
 			return (asDouble()) == (other.asDouble());
 			}
 	}

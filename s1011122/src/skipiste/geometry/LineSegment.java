@@ -95,7 +95,7 @@ public class LineSegment {
 
 	public boolean contains(Point z) {
 
-		if (!isWithin(a.getX(), a.getX(), b.getX())) {
+		if (!isWithin(z.getX(), a.getX(), b.getX())) {
 			return false;
 		}
 		if (!isWithin(z.getY(), a.getY(), b.getY())) {

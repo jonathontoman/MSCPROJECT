@@ -1,8 +1,11 @@
 package skipiste.graph;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.w3c.dom.traversal.NodeIterator;
 
 import skipiste.geometry.LineSegment;
 import skipiste.geometry.Point;
@@ -57,13 +60,13 @@ public class GraphBuilder {
 		createEdges(pistes);
 		// predict new nodes that will join up our existing pistes.
 		predictNewNodes();
-		// merge nodes
 		mergeSimilarNodes(10, 20);
-		// add the weights of the edges
-		for (Edge e : edges) {
-			e.setWeight(HaversineDistance.calculateDistance(e.getFrom(),
-					e.getTo()));
-		}
+
+		 // add the weights of the edges
+		 for (Edge e : edges) {
+		 e.setWeight(HaversineDistance.calculateDistance(e.getFrom(),
+		 e.getTo()));
+		 }
 
 		// create the graph object
 		graph = new Graph(pistes, nodes, edges);
@@ -102,7 +105,8 @@ public class GraphBuilder {
 					// Make an edge
 					Edge e = new Edge(origin, terminus, p);
 					edges.add(e);
-
+					e.setWeight(HaversineDistance.calculateDistance(origin,
+							terminus));
 					// Set these edges on the node
 					origin.getOutboudEdges().add(e);
 					terminus.getInboundEdges().add(e);
@@ -132,34 +136,73 @@ public class GraphBuilder {
 	 */
 	protected void mergeSimilarNodes(double x, double y) {
 
-		// for each node, find all other nodes with X meters of it
+		// We need to compare every element in the list of nodes against every
+		// other element, and merge it if neccessary
+		// each time we merge a node add it to a collection to be removed from
+		// the list of nodes and mark it so we do not compare it again
+
+		ArrayList<Node> removal = new ArrayList<Node>();
+
 		for (int i = 0; i < nodes.size(); i++) {
-			List<Node> toMerge = new ArrayList<Node>();
 			Node n1 = nodes.get(i);
 			for (int j = i + 1; j < nodes.size(); j++) {
 				Node n2 = nodes.get(j);
-				// merge start/end nodes for predicted nodes.
-				if (n1.isStart() || n1.isEnd()) {
-					if (!n2.isMerged() && (n2.isStart() || n2.isEnd())) {
-						if (HaversineDistance.calculateDistance(n1, n2) <= y)
-						{
-							toMerge.add(n2);
-							n2.setMerged(true);
-						}
-					}
-				}
-				if (n1.isPredicted()) {
-					if (HaversineDistance.calculateDistance(n1, n2) <= x) {
-						toMerge.add(n2);
+				// if n1 is a start or end node AND n2 is either a start or an
+				// end node AND neither n1 or n2 has been marked as already
+				// merged then we will see if these nodes can be merged, if so
+				// then add n2 to the list that needs to be removed.
+				if ((n1.isStart() || n1.isEnd())
+						&& (n2.isStart() || n2.isEnd())
+						&& (!n2.isMerged() && !n1.isMerged())) {
+					if (HaversineDistance.calculateDistance(n1, n2) <= y) {
 						n2.setMerged(true);
+						removal.add(n2);
+						// merge n2 into n1
+						mergeNode(n1, n2);
+					}
+				}
+				// If both nodes are predicted then attempt to merge them
+				else if (n1.isPredicted() && n2.isPredicted() && !n1.isMerged()
+						&& !n2.isMerged()) {
+					if (HaversineDistance.calculateDistance(n1, n2) <= x) {
+						n2.setMerged(true);
+						removal.add(n2);
+						// merge n2 into n1
+						mergeNode(n1, n2);
 					}
 				}
 			}
-			for (Node n : toMerge) {
-				mergeNode(n1, n);
-				nodes.remove(n);
-			}
-		}	
+		}
+		// finally remove all the nodes that are no longer needed.
+		this.nodes.removeAll(removal);
+
+		// // for each node, find all other nodes with X meters of it
+		// for (int i = 0; i < nodes.size(); i++) {
+		// List<Node> toMerge = new ArrayList<Node>();
+		// Node n1 = nodes.get(i);
+		// for (int j = i + 1; j < nodes.size(); j++) {
+		// Node n2 = nodes.get(j);
+		// // merge start/end nodes for predicted nodes.
+		// if (n1.isStart() || n1.isEnd()) {
+		// if (!n2.isMerged() && (n2.isStart() || n2.isEnd())) {
+		// if (HaversineDistance.calculateDistance(n1, n2) <= y) {
+		// toMerge.add(n2);
+		// n2.setMerged(true);
+		// }
+		// }
+		// }
+		// if (n1.isPredicted()) {
+		// if (HaversineDistance.calculateDistance(n1, n2) <= x) {
+		// toMerge.add(n2);
+		// n2.setMerged(true);
+		// }
+		// }
+		// }
+		// for (Node n : toMerge) {
+		// mergeNode(n1, n);
+		// nodes.remove(n);
+		// }
+		// }
 	}
 
 	/**
@@ -215,7 +258,6 @@ public class GraphBuilder {
 									line2, 15)) {
 								createNode(intersection, e1, e2);
 							}
-
 						}
 					}
 				}
@@ -232,6 +274,16 @@ public class GraphBuilder {
 		// represent the intersection
 		// and adjust the edges to join this node.
 		if (intersection != null) {
+						
+			Node edge1Destination = e1.getTo();
+			Node edge2Destination = e2.getTo();
+			
+			// We know we will need to additional edges, make these now
+			// this will go from the new node to the original destination of e1;
+			Edge e3;
+			// this will go from the new node to the original destination of e2;
+			Edge e4;
+			
 			Node n = new Node();
 
 			n.setLattitude(intersection.getY());
@@ -244,29 +296,44 @@ public class GraphBuilder {
 			// add this new node to our existing list of nodes
 			nodes.add(n);
 
-			// e1 needs to be made into two new edges
-			Edge edge1 = new Edge(e1.getFrom(), n, e1.getPiste());
-			Edge edge2 = new Edge(n, e1.getTo(), e1.getPiste());
 			// update the new node with these edges
-			n.getInboundEdges().add(edge1);
-			n.getOutboudEdges().add(edge2);
-
-			// e2 needs to be made into two new edges
-			Edge edge3 = new Edge(e2.getFrom(), n, e2.getPiste());
-			Edge edge4 = new Edge(n, e2.getTo(), e2.getPiste());
-			// update the new node with these edges
-			n.getInboundEdges().add(edge3);
-			n.getOutboudEdges().add(edge4);
-
+			n.getInboundEdges().add(e1);
+			n.getInboundEdges().add(e2);
+			
+			// update these edges to point at the new node
+			e1.setTo(n);
+			e2.setTo(n);
+			
+			// insert the new node into the pistes
 			// our new node is now in two pistes, update these accordingly
 			e1.getPiste().getNodes()
 					.add(e1.getPiste().getNodes().indexOf(e1.getFrom()), n);
 			e2.getPiste().getNodes()
 					.add(e2.getPiste().getNodes().indexOf(e2.getFrom()), n);
+			
+			// create the new edges which go from the new node to the original destination of the original edge.
+			e3 = new Edge(n, edge1Destination, e1.getPiste());
+			e4 = new Edge(n, edge2Destination, e2.getPiste());
 
-			// remove the old edges
-			edges.remove(e1);
-			edges.remove(e2);
+
+			// update the new node with these edges
+			n.getOutboudEdges().add(e3);
+			n.getOutboudEdges().add(e4);
+
+			// add the new edges
+			edges.add(e3);
+			edges.add(e4);
+			
+			// add the new node into the pistes, they are inserted before the destination of the original edges
+			for (Piste p : edge1Destination.getPistes())
+			{
+				p.getNodes().add(p.getNodes().indexOf(edge1Destination), n);
+			}
+			
+			for (Piste p : edge2Destination.getPistes())
+			{
+				p.getNodes().add(p.getNodes().indexOf(edge2Destination), n);
+			}
 
 		}
 	}
@@ -304,53 +371,56 @@ public class GraphBuilder {
 	}
 
 	/**
-	 * Merge nodes that are within X Km of each other to reduce the types of
-	 * node. A node is only merged if either one of them is either a START or an
-	 * END node type.If a node is merged it returns true, else false.
+	 * Merges two nodes. All the data from the second node is added to that if
+	 * the first node. All Edges that were inbound to the second node are made
+	 * inbound to the first node, all edges outbound from the second node are
+	 * made outbound of the first node. Node 2 is removed from the pist
+	 * infromation and node 1 put in its place.
 	 * 
-	 * @param Node
-	 *            n1 - the node we are comparing to. Node n2 the target node, if
-	 *            this matches n2 we will copy the outbound and inbout edge
-	 *            Information from this node to n1.
-	 * 
+	 * @param n1
+	 *            the node we are merging to.
+	 * @param n2
+	 *            the node we are merging from.
 	 */
 	protected void mergeNode(Node n1, Node n2) {
 
 		System.out.println("Merging Nodes " + n1 + " and " + n2);
 
-		// All of n2's outbound edges now come from n1.
-		for (Edge e : n2.getOutboudEdges()) {
-			// set the from value
-			e.setFrom(n1);
-			// update n1.
-			n1.getOutboudEdges().add(e);
-		}
 
-		// All of n2's inbound edges now finish at n1
-		for (Edge e : n2.getInboundEdges()) {
-			// set the from value
-			e.setTo(n1);
-			// update n1.
-			n1.getInboundEdges().add(e);
-		}
 
-		// Everywhere n2 was in a piste we need to replace it with n1
-		for (Piste p : pistes) {
-			int index = p.getNodes().indexOf(n2);
-			if (index > -1) {
-				p.getNodes().set(index, n1);
-				// add this piste to the node
-				n1.getPistes().add(p);
-			}
-		}
-
-		// if n2 is an end or start node then mark n1 as a start node
-		if (n2.isEnd()) {
-			n1.setEnd(true);
-		}
-		if (n2.isStart()) {
-			n1.setStart(true);
-		}
+		 // All of n2's outbound edges now come from n1.
+		 for (Edge e : n2.getOutboudEdges()) {
+		 // set the from value
+		 e.setFrom(n1);
+		 // update n1.
+		 n1.getOutboudEdges().add(e);
+		 }
+		
+		 // All of n2's inbound edges now finish at n1
+		 for (Edge e : n2.getInboundEdges()) {
+		 // set the from value
+		 e.setTo(n1);
+		 // update n1.
+		 n1.getInboundEdges().add(e);
+		 }
+		
+		 // Everywhere n2 was in a piste we need to replace it with n1
+		 for (Piste p : pistes) {
+		 int index = p.getNodes().indexOf(n2);
+		 if (index > -1) {
+		 p.getNodes().set(index, n1);
+		 // add this piste to the node
+		 n1.getPistes().add(p);
+		 }
+		 }
+		
+		 // if n2 is an end or start node then mark n1 as a start node
+		 if (n2.isEnd()) {
+		 n1.setEnd(true);
+		 }
+		 if (n2.isStart()) {
+		 n1.setStart(true);
+		 }
 
 	}
 
