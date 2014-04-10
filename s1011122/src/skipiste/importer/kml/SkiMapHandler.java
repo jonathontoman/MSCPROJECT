@@ -45,6 +45,12 @@ public class SkiMapHandler extends KMLHandler {
 	 * Used to modify duplicate piste names so they are unique.
 	 */
 	private int i;
+	
+	/**
+	 * Used to modify unknown names so they are unique.
+	 */
+	private int j;
+
 
 	/**
 	 * Flag to indicate if we are parsing the data or not.
@@ -84,6 +90,7 @@ public class SkiMapHandler extends KMLHandler {
 		edges = new ArrayList<Edge>();
 		pistes = new ArrayList<Piste>();
 		i = 0;
+		j =0;
 	}
 
 	public void endDocument() throws SAXException {
@@ -135,6 +142,14 @@ public class SkiMapHandler extends KMLHandler {
 		if (qName.equalsIgnoreCase(PLACEMARK)) {
 			if (piste != null) {
 				pistes.add(piste);
+				// sometimes the piste is not named in the kml file give it a name of "unknown"
+				if (piste.getName() == null)
+				{
+					piste.setName("unknown" + j);
+					j++;
+				}
+				
+				
 				piste = null;
 			}
 		}

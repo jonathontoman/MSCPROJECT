@@ -1,7 +1,6 @@
 package skipiste.importer.kml;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -10,7 +9,6 @@ import skipiste.graph.elements.Difficulty;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.graph.elements.Section;
 
 /**
  * Parses KML from PlanDePistes.nl. This produces a List<LinkedList<Node>>. Each

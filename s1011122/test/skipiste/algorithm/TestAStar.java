@@ -1,7 +1,6 @@
 package skipiste.algorithm;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -33,7 +32,7 @@ public class TestAStar {
 	@Test
 	public void testCase1() throws IOException {
 		graphBuidler = new GraphBuilder(this.getClass()
-				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
+				.getResource("WhistlerBlackcomb.kml").getFile());
 		g = graphBuidler.getGraph();
 		AStar algorithm = new AStar(g);
 
@@ -41,7 +40,6 @@ public class TestAStar {
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
 		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
 
-		Console c = System.console();
 
 		int i = 1;
 		for (Piste p : g.getPistes()) {

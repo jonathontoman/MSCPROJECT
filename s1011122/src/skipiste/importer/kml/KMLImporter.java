@@ -1,6 +1,11 @@
 package skipiste.importer.kml;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import skipiste.geometry.LineSegment;
 import skipiste.geometry.Point;
@@ -18,7 +23,6 @@ import skipiste.graph.Graph;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.graph.elements.Section;
 import skipiste.utils.HaversineDistance;
 
 /**
@@ -35,7 +39,6 @@ public class KMLImporter {
 	 */
 	private SAXParserFactory spf;
 	private SAXParser saxParser;
-	private XMLReader xmlReader;
 	/**
 	 * Nodes that we build up from the KML file and modify in this class.
 	 */
@@ -48,9 +51,10 @@ public class KMLImporter {
 	 * Pistes that we build up from the KML file and modify in this class.
 	 */
 	private List<Piste> pistes;
-		
+
 	/**
 	 * Constructor
+	 * 
 	 * @param handler
 	 * @param kmlFile
 	 */
@@ -61,18 +65,16 @@ public class KMLImporter {
 		spf.setNamespaceAware(true);
 		try {
 			saxParser = spf.newSAXParser();
-			xmlReader = saxParser.getXMLReader();
-			xmlReader.setContentHandler(handler);
+			File f = new File(kmlFile);
+			InputStream inputStream = new FileInputStream(f);
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+			InputSource is = new InputSource(reader);
+			is.setEncoding("UTF-8");
 
-		} catch (ParserConfigurationException | SAXException e) {
+			saxParser.parse(is, handler);
+
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			// Do Nothing other than print stack trace
-			e.printStackTrace();
-		}
-		
-		try {
-			xmlReader.parse(kmlFile);
-		} catch (IOException | SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -83,14 +85,13 @@ public class KMLImporter {
 		edges = handler.getEdges();
 		pistes = handler.getPistes();
 
-
 	}
 
 	public Graph importGraph(String kmlFile) {
 
-		
-		// Stage 1 predict where the edges intersect and add new nodes where we have predicted these intersections.		
-		//predictIntersections();
+		// Stage 1 predict where the edges intersect and add new nodes where we
+		// have predicted these intersections.
+		// predictIntersections();
 
 		// Stage 1: create new nodes where ever line segments intersect. To do
 		// this we will examine all edges against each other, if those edges
@@ -311,7 +312,8 @@ public class KMLImporter {
 	}
 
 	/**
-	 * @param nodes the nodes to set
+	 * @param nodes
+	 *            the nodes to set
 	 */
 	public void setNodes(List<Node> nodes) {
 		this.nodes = nodes;
@@ -325,7 +327,8 @@ public class KMLImporter {
 	}
 
 	/**
-	 * @param edges the edges to set
+	 * @param edges
+	 *            the edges to set
 	 */
 	public void setEdges(List<Edge> edges) {
 		this.edges = edges;
@@ -339,7 +342,8 @@ public class KMLImporter {
 	}
 
 	/**
-	 * @param pistes the pistes to set
+	 * @param pistes
+	 *            the pistes to set
 	 */
 	public void setPistes(List<Piste> pistes) {
 		this.pistes = pistes;

@@ -1,11 +1,8 @@
 package skipiste.graph;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import org.w3c.dom.traversal.NodeIterator;
 
 import skipiste.geometry.LineSegment;
 import skipiste.geometry.Point;
@@ -15,12 +12,13 @@ import skipiste.graph.elements.Piste;
 import skipiste.importer.kml.KMLHandler;
 import skipiste.importer.kml.KMLImporter;
 import skipiste.importer.kml.PlanDePisteHandler;
+import skipiste.importer.kml.SkiMapHandler;
 import skipiste.utils.HaversineDistance;
 
 /**
  * Builds the graph from the basic data set.
  * 
- * @author s101122
+ * @author s1011122
  * 
  */
 public class GraphBuilder {
@@ -50,7 +48,7 @@ public class GraphBuilder {
 	 */
 	public GraphBuilder(String kmlFile) {
 
-		KMLHandler handler = new PlanDePisteHandler();
+		KMLHandler handler = new SkiMapHandler();
 		KMLImporter importer = new KMLImporter(handler, kmlFile);
 
 		nodes = importer.getNodes();
