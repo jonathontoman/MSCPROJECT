@@ -8,7 +8,6 @@ package skipiste.geometry;
  */
 public class Point {
 
-
 	/**
 	 * The x coordinate
 	 */
@@ -31,9 +30,10 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Use trigonometry to calculate the distance between two points.
+	 * 
 	 * @param other
 	 * @return
 	 */
@@ -42,7 +42,7 @@ public class Point {
 		double rise = getY() - other.getY();
 		double travel = getX() - other.getX();
 		return Math.sqrt(rise * rise + travel * travel);
-		}
+	}
 
 	/**
 	 * @return the x
@@ -73,8 +73,10 @@ public class Point {
 	public void setY(double y) {
 		this.y = y;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -89,7 +91,9 @@ public class Point {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -108,7 +112,9 @@ public class Point {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

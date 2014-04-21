@@ -74,10 +74,7 @@ public class PlanDePisteHandler extends KMLHandler {
 	 */
 	private StringBuilder sb = new StringBuilder();
 
-	/**
-	 * The difficulty of the ski piste we are currently building.
-	 */
-	private Difficulty difficulty;
+
 
 	public void startDocument() throws SAXException {
 		nodes = new ArrayList<Node>();

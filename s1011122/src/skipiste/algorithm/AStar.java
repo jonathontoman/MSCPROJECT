@@ -5,8 +5,9 @@ import java.util.PriorityQueue;
 import skipiste.graph.Graph;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
-import skipiste.utils.HaversineDistance;
 import skipiste.utils.OutputKML;
+import skipiste.utils.distance.DistanceCalculator;
+import skipiste.utils.distance.HaversineDistance;
 
 public class AStar {
 	/**
@@ -21,6 +22,7 @@ public class AStar {
 	 * The graph the algorithm runs against.
 	 */
 	Graph g;
+	DistanceCalculator calc;
 
 	public AStar(Graph graph) {
 		this.g = graph;
@@ -36,6 +38,7 @@ public class AStar {
 	 */
 	public void execute(Node source, Node destination) {
 
+		calc = new HaversineDistance();
 		// Log start time
 		long start = System.currentTimeMillis();
 
@@ -43,14 +46,16 @@ public class AStar {
 
 		// we know the distance to the source Node is 0, update out graph.
 		source.setDistanceFromOrigin(0);
-//		// For A* we need to adjust the weight of each edge with heuristic, this
-//		// will be the distance from the source node to the destination node as
-//		// calculated with our haversine function.
-//		for (Edge e : g.getEdges()) {
-//			e.setWeight(e.getWeight()
-//					+ HaversineDistance.calculateDistance(e.getFrom(),
-//							destination));
-//		}
+		// // For A* we need to adjust the weight of each edge with heuristic,
+		// this
+		// // will be the distance from the source node to the destination node
+		// as
+		// // calculated with our haversine function.
+		// for (Edge e : g.getEdges()) {
+		// e.setWeight(e.getWeight()
+		// + HaversineDistance.calculateDistance(e.getFrom(),
+		// destination));
+		// }
 
 		// Start searching for our route.
 		pq = new PriorityQueue<Node>();
@@ -62,7 +67,8 @@ public class AStar {
 			// If this is our target we can give up searching as we know the
 			// addition of a heuristic value of an underestimate of the distnace
 			// of a node to the destination node guarantees an optimal route
-			// when we find our node, we don't need to be greedy and cycle through all routes to our destination.
+			// when we find our node, we don't need to be greedy and cycle
+			// through all routes to our destination.
 			if (u.equals(destination)) {
 				destination = u;
 				break;
@@ -73,12 +79,12 @@ public class AStar {
 				// destination Node of these PisteSections.
 				Node n = e.getTo();
 				// get cost of getting to n from current Node u
-				// We need to add our heuristic value  with A* and adjust the weight of this edge to n
+				// We need to add our heuristic value with A* and adjust the
+				// weight of this edge to n
 				e.setWeight(e.getWeight()
-						+ HaversineDistance.calculateDistance(e.getFrom(),
+						+ calc.calculateDistanceBetweenNodes(e.getFrom(),
 								destination));
-				
-				
+
 				double weight = e.getWeight();
 				// find the distance to the Node being examined via the current
 				// Node.
@@ -103,9 +109,10 @@ public class AStar {
 	}
 
 	public void printShortestPath(Node destination) {
-		while(destination.getPreviousNodeInPath() != null)
-		{
-			System.out.println(OutputKML.outputPlaceMark( destination.getPreviousNodeInPath().getLongitude(), destination.getPreviousNodeInPath().getLattitude()));
+		while (destination.getPreviousNodeInPath() != null) {
+			System.out.println(OutputKML.outputPlaceMark(destination
+					.getPreviousNodeInPath().getLongitude(), destination
+					.getPreviousNodeInPath().getLattitude()));
 			destination = destination.getPreviousNodeInPath();
 		}
 	}

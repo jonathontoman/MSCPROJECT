@@ -38,9 +38,9 @@ public class Edge {
 	}
 
 	/**
-	 * Simple construcotr
+	 * Simple constructor
 	 * @param from - the node this edge originates from. 
-	 * @param to - the node thie edge terminates at
+	 * @param to - the node the edge terminates at
 	 * @param piste - the piste which this edge is part of.
 	 */
 	public Edge(Node from, Node to, Piste piste) {
@@ -48,6 +48,18 @@ public class Edge {
 		this.from = from;
 		this.to = to;
 		this.piste = piste;
+	}
+	
+	/**
+	 * Simple constructor
+	 * @param from - the node this edge originates from. 
+	 * @param to - the node the edge terminates at
+	 * @param piste - the piste which this edge is part of.
+	 */
+	public Edge(Node from, Node to) {
+		super();
+		this.from = from;
+		this.to = to;
 	}
 
 	/**
@@ -132,13 +144,8 @@ public class Edge {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((diff == null) ? 0 : diff.hashCode());
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
-		result = prime * result + ((piste == null) ? 0 : piste.hashCode());
 		result = prime * result + ((to == null) ? 0 : to.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(weight);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -151,28 +158,18 @@ public class Edge {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Edge))
 			return false;
 		Edge other = (Edge) obj;
-		if (diff != other.diff)
-			return false;
 		if (from == null) {
 			if (other.from != null)
 				return false;
 		} else if (!from.equals(other.from))
 			return false;
-		if (piste == null) {
-			if (other.piste != null)
-				return false;
-		} else if (!piste.equals(other.piste))
-			return false;
 		if (to == null) {
 			if (other.to != null)
 				return false;
 		} else if (!to.equals(other.to))
-			return false;
-		if (Double.doubleToLongBits(weight) != Double
-				.doubleToLongBits(other.weight))
 			return false;
 		return true;
 	}

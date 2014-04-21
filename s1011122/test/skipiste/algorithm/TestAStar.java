@@ -9,14 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import skipiste.graph.Graph;
-import skipiste.graph.GraphBuilder;
+import skipiste.graph.NewGraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 import skipiste.utils.OutputKML;
 
 public class TestAStar {
 
-	private GraphBuilder graphBuidler;
+	private NewGraphBuilder graphBuidler;
 	private Graph g;
 
 	@Before
@@ -31,15 +31,26 @@ public class TestAStar {
 	 */
 	@Test
 	public void testCase1() throws IOException {
-		graphBuidler = new GraphBuilder(this.getClass()
+		graphBuidler = new NewGraphBuilder();
+		g = graphBuidler.buildGraph(this.getClass()
 				.getResource("WhistlerBlackcomb.kml").getFile());
-		g = graphBuidler.getGraph();
 		AStar algorithm = new AStar(g);
 
 		// Get the start and end of each node
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
 		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
 
+		
+		for (Piste p : g.getPistes())
+		{
+			if (p.getName() != null && p.getName().equalsIgnoreCase("The Saddle"))
+			{
+				for (Node n : p.getNodes())
+				{
+					System.out.println(OutputKML.outputPlaceMark(n.getLongitude(), n.getLattitude()));
+				}
+			}
+		}
 
 		int i = 1;
 		for (Piste p : g.getPistes()) {

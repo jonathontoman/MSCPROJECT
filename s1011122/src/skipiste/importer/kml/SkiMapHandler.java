@@ -1,7 +1,6 @@
 package skipiste.importer.kml;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -12,7 +11,7 @@ import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
 /**
- * Parses KML from OpenSkiMap.org. This produces a List<LinkedList<Node>>. Each
+ * Parses KML from PlanDePistes.nl. This produces a List<LinkedList<Node>>. Each
  * entry in the List being a LinkedList of the nodes that make up a single ski
  * piste in our data.
  * 
@@ -36,21 +35,16 @@ public class SkiMapHandler extends KMLHandler {
 	 * The pistes that are represented in the KML
 	 */
 	private ArrayList<Piste> pistes;
+
 	/**
 	 * The piste node we are building at any one time
 	 */
 	private Piste piste;
-
-	/**
-	 * Used to modify duplicate piste names so they are unique.
-	 */
-	private int i;
 	
 	/**
-	 * Used to modify unknown names so they are unique.
+	 *Used to modify duplicate piste names so they are unique.
 	 */
-	private int j;
-
+	private int i;
 
 	/**
 	 * Flag to indicate if we are parsing the data or not.
@@ -80,17 +74,13 @@ public class SkiMapHandler extends KMLHandler {
 	 */
 	private StringBuilder sb = new StringBuilder();
 
-	/**
-	 * The difficulty of the ski piste we are currently building.
-	 */
-	private Difficulty difficulty;
+
 
 	public void startDocument() throws SAXException {
 		nodes = new ArrayList<Node>();
 		edges = new ArrayList<Edge>();
 		pistes = new ArrayList<Piste>();
-		i = 0;
-		j =0;
+		i=0;
 	}
 
 	public void endDocument() throws SAXException {
@@ -142,14 +132,6 @@ public class SkiMapHandler extends KMLHandler {
 		if (qName.equalsIgnoreCase(PLACEMARK)) {
 			if (piste != null) {
 				pistes.add(piste);
-				// sometimes the piste is not named in the kml file give it a name of "unknown"
-				if (piste.getName() == null)
-				{
-					piste.setName("unknown" + j);
-					j++;
-				}
-				
-				
 				piste = null;
 			}
 		}
@@ -164,9 +146,12 @@ public class SkiMapHandler extends KMLHandler {
 				// not be sure that one is just a continuation of the other we
 				// suffix an "X" onto the piste name if another piste has
 				// already been produced with the same name.
-
-				for (Piste p : pistes) {
-					if (sb.toString().equalsIgnoreCase(p.getName())) {
+				
+			
+				for ( Piste p : pistes)
+				{
+					if (sb.toString().equalsIgnoreCase(p.getName()))
+					{
 						// append the int i to the name so we make it unique
 						sb.append(i);
 						// incremeent so it is unique for the next time.
@@ -229,10 +214,7 @@ public class SkiMapHandler extends KMLHandler {
 				sb = new StringBuilder();
 				String trimmed = coordinates.trim();
 				String[] coords = trimmed.split("\\s+");
-
-				// Keep track of the previous node in the arraylist so we can
-				// build edges
-				Node origin = null;
+				
 				for (int i = 0; i < coords.length; i++) {
 					Node n = new Node();
 					String[] s = coords[i].split(",");
@@ -247,56 +229,15 @@ public class SkiMapHandler extends KMLHandler {
 
 					} else if (coords.length - i == 1) {
 						// if this is the last node in the piste mark it as such
-						n.setEnd(false);
-					}
+						n.setEnd(true);
+					} 
 					// Add this to the list of nodes
 					nodes.add(n);
 					// Add this node to the piste
 					piste.getNodes().add(n);
-
-					if (origin != null) {
-						buildEdge(origin, n, edges, piste);
-					}
-					origin = n;
 				}
 			}
 		}
-	}
-
-	/**
-	 * Builds an edge between two nodes
-	 * 
-	 * @param origin
-	 *            - the origin node of this edge
-	 * @param terminus
-	 *            - the terminus node of this edge
-	 * @param edges
-	 *            - the list of edges that we will add the newly build edge to
-	 * @param piste
-	 *            - the piste this edge will be part of.
-	 */
-	private void buildEdge(Node origin, Node terminus, List<Edge> edges,
-			Piste piste) {
-
-		if (origin != null) {
-
-			Edge e = new Edge();
-			// Calculate the weight of this edge
-			// We will make the weight the distance in km between the origin
-			// and terminus nodes.
-			// we will set the weight of all edges later.
-			e.setDiff(difficulty);
-
-			// Add this to the nodes
-			origin.getOutboudEdges().add(e);
-			terminus.getInboundEdges().add(e);
-			// set this to and from values on the edge
-			e.setFrom(origin);
-			e.setTo(terminus);
-			edges.add(e);
-			e.setPiste(piste);
-		}
-
 	}
 
 	/*

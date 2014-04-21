@@ -7,8 +7,17 @@ package skipiste.geometry;
  * 
  */
 public class LineSegment {
-	private final Point a;
-	private final Point b;
+	/**
+	 * The first point of the line segment.
+	 */
+	private final Point p1;
+	/**
+	 * The second point of the line segment.
+	 */
+	private final Point p2;
+	/**
+	 * The slope of the line
+	 */
 	private final Slope s;
 
 	/**
@@ -20,8 +29,8 @@ public class LineSegment {
 	 *            - the x,y point of the end of this line
 	 */
 	public LineSegment(Point a, Point b) {
-		this.a = a;
-		this.b = b;
+		this.p1 = a;
+		this.p2 = b;
 		this.s = new Slope(a.getY() - b.getY(), a.getX() - b.getX());
 	}
 
@@ -51,10 +60,10 @@ public class LineSegment {
 	 */
 	private double getIntersectionXCoordinate(LineSegment line) {
 		if (s.isVertical()) {
-			return a.getX();
+			return p1.getX();
 		}
 		if (line.s.isVertical()) {
-			return line.a.getX();
+			return line.p1.getX();
 		}
 		double m = s.asDouble();
 		double b = base();
@@ -95,10 +104,10 @@ public class LineSegment {
 
 	public boolean contains(Point z) {
 
-		if (!isWithin(z.getX(), a.getX(), b.getX())) {
+		if (!isWithin(z.getX(), p1.getX(), p2.getX())) {
 			return false;
 		}
-		if (!isWithin(z.getY(), a.getY(), b.getY())) {
+		if (!isWithin(z.getY(), p1.getY(), p2.getY())) {
 			return false;
 		}
 		if (s.isVertical()) {
@@ -122,26 +131,35 @@ public class LineSegment {
 	 */
 	public Point closestPointOnLine(Point p3) {
 
-		final double xDelta = b.getX() - a.getX();
-		final double yDelta = b.getY() - a.getY();
+		
+
+		// the x axis difference of the ends of this line segment
+		double xDelta = p2.getX() - p1.getX();
+		// the y axis difference of the ends of this line segmenet
+		double yDelta = p2.getY() - p1.getY();
 
 		if ((xDelta == 0) && (yDelta == 0)) {
 			// p1 and p2 can not be the same point
 			return null;
-					
+
 		}
 
-		final double u = ((p3.getX() - a.getX()) * xDelta + (p3.getY() - a
-				.getY()) * yDelta)
+		double u = ((p3.getX() - p1.getX()) * xDelta + (p3.getY() - p1.getY())
+				* yDelta)
 				/ (xDelta * xDelta + yDelta * yDelta);
 
-		final Point p;
+		u = ((p3.getX() - p1.getX()) * xDelta + (p3.getY() - p1.getY())
+				* yDelta)
+				/ (xDelta * xDelta + yDelta * yDelta);
+
+		// The closest point on this line to the point p3
+		Point p;
 		if (u < 0) {
-			p = a;
+			p = p1;
 		} else if (u > 1) {
-			p = b;
+			p = p2;
 		} else {
-			p = new Point(a.getX() + u * xDelta, a.getY() + u * yDelta);
+			p = new Point(p1.getX() + u * xDelta, p1.getY() + u * yDelta);
 		}
 		return p;
 	}
@@ -177,21 +195,21 @@ public class LineSegment {
 	 * @return
 	 */
 	private double base() {
-		return a.getY() - s.asDouble() * a.getX();
+		return p1.getY() - s.asDouble() * p1.getX();
 	}
 
 	/**
 	 * @return the a
 	 */
 	public Point getA() {
-		return a;
+		return p1;
 	}
 
 	/**
 	 * @return the b
 	 */
 	public Point getB() {
-		return b;
+		return p2;
 	}
 
 	/**

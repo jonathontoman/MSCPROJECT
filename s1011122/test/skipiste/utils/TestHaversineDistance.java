@@ -2,7 +2,10 @@ package skipiste.utils;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import skipiste.utils.distance.HaversineDistance;
 
 /**
  * Test class for the HaversineDistance calculator class. In this test class we
@@ -16,7 +19,9 @@ import org.junit.Test;
 public class TestHaversineDistance {
 
 
-
+	private HaversineDistance classUnderTest;
+	
+	
 	private double longitude1 = -42.215347;
 	private double longitude2 = -41.62988;
 
@@ -36,13 +41,21 @@ public class TestHaversineDistance {
 	 */
 	private double tolerance = 0.01;
 
+	
+	@Before
+	public void setUp()
+	{
+		classUnderTest = new HaversineDistance();
+	}
+	
+	
 	@Test
 	/**
 	 * Test the difference between points longitude1,latitude1 and longitude2,latitude2, the difference should be approximately googleMapsDistance1
 	 */
 	public void testCase1() {
 		// 1000 x calculateLength as we want the value in meters.
-		double calculatedDistance = HaversineDistance.calculateLength(
+		double calculatedDistance = classUnderTest.calculateDistanceBetweenCoordinates(
 				longitude1, latitude1, longitude2, latitude2);
 		assertEquals(googleMapsDistance1, calculatedDistance,
 				(googleMapsDistance1 * tolerance));
@@ -57,7 +70,7 @@ public class TestHaversineDistance {
 		// Test distance between these two points google earth says 50.09m
 		// 6.650528310930344,45.51694549135746,0 6.651116793259111,45.51676334937961,0
 		
-		double calculatedDistance =  HaversineDistance.calculateLength(
+		double calculatedDistance =  classUnderTest.calculateDistanceBetweenCoordinates(
 				6.650528310930344, 45.51694549135746, 6.651116793259111, 45.51676334937961);
 		assertEquals(50.12, calculatedDistance, tolerance);
 	}

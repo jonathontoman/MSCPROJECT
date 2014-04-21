@@ -8,15 +8,16 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import skipiste.algorithm.dijkstra.Dijkstra;
 import skipiste.graph.Graph;
-import skipiste.graph.GraphBuilder;
+import skipiste.graph.NewGraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 import skipiste.utils.OutputKML;
 
 public class TestDijkstra {
 
-	private GraphBuilder graphBuidler;
+	private NewGraphBuilder graphBuidler;
 	private Graph g;
 
 	@Before
@@ -31,20 +32,32 @@ public class TestDijkstra {
 	 */
 	@Test
 	public void testCase1() throws IOException {
-		graphBuidler = new GraphBuilder(this.getClass()
+		graphBuidler = new NewGraphBuilder();
+		g = graphBuidler.buildGraph(this.getClass()
 				.getResource("WhistlerBlackcomb.kml").getFile());
-		g = graphBuidler.getGraph();
 		Dijkstra algorithm = new Dijkstra();
+		
+		
+		
+		
+		
+		
+		// print out all nodes of the graph
+		for (Node n : g.getNodes())
+		{
+			System.out.println(OutputKML.outputPlaceMark(n.getLongitude(), n.getLattitude()));
+		}
+		
+		
 
 		// Get the start and end of each node
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
 		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
 
-
 		int i = 1;
 		for (Piste p : g.getPistes()) {
 			System.out.println("Start of " + p.getName() + ":" + i);
-			startOptions.put(i, p.getNodes().getFirst());
+			startOptions.put(i, (Node)p.getNodes().toArray()[0]);
 			i++;
 		}
 		System.out.println("Enter source node");
@@ -58,7 +71,7 @@ public class TestDijkstra {
 		i = 1;
 		for (Piste p : g.getPistes()) {
 			System.out.println("End of " + p.getName() + ":" + i);
-			endOptions.put(i, p.getNodes().getLast());
+			endOptions.put(i, (Node)p.getNodes().toArray()[p.getNodes().size() -1]);
 			i++;
 		}
 
@@ -68,6 +81,7 @@ public class TestDijkstra {
 
 		Node destination = endOptions.get(desinationI);
 		algorithm.execute(source,destination);
+
 		
 		while(destination.getPreviousNodeInPath() != null)
 		{
@@ -75,4 +89,4 @@ public class TestDijkstra {
 			destination = destination.getPreviousNodeInPath();
 		}
 	}
-}
+ }

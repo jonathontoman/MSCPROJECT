@@ -129,6 +129,8 @@ public class TestLineSegment {
 		assertEquals(i, l.intersectionPoint(m));
 		assertEquals(i, m.intersectionPoint(l));
 	}
+	
+	
 
 	/**
 	 * Tests calculation of intersection of a vertical and a non vertical line
@@ -161,10 +163,7 @@ public class TestLineSegment {
 		LineSegment m = new LineSegment(r, s);
 		
 		Point intersection1 = l.intersectionPoint(m);
-		assertFalse(l.contains(intersection1));
-		
-		Point intersection2 = l.intersectionPoint(l);
-		assertFalse(l.contains(intersection2));
+		assertFalse(l.contains(intersection1));		
 
 	}
 

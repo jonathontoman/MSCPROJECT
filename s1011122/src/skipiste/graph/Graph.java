@@ -1,7 +1,6 @@
 package skipiste.graph;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import skipiste.graph.elements.Edge;
@@ -27,12 +26,12 @@ public class Graph {
 	 */
 	private Set<Piste> pistes;
 
-	public Graph(List<Piste> pistes, List<Node> nodes, List<Edge> edges) {
+	public Graph(HashSet<Piste> pistes, HashSet<Node> nodes, HashSet<Edge> edges) {
 		// Use sets so we dont have duplicates.
 
-		this.nodes = new HashSet<Node>(nodes);		
-		this.edges = new HashSet<Edge>(edges);
-		this.pistes = new HashSet<Piste>(pistes);
+		this.nodes = nodes;		
+		this.edges = edges;
+		this.pistes = pistes;
 	}
 
 	/**

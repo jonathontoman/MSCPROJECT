@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,7 +21,6 @@ import org.xml.sax.XMLReader;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.graph.elements.Section;
 
 /**
  * Tests the KMLtoGraph class builds a graph as we expect it. We use a known xml
@@ -131,7 +129,6 @@ public class TestKMLHandler {
 		boolean expected1match = false;
 		boolean expected2match = false;
 
-		ArrayList<String> actualNames = new ArrayList<String>();
 
 		// get all the names of the pistes
 		for (Piste p : pistes) {

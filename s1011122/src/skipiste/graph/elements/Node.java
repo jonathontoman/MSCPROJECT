@@ -11,68 +11,67 @@ import java.util.Set;
  * 
  */
 public class Node implements Comparable<Node> {
-	
-	
+
 	/**
 	 * The longitude of this node.
 	 */
-	private double longitude;
+	protected double longitude;
 	/**
 	 * The lattitude of this node;
 	 */
-	private double lattitude;
+	protected double lattitude;
 	/**
 	 * The altidue of this node;
 	 */
-	private double altitude;
+	protected double altitude;
 	/**
 	 * Name of the piste this belongs to.
 	 */
-	private String name;
+	protected String name;
 	/**
 	 * Edges that are in-bound/terminate at this node
 	 */
-	private Set<Edge> inboundEdges;
+	protected Set<Edge> inboundEdges;
 	/**
 	 * Edges that are out-bound/originate from this node
 	 */
-	private Set<Edge> outboudEdges;
+	protected Set<Edge> outboudEdges;
 	/**
 	 * The pistes this node belongs to.
 	 */
-	private Set<Piste> pistes;
-	
+	protected Set<Piste> pistes;
+
 	/**
 	 * Flag to show whether or not this start of a node.
 	 */
-	private boolean start;
+	protected boolean start;
 	/**
 	 * Flag to show whether or not this start of a node.
 	 */
-	private boolean end;
-	
+	protected boolean end;
+
 	/**
 	 * Flag to indicate if this node has already been merged with another
 	 */
-	private boolean merged;
+	protected boolean merged;
 
 	/**
 	 * Flag that shows us whether or not this node exists in the data source or
 	 * whether this nodes existence at the intersection of two or more edges has
 	 * been predicted by our algorithm.
 	 */
-	private boolean predicted;
+	protected boolean predicted;
 
 	// These are used for the path finding and for keeping track of the route
 	// used for pathfinding.
 	/**
 	 * Calucluated distance to this node from origin.
 	 */
-	private double distanceFromOrigin;
+	protected double distanceFromOrigin;
 	/**
 	 * The previous node in the path from the origin.
 	 */
-	private Node previousNodeInPath;
+	protected Node previousNodeInPath;
 
 	/**
 	 * No argmument constructor.
@@ -86,31 +85,103 @@ public class Node implements Comparable<Node> {
 		inboundEdges = new HashSet<Edge>();
 		pistes = new HashSet<Piste>();
 		// by default assume this is not a predicted node.
-		predicted= false;
+		predicted = false;
 		start = false;
 		end = false;
-		merged=false;
+		merged = false;
 	}
+
+//	/**
+//	 * Basic constructor
+//	 * 
+//	 * @param longitude
+//	 *            - longitude of this node
+//	 * @param lattitude
+//	 *            - latitude of this node
+//	 * @param - the piste that this node is part of.(we may find later it is
+//	 *        part of many)
+//	 * @param start
+//	 *            - is this node the start of a piste?
+//	 * @param end
+//	 *            - is this node the end of a piste?
+//	 */
+//	public Node(double longitude, double lattitude, boolean start, boolean end,
+//			Piste p) {
+//
+//		this();
+//		this.longitude = longitude;
+//		this.lattitude = lattitude;
+//		this.getPistes().add(p);
+//		this.start = start;
+//		this.end = end;
+//		merged = false;
+//
+//	}
 	
 	/**
 	 * Basic constructor
-	 * @param longitude - longitude of this node
-	 * @param lattitude - latitude of this node
-	 * @param section - the section type of this node.
-	 * @param - the piste that this node is part of.(we may find later it is part of many)
+	 * 
+	 * @param longitude
+	 *            - longitude of this node
+	 * @param lattitude
+	 *            - latitude of this node
+	 * @param - the piste that this node is part of.(we may find later it is
+	 *        part of many)
+	 * @param start
+	 *            - is this node the start of a piste?
+	 * @param end
+	 *            - is this node the end of a piste?
 	 */
-	public Node(double longitude, double lattitude, boolean start, boolean end, Piste p) {
-		
+	public Node(double longitude, double lattitude, boolean start, boolean end) {
+
 		this();
 		this.longitude = longitude;
-		this.lattitude = lattitude;
-		this.getPistes().add(p);
+		this.lattitude = lattitude;		
 		this.start = start;
 		this.end = end;
-		merged=false;
-		
+		this.merged = false;
+
 	}
 
+	/**
+	 * Complete constructor
+	 * 
+	 * @param longitude
+	 *            - the longitude of this node.
+	 * @param latitude
+	 *            - the latitude of this node.
+	 * @param altitude
+	 *            - the altitude of this node.
+	 * @param outboundEdges
+	 *            -the edges that are outbound from this node.
+	 * @param inboundEdges
+	 *            - the edges that are inbound to this node.
+	 * @param pistes
+	 *            - the pistes this node is part of
+	 * @param start
+	 *            - is this node the start of a piste?
+	 * @param end
+	 *            - is this node the end of a piste?
+	 * @param merged
+	 *            - has this node been merged with any others?
+	 * @param predicted
+	 *            - was this node predicted by our graph builder?
+	 */
+	public Node(double longitude, double latitude, double altitude,
+			Set<Edge> outboundEdges, Set<Edge> inboundEdges, Set<Piste> pistes,
+			boolean start, boolean end, boolean merged, boolean predicted) {
+		this.longitude = longitude;
+		this.lattitude = latitude;
+		this.altitude = altitude;
+		this.outboudEdges = new HashSet<Edge>(outboundEdges);
+		this.inboundEdges = new HashSet<Edge>(inboundEdges);
+		this.pistes = new HashSet<Piste>(pistes);
+		this.start = start;
+		this.end = end;
+		this.merged = merged;
+		this.predicted = predicted;
+
+	}
 
 	@Override
 	public int compareTo(Node arg0) {
@@ -270,37 +341,36 @@ public class Node implements Comparable<Node> {
 		this.pistes = pistes;
 	}
 
-	// TODO -invocation exception thrown when calling hashcode() due to null
-	// pointers.
-	// /* (non-Javadoc)
-	// * @see java.lang.Object#hashCode()
-	// */
-	// @Override
-	// public int hashCode() {
-	// final int prime = 31;
-	// int result = 1;
-	// long temp;
-	// temp = Double.doubleToLongBits(altitude);
-	// result = prime * result + (int) (temp ^ (temp >>> 32));
-	// temp = Double.doubleToLongBits(distanceFromOrigin);
-	// result = prime * result + (int) (temp ^ (temp >>> 32));
-	// result = prime * result
-	// + ((inboundEdges == null) ? 0 : inboundEdges.hashCode());
-	// temp = Double.doubleToLongBits(lattitude);
-	// result = prime * result + (int) (temp ^ (temp >>> 32));
-	// temp = Double.doubleToLongBits(longitude);
-	// result = prime * result + (int) (temp ^ (temp >>> 32));
-	// result = prime * result + ((name == null) ? 0 : name.hashCode());
-	// result = prime * result
-	// + ((outboudEdges == null) ? 0 : outboudEdges.hashCode());
-	// result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
-	// result = prime
-	// * result
-	// + ((previousNodeInPath == null) ? 0 : previousNodeInPath
-	// .hashCode());
-	// result = prime * result + ((section == null) ? 0 : section.hashCode());
-	// return result;
-	// }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(altitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(distanceFromOrigin);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (end ? 1231 : 1237);
+		temp = Double.doubleToLongBits(lattitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(longitude);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (merged ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
+		result = prime * result + (predicted ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((previousNodeInPath == null) ? 0 : previousNodeInPath
+						.hashCode());
+		result = prime * result + (start ? 1231 : 1237);
+		return result;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -313,7 +383,7 @@ public class Node implements Comparable<Node> {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Node))
 			return false;
 		Node other = (Node) obj;
 		if (Double.doubleToLongBits(altitude) != Double
@@ -322,10 +392,7 @@ public class Node implements Comparable<Node> {
 		if (Double.doubleToLongBits(distanceFromOrigin) != Double
 				.doubleToLongBits(other.distanceFromOrigin))
 			return false;
-		if (inboundEdges == null) {
-			if (other.inboundEdges != null)
-				return false;
-		} else if (!inboundEdges.equals(other.inboundEdges))
+		if (end != other.end)
 			return false;
 		if (Double.doubleToLongBits(lattitude) != Double
 				.doubleToLongBits(other.lattitude))
@@ -333,27 +400,27 @@ public class Node implements Comparable<Node> {
 		if (Double.doubleToLongBits(longitude) != Double
 				.doubleToLongBits(other.longitude))
 			return false;
+		if (merged != other.merged)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (outboudEdges == null) {
-			if (other.outboudEdges != null)
-				return false;
-		} else if (!outboudEdges.equals(other.outboudEdges))
 			return false;
 		if (pistes == null) {
 			if (other.pistes != null)
 				return false;
 		} else if (!pistes.equals(other.pistes))
 			return false;
+		if (predicted != other.predicted)
+			return false;
 		if (previousNodeInPath == null) {
 			if (other.previousNodeInPath != null)
 				return false;
 		} else if (!previousNodeInPath.equals(other.previousNodeInPath))
 			return false;
-
+		if (start != other.start)
+			return false;
 		return true;
 	}
 
@@ -365,7 +432,8 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @param predicted the predicted to set
+	 * @param predicted
+	 *            the predicted to set
 	 */
 	public void setPredicted(boolean predicted) {
 		this.predicted = predicted;
@@ -379,7 +447,8 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @param start the start to set
+	 * @param start
+	 *            the start to set
 	 */
 	public void setStart(boolean start) {
 		this.start = start;
@@ -393,7 +462,8 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @param end the end to set
+	 * @param end
+	 *            the end to set
 	 */
 	public void setEnd(boolean end) {
 		this.end = end;
@@ -407,7 +477,8 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @param merged the merged to set
+	 * @param merged
+	 *            the merged to set
 	 */
 	public void setMerged(boolean merged) {
 		this.merged = merged;
