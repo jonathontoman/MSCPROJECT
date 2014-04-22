@@ -32,6 +32,26 @@ public class Piste {
 	}
 
 	/**
+	 * Basic constructor
+	 * @param name - the name of this piste
+	 */
+	public Piste(String name) {
+		this();
+		this.name = name;
+	}
+	
+	/**
+	 * Complete constructor
+	 * @param name - the name of this piste
+	 * @param nodes - the nodes that make up this piste in the correct order(start to finish)
+	 */
+	public Piste(String name, LinkedList<Node> nodes)
+	{
+		this.name = name;
+		this.nodes = nodes;		
+	}
+
+	/**
 	 * Constructor
 	 * 
 	 * @param difficulty

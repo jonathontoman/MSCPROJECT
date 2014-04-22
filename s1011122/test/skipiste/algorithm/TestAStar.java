@@ -40,17 +40,6 @@ public class TestAStar {
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
 		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
 
-		
-		for (Piste p : g.getPistes())
-		{
-			if (p.getName() != null && p.getName().equalsIgnoreCase("The Saddle"))
-			{
-				for (Node n : p.getNodes())
-				{
-					System.out.println(OutputKML.outputPlaceMark(n.getLongitude(), n.getLattitude()));
-				}
-			}
-		}
 
 		int i = 1;
 		for (Piste p : g.getPistes()) {
