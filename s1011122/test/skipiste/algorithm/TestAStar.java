@@ -33,8 +33,8 @@ public class TestAStar {
 	public void testCase1() throws IOException {
 		graphBuidler = new NewGraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
-				.getResource("WhistlerBlackcomb.kml").getFile());
-		AStar algorithm = new AStar(g);
+				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
+		AStar algorithm = new AStar();
 
 		// Get the start and end of each node
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
@@ -67,12 +67,12 @@ public class TestAStar {
 		Integer desinationI = new Integer(input);
 
 		Node destination = endOptions.get(desinationI);
-		algorithm.execute(source,destination);
+		algorithm.findPath(source,destination);
 		
-		while(destination.getPreviousNodeInPath() != null)
+		while(destination.getPrevious() != null)
 		{
-			System.out.println(OutputKML.outputPlaceMark( destination.getPreviousNodeInPath().getLongitude(), destination.getPreviousNodeInPath().getLattitude()));
-			destination = destination.getPreviousNodeInPath();
+			System.out.println(OutputKML.outputPlaceMark( destination.getPrevious().getLongitude(), destination.getPrevious().getLatitude()));
+			destination = destination.getPrevious();
 		}
 	}
 }

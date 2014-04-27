@@ -219,7 +219,7 @@ public class SkiMapHandler extends KMLHandler {
 					Node n = new Node();
 					String[] s = coords[i].split(",");
 					n.setLongitude(new Double(s[0]));
-					n.setLattitude(new Double(s[1]));
+					n.setLatitude(new Double(s[1]));
 					n.getPistes().add(piste);
 
 					if (i == 0) {
@@ -227,7 +227,7 @@ public class SkiMapHandler extends KMLHandler {
 						// such
 						n.setStart(true);
 
-					} else if (coords.length - i == 1) {
+					} else if (i == (coords.length -1)) {
 						// if this is the last node in the piste mark it as such
 						n.setEnd(true);
 					} 

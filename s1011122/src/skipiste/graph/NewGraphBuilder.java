@@ -3,6 +3,7 @@ package skipiste.graph;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import skipiste.geometry.LineSegment;
 import skipiste.geometry.Point;
@@ -35,6 +36,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 	 * The nodes in this graph.
 	 */
 	protected HashSet<Node> nodes;
+	
 	/**
 	 * Calculate the distance between two points
 	 */
@@ -79,12 +81,15 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 		startEndNode = 20;
 		predictedNodeDistance = 10;
 		lineInterSectionTolerance = 15;
+		
+		
 
 		// Step 1: build the Edges in the graph, we will do this again later
 		System.out.println("Building edges for first time");
 		createAllEdges();
 		// Step 2: predict where new nodes will be and build them by calculating
 		// where edges intersect
+		validateGraph();
 		System.out
 				.println("Finding intersections and building new nodes at those intersections");
 		findIntersections(edges);
@@ -105,7 +110,21 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 		removeAllEdges();
 		System.out.println("Rebuilding all edges");
 		createAllEdges();
+		// validate the graph
+		validateGraph();
+		// finally add the edge weights using the distance calculator
+		addEdgeWeights();
 		return new Graph(pistes, nodes, edges);
+	}
+
+	/**
+	 * Add the edge weights using the distance calculator.
+	 */
+	protected void addEdgeWeights() {
+		for (Edge e : edges) {
+			e.setWeight(calc.calculateDistanceBetweenNodes(e.getFrom(),
+					e.getTo()));
+		}
 	}
 
 	/**
@@ -125,17 +144,27 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 	 */
 	protected void createAllEdges() {
 		for (Piste p : this.pistes) {
-		
-			
-			HashSet<Edge> edgesForPiste = createEdges(p.getNodes());
-			// Set the piste for all of these edges
-			for (Edge e : edgesForPiste)
-			{
-				e.setPiste(p);
+
+			ListIterator<Node> it = p.getNodes().listIterator();
+
+			while (it.hasNext()) { 
+				if (it.hasPrevious()) {
+					Node origin = it.previous();
+					// move the iterator on to its position before calling
+					// previous
+					it.next();
+					Node terminus = it.next();
+					Edge e = new Edge(origin, terminus);
+					e.setPiste(p);
+					edges.add(e);
+					origin.getOutboundEdges().add(e);
+					terminus.getInboundEdges().add(e);
+				}
+				else
+				{
+					it.next();					
+				}
 			}
-			
-			// Add all of these to the graphs edges
-			edges.addAll(edgesForPiste);
 		}
 	}
 
@@ -146,22 +175,21 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 		// get all the nodes marked start and end
 		HashSet<Node> startEndNodes = new HashSet<Node>();
 
-		
-		// Because we keep linked lists of nodes which represent the pistes in the order of the piste then we can just take the first and last node from every linked list of nodes.
-//		for (Piste p: pistes)
-//		{
-//			startEndNodes.add(p.getNodes().getFirst());
-//			startEndNodes.add(p.getNodes().getLast());
-//		}
-		
-		for (Node n : nodes)
-		{
-			if (n.isEnd() || n.isStart())
-			{
+		// Because we keep linked lists of nodes which represent the pistes in
+		// the order of the piste then we can just take the first and last node
+		// from every linked list of nodes.
+		// for (Piste p: pistes)
+		// {
+		// startEndNodes.add(p.getNodes().getFirst());
+		// startEndNodes.add(p.getNodes().getLast());
+		// }
+
+		for (Node n : nodes) {
+			if (n.isEnd() || n.isStart()) {
 				startEndNodes.add(n);
 			}
 		}
-		
+
 		// build edges for these start end nodes if the distance between them
 		// does not exceed 30 m
 
@@ -169,7 +197,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 			for (Node n2 : startEndNodes) {
 				if (!n1.equals(n2)
 						&& calc.calculateDistanceBetweenNodes(n1, n2) <= startEndNode) {
-					n1.getOutboudEdges().add(new Edge(n1, n2));
+					n1.getOutboundEdges().add(new Edge(n1, n2));
 				}
 			}
 		}
@@ -198,7 +226,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 			for (Node n2 : predictedNodes) {
 				if (!n1.equals(n2)
 						&& calc.calculateDistanceBetweenNodes(n1, n2) <= predictedNodeDistance) {
-					n1.getOutboudEdges().add(new Edge(n1, n2));
+					n1.getOutboundEdges().add(new Edge(n1, n2));
 				}
 			}
 		}
@@ -221,7 +249,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 			Node terminus = (Node) nodes.get(i);
 			Edge e = new Edge(origin, terminus);
 			edges.add(e);
-			origin.getOutboudEdges().add(e);
+			origin.getOutboundEdges().add(e);
 			terminus.getInboundEdges().add(e);
 		}
 
@@ -245,6 +273,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 			Piste piste2) {
 		Node n = new Node(intersection.getX(), intersection.getY(), false,
 				false);
+		n.setIntersection(true);
 		n.getPistes().add(piste1);
 		n.getPistes().add(piste2);
 		// this node is the result of predicting where nodes will occur at
@@ -302,8 +331,8 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 			Piste p1 = e1.getPiste();
 			// Turn e1 into a line segment
 			LineSegment l1 = new LineSegment(new Point(e1.getFrom()
-					.getLongitude(), e1.getFrom().getLattitude()), new Point(e1
-					.getTo().getLongitude(), e1.getTo().getLattitude()));
+					.getLongitude(), e1.getFrom().getLatitude()), new Point(e1
+					.getTo().getLongitude(), e1.getTo().getLatitude()));
 			// compare it against every other edge
 			for (int j = i + 1; j < edgeList.size(); j++) {
 				Edge e2 = edgeList.get(j);
@@ -314,9 +343,9 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 					continue;
 				}
 				LineSegment l2 = new LineSegment(new Point(e2.getFrom()
-						.getLongitude(), e2.getFrom().getLattitude()),
+						.getLongitude(), e2.getFrom().getLatitude()),
 						new Point(e2.getTo().getLongitude(), e2.getTo()
-								.getLattitude()));
+								.getLatitude()));
 
 				// see if there is an intersection between l1 and l2
 				Point intersection = l1.intersectionPoint(l2);
@@ -380,7 +409,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 					// consider it again
 					// look at the edges (just look at outbound to avoid
 					// duplication)
-					for (Edge e : n.getOutboudEdges()) {
+					for (Edge e : n.getOutboundEdges()) {
 						nodeQ.add(e.getTo());
 					}
 				}
@@ -424,7 +453,7 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 		HashSet<Piste> pistes = new HashSet<Piste>();
 		boolean start = false;
 		boolean end = false;
-		boolean merged = false;
+		boolean intersection = false;
 		boolean predicted = false;
 
 		double longTotal = 0;
@@ -433,24 +462,23 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 		// double altitudeTotal;
 
 		int nodeCounter = 0;
-		for (Node n : cluster) 
-		{
+		for (Node n : cluster) {
 			nodeCounter++;
 			longTotal = longTotal + n.getLongitude();
-			latTotal = latTotal + n.getLattitude();
+			latTotal = latTotal + n.getLatitude();
 			if (n.isStart())
 				start = true;
 			if (n.isEnd())
 				end = true;
 			if (n.isPredicted())
-				predicted = true;					
-			
+				predicted = true;
+
 			for (Piste p : n.getPistes()) {
 				// get the linked list of nodes
 				LinkedList<Node> nodeList = p.getNodes();
 				// replace the the node n with the new node "node"
-				int index = nodeList.indexOf(n);								
-				nodeList.set(index, node);				
+				int index = nodeList.indexOf(n);
+				nodeList.set(index, node);
 				// add this piste to the new node
 				pistes.add(p);
 			}
@@ -458,18 +486,83 @@ public class NewGraphBuilder implements GraphBuilderInterface {
 
 		longitude = longTotal / nodeCounter;
 		latitude = latTotal / nodeCounter;
-		
-		node.setLattitude(latitude);
+
+		node.setLatitude(latitude);
 		node.setLongitude(longitude);
 		node.setAltitude(altitude);
 		node.setPistes(pistes);
 		node.setStart(start);
 		node.setEnd(end);
-		node.setMerged(merged);
+		node.setIntersection(intersection);
 		node.setPredicted(predicted);
-		
+
 		return node;
-		
+
+	}
+
+	/**
+	 * Validates that the graph created is correct accordin to some basic rules
+	 * 1) All Start nodes must have at least one outbound node 2) All End nodes
+	 * must have at least one inbound node 3) All Interections must have (a)
+	 * More than 1 outbout node and 1 inbound node OR (b) more than 1 inbound
+	 * node and 1 outbound node OR (c) more than 1 outbound node and more than 1
+	 * inbound node. 4) All other nodes must have 1 outbound node and 1 inbound
+	 * node. If any of these conditions are not met then the graph has not built
+	 * correctly. 5) All edges must have one origin and one destination, and
+	 * these must be different
+	 */
+	protected void validateGraph() {
+		// Check the nodes
+		for (Node n : nodes) {
+			int outboundEdges = n.getOutboundEdges().size();
+			int inboundEdges = n.getInboundEdges().size();
+
+			if (n.isStart()) {
+				if (outboundEdges < 1) {
+					System.out
+							.println("Found Start Node with no outbound edges");
+				}
+			}
+
+			if (n.isEnd()) {
+				if (inboundEdges < 1) {
+					System.out.println("Found End Node with no inbound edges");
+				}
+			}
+
+			if (n.isIntersection()) {
+				if (inboundEdges <= 1 || outboundEdges <= 1) {
+					System.out
+							.println("Found Intersection that does not join two pistes");
+				}
+			}
+
+			if (!n.isIntersection() && !n.isStart() && !n.isEnd()) {
+				if (outboundEdges < 1) {
+					System.out
+							.println("Found Node with no outbound edges that is not an End node");
+				}
+				if (inboundEdges < 1) {
+					System.out
+							.println("Found Node with no inbound edges that is not a Start node");
+				}
+			}
+		}
+
+		// check the edges
+		for (Edge e : edges) {
+			if (e.getFrom() == null) {
+				System.out.println("Found edge with no origin node");
+			}
+			if (e.getTo() == null) {
+				System.out.println("Found edge with no destination node");
+			}
+			if (e.getFrom().equals(e.getTo())) {
+				System.out
+						.println("Found edge with same origin node and desitination node");
+			}
+
+		}
 	}
 
 	/**

@@ -308,7 +308,7 @@ public class TestNewGraphBuilder extends EasyMockSupport {
 		boolean expectedStart=true;
 		
 		// assertions
-		assertEquals(expectedLat, n.getLattitude(),0);
+		assertEquals(expectedLat, n.getLatitude(),0);
 		assertEquals(expectedLong, n.getLongitude(),0);
 		assertEquals(expectedEnd, n.isEnd());
 		assertEquals(expectedStart, n.isStart());

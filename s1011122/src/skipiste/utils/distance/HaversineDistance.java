@@ -15,8 +15,8 @@ public class HaversineDistance implements DistanceCalculator {
 	 */
 	@Override
 	public double calculateDistanceBetweenNodes(Node node1, Node node2) {
-		return calculateDistanceBetweenCoordinates(node1.getLongitude(), node1.getLattitude(),
-				node2.getLongitude(), node2.getLattitude());
+		return calculateDistanceBetweenCoordinates(node1.getLongitude(), node1.getLatitude(),
+				node2.getLongitude(), node2.getLatitude());
 	}
 
 	/* (non-Javadoc)

@@ -1,4 +1,4 @@
-//package skipiste.algorithm;
+//package skipiste.algorithm.arastar;
 //
 //import java.util.HashSet;
 //import java.util.Iterator;

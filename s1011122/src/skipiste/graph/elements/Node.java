@@ -10,7 +10,7 @@ import java.util.Set;
  * @author s1011122
  * 
  */
-public class Node implements Comparable<Node> {
+public class Node implements GraphNode, Comparable<Node> {
 
 	/**
 	 * The longitude of this node.
@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
 	/**
 	 * The lattitude of this node;
 	 */
-	protected double lattitude;
+	protected double latitude;
 	/**
 	 * The altidue of this node;
 	 */
@@ -35,7 +35,7 @@ public class Node implements Comparable<Node> {
 	/**
 	 * Edges that are out-bound/originate from this node
 	 */
-	protected Set<Edge> outboudEdges;
+	protected Set<Edge> outbound;
 	/**
 	 * The pistes this node belongs to.
 	 */
@@ -53,7 +53,7 @@ public class Node implements Comparable<Node> {
 	/**
 	 * Flag to indicate if this node has already been merged with another
 	 */
-	protected boolean merged;
+	protected boolean intersection;
 
 	/**
 	 * Flag that shows us whether or not this node exists in the data source or
@@ -65,59 +65,32 @@ public class Node implements Comparable<Node> {
 	// These are used for the path finding and for keeping track of the route
 	// used for pathfinding.
 	/**
-	 * Calucluated distance to this node from origin.
+	 * The assoicated cost to reach this node.
 	 */
-	protected double distanceFromOrigin;
+	protected double cost;
 	/**
 	 * The previous node in the path from the origin.
 	 */
-	protected Node previousNodeInPath;
+	protected GraphNode previous;
 
 	/**
 	 * No argmument constructor.
 	 */
 	public Node() {
 		// set distance to largest possible double
-		distanceFromOrigin = Double.MAX_VALUE;
+		cost = Double.MAX_VALUE;
 		// For convenience initialise these with the constructor, don't worry
 		// about space.
-		outboudEdges = new HashSet<Edge>();
+		outbound = new HashSet<Edge>();
 		inboundEdges = new HashSet<Edge>();
 		pistes = new HashSet<Piste>();
 		// by default assume this is not a predicted node.
 		predicted = false;
 		start = false;
 		end = false;
-		merged = false;
+		intersection = false;
 	}
 
-//	/**
-//	 * Basic constructor
-//	 * 
-//	 * @param longitude
-//	 *            - longitude of this node
-//	 * @param lattitude
-//	 *            - latitude of this node
-//	 * @param - the piste that this node is part of.(we may find later it is
-//	 *        part of many)
-//	 * @param start
-//	 *            - is this node the start of a piste?
-//	 * @param end
-//	 *            - is this node the end of a piste?
-//	 */
-//	public Node(double longitude, double lattitude, boolean start, boolean end,
-//			Piste p) {
-//
-//		this();
-//		this.longitude = longitude;
-//		this.lattitude = lattitude;
-//		this.getPistes().add(p);
-//		this.start = start;
-//		this.end = end;
-//		merged = false;
-//
-//	}
-	
 	/**
 	 * Basic constructor
 	 * 
@@ -136,10 +109,10 @@ public class Node implements Comparable<Node> {
 
 		this();
 		this.longitude = longitude;
-		this.lattitude = lattitude;		
+		this.latitude = lattitude;
 		this.start = start;
 		this.end = end;
-		this.merged = false;
+		this.intersection = false;
 
 	}
 
@@ -171,25 +144,16 @@ public class Node implements Comparable<Node> {
 			Set<Edge> outboundEdges, Set<Edge> inboundEdges, Set<Piste> pistes,
 			boolean start, boolean end, boolean merged, boolean predicted) {
 		this.longitude = longitude;
-		this.lattitude = latitude;
+		this.latitude = latitude;
 		this.altitude = altitude;
-		this.outboudEdges = new HashSet<Edge>(outboundEdges);
+		this.outbound = new HashSet<Edge>(outboundEdges);
 		this.inboundEdges = new HashSet<Edge>(inboundEdges);
 		this.pistes = new HashSet<Piste>(pistes);
 		this.start = start;
 		this.end = end;
-		this.merged = merged;
+		this.intersection = merged;
 		this.predicted = predicted;
 
-	}
-
-	@Override
-	public int compareTo(Node arg0) {
-		if (this.getDistanceFromOrigin() < arg0.getDistanceFromOrigin())
-			return -1;
-		if (this.getDistanceFromOrigin() > arg0.getDistanceFromOrigin())
-			return +1;
-		return 0;
 	}
 
 	@Override
@@ -224,16 +188,16 @@ public class Node implements Comparable<Node> {
 	/**
 	 * @return the lattitude
 	 */
-	public double getLattitude() {
-		return lattitude;
+	public double getLatitude() {
+		return latitude;
 	}
 
 	/**
 	 * @param lattitude
 	 *            the lattitude to set
 	 */
-	public void setLattitude(double lattitude) {
-		this.lattitude = lattitude;
+	public void setLatitude(double lattitude) {
+		this.latitude = lattitude;
 	}
 
 	/**
@@ -284,8 +248,8 @@ public class Node implements Comparable<Node> {
 	/**
 	 * @return the outboudEdges
 	 */
-	public Set<Edge> getOutboudEdges() {
-		return outboudEdges;
+	public Set<Edge> getOutboundEdges() {
+		return outbound;
 	}
 
 	/**
@@ -293,14 +257,14 @@ public class Node implements Comparable<Node> {
 	 *            the outboudEdges to set
 	 */
 	public void setOutboudEdges(Set<Edge> outboudEdges) {
-		this.outboudEdges = outboudEdges;
+		this.outbound = outboudEdges;
 	}
 
 	/**
 	 * @return the distanceFromOrigin
 	 */
 	public double getDistanceFromOrigin() {
-		return distanceFromOrigin;
+		return cost;
 	}
 
 	/**
@@ -308,22 +272,22 @@ public class Node implements Comparable<Node> {
 	 *            the distanceFromOrigin to set
 	 */
 	public void setDistanceFromOrigin(double distanceFromOrigin) {
-		this.distanceFromOrigin = distanceFromOrigin;
+		this.cost = distanceFromOrigin;
 	}
 
 	/**
 	 * @return the previousNodeInPath
 	 */
-	public Node getPreviousNodeInPath() {
-		return previousNodeInPath;
+	public GraphNode getPrevious() {
+		return previous;
 	}
 
 	/**
 	 * @param previousNodeInPath
 	 *            the previousNodeInPath to set
 	 */
-	public void setPreviousNodeInPath(Node previousNodeInPath) {
-		this.previousNodeInPath = previousNodeInPath;
+	public void setPrevious(GraphNode previousNodeInPath) {
+		this.previous = previousNodeInPath;
 	}
 
 	/**
@@ -353,21 +317,19 @@ public class Node implements Comparable<Node> {
 		long temp;
 		temp = Double.doubleToLongBits(altitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(distanceFromOrigin);
+		temp = Double.doubleToLongBits(cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + (end ? 1231 : 1237);
-		temp = Double.doubleToLongBits(lattitude);
+		result = prime * result + (intersection ? 1231 : 1237);
+		temp = Double.doubleToLongBits(latitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(longitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (merged ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
 		result = prime * result + (predicted ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((previousNodeInPath == null) ? 0 : previousNodeInPath
-						.hashCode());
+		result = prime * result
+				+ ((previous == null) ? 0 : previous.hashCode());
 		result = prime * result + (start ? 1231 : 1237);
 		return result;
 	}
@@ -389,18 +351,18 @@ public class Node implements Comparable<Node> {
 		if (Double.doubleToLongBits(altitude) != Double
 				.doubleToLongBits(other.altitude))
 			return false;
-		if (Double.doubleToLongBits(distanceFromOrigin) != Double
-				.doubleToLongBits(other.distanceFromOrigin))
+		if (Double.doubleToLongBits(cost) != Double
+				.doubleToLongBits(other.cost))
 			return false;
 		if (end != other.end)
 			return false;
-		if (Double.doubleToLongBits(lattitude) != Double
-				.doubleToLongBits(other.lattitude))
+		if (intersection != other.intersection)
+			return false;
+		if (Double.doubleToLongBits(latitude) != Double
+				.doubleToLongBits(other.latitude))
 			return false;
 		if (Double.doubleToLongBits(longitude) != Double
 				.doubleToLongBits(other.longitude))
-			return false;
-		if (merged != other.merged)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -414,29 +376,14 @@ public class Node implements Comparable<Node> {
 			return false;
 		if (predicted != other.predicted)
 			return false;
-		if (previousNodeInPath == null) {
-			if (other.previousNodeInPath != null)
+		if (previous == null) {
+			if (other.previous != null)
 				return false;
-		} else if (!previousNodeInPath.equals(other.previousNodeInPath))
+		} else if (!previous.equals(other.previous))
 			return false;
 		if (start != other.start)
 			return false;
 		return true;
-	}
-
-	/**
-	 * @return the predicted
-	 */
-	public boolean isPredicted() {
-		return predicted;
-	}
-
-	/**
-	 * @param predicted
-	 *            the predicted to set
-	 */
-	public void setPredicted(boolean predicted) {
-		this.predicted = predicted;
 	}
 
 	/**
@@ -470,18 +417,51 @@ public class Node implements Comparable<Node> {
 	}
 
 	/**
-	 * @return the merged
+	 * @return the intersection
 	 */
-	public boolean isMerged() {
-		return merged;
+	public boolean isIntersection() {
+		return intersection;
 	}
 
 	/**
-	 * @param merged
-	 *            the merged to set
+	 * @param intersection
+	 *            the intersection to set
 	 */
-	public void setMerged(boolean merged) {
-		this.merged = merged;
+	public void setIntersection(boolean intersection) {
+		this.intersection = intersection;
 	}
 
+	/**
+	 * @return the predicted
+	 */
+	public boolean isPredicted() {
+		return predicted;
+	}
+
+	/**
+	 * @param predicted
+	 *            the predicted to set
+	 */
+	public void setPredicted(boolean predicted) {
+		this.predicted = predicted;
+	}
+
+	@Override
+	public double getCost() {
+		return cost;
+	}
+
+	@Override
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		if (this.getCost() < o.getCost())
+			return -1;
+		if (this.getCost() > o.getCost())
+			return +1;
+		return 0;
+	}
 }

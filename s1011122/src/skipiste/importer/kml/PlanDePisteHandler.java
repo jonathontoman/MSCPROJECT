@@ -219,7 +219,7 @@ public class PlanDePisteHandler extends KMLHandler {
 					Node n = new Node();
 					String[] s = coords[i].split(",");
 					n.setLongitude(new Double(s[0]));
-					n.setLattitude(new Double(s[1]));
+					n.setLatitude(new Double(s[1]));
 					n.getPistes().add(piste);
 
 					if (i == 0) {

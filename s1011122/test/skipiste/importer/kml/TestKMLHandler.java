@@ -202,7 +202,7 @@ public class TestKMLHandler {
 			if (n.isStart()) {
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getOutboudEdges().size());
+						.getOutboundEdges().size());
 				// expect 0 inboud node
 				assertEquals("Node " + n + "is incorrect", 0, n
 						.getInboundEdges().size());
@@ -213,17 +213,17 @@ public class TestKMLHandler {
 						.getInboundEdges().size());
 				// expect 0 outboud node
 				assertEquals("Node " + n + "is incorrect", 0, n
-						.getOutboudEdges().size());
+						.getOutboundEdges().size());
 
 			} else {
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getOutboudEdges().size());
+						.getOutboundEdges().size());
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
 						.getInboundEdges().size());
 				assertNotEquals("Node " + n + "is incorrect",
-						n.getOutboudEdges(), n.getInboundEdges());
+						n.getOutboundEdges(), n.getInboundEdges());
 			}
 		}
 	}

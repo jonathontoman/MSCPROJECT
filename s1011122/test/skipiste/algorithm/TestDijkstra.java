@@ -13,7 +13,6 @@ import skipiste.graph.Graph;
 import skipiste.graph.NewGraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.utils.OutputKML;
 
 public class TestDijkstra {
 
@@ -34,21 +33,10 @@ public class TestDijkstra {
 	public void testCase1() throws IOException {
 		graphBuidler = new NewGraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
-				.getResource("WhistlerBlackcomb.kml").getFile());
+				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
 		Dijkstra algorithm = new Dijkstra();
 		
-		
-		
-		
-		
-		
-		// print out all nodes of the graph
-		for (Node n : g.getNodes())
-		{
-			System.out.println(OutputKML.outputPlaceMark(n.getLongitude(), n.getLattitude()));
-		}
-		
-		
+				
 
 		// Get the start and end of each node
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
@@ -80,13 +68,8 @@ public class TestDijkstra {
 		Integer desinationI = new Integer(input);
 
 		Node destination = endOptions.get(desinationI);
-		algorithm.execute(source,destination);
-
-		
-		while(destination.getPreviousNodeInPath() != null)
-		{
-			System.out.println(OutputKML.outputPlaceMark( destination.getPreviousNodeInPath().getLongitude(), destination.getPreviousNodeInPath().getLattitude()));
-			destination = destination.getPreviousNodeInPath();
-		}
+		Path p = algorithm.findPath(source,destination);
+		System.out.println("Total Time taken = " + algorithm.getDuration());
+		System.out.println(p.printPath());		
 	}
  }
