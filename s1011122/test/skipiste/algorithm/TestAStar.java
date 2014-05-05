@@ -8,11 +8,11 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import skipiste.algorithm.astar.AStar;
 import skipiste.graph.Graph;
 import skipiste.graph.NewGraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
-import skipiste.utils.OutputKML;
 
 public class TestAStar {
 
@@ -33,18 +33,19 @@ public class TestAStar {
 	public void testCase1() throws IOException {
 		graphBuidler = new NewGraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
-				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
+				.getResource("PlanMontalbert.kml").getFile());
 		AStar algorithm = new AStar();
+		
+				
 
 		// Get the start and end of each node
 		HashMap<Integer, Node> startOptions = new HashMap<Integer, Node>();
 		HashMap<Integer, Node> endOptions = new HashMap<Integer, Node>();
 
-
 		int i = 1;
 		for (Piste p : g.getPistes()) {
 			System.out.println("Start of " + p.getName() + ":" + i);
-			startOptions.put(i, p.getNodes().getFirst());
+			startOptions.put(i, (Node)p.getNodes().toArray()[0]);
 			i++;
 		}
 		System.out.println("Enter source node");
@@ -58,7 +59,7 @@ public class TestAStar {
 		i = 1;
 		for (Piste p : g.getPistes()) {
 			System.out.println("End of " + p.getName() + ":" + i);
-			endOptions.put(i, p.getNodes().getLast());
+			endOptions.put(i, (Node)p.getNodes().toArray()[p.getNodes().size() -1]);
 			i++;
 		}
 
@@ -67,12 +68,8 @@ public class TestAStar {
 		Integer desinationI = new Integer(input);
 
 		Node destination = endOptions.get(desinationI);
-		algorithm.findPath(source,destination);
-		
-		while(destination.getPrevious() != null)
-		{
-			System.out.println(OutputKML.outputPlaceMark( destination.getPrevious().getLongitude(), destination.getPrevious().getLatitude()));
-			destination = destination.getPrevious();
-		}
+		Path p = algorithm.findPath(source,destination);
+		System.out.println("Total Time taken = " + algorithm.getDuration());
+		System.out.println(p.printPath());	
 	}
 }

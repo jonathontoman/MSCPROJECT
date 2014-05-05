@@ -1,33 +1,33 @@
 package skipiste.utils.distance;
 
-import skipiste.graph.elements.Node;
+import skipiste.graph.elements.GraphNode;
 
 /**
  * Calculates distance between two points on a plain using standard trigonometry
+ * 
  * @author s1011122
- *
+ * 
  */
-public class BasicDistance implements DistanceCalculator{
+public class BasicDistance implements DistanceCalculator {
 
 	@Override
-	public double calculateDistanceBetweenNodes(Node node1, Node node2) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculateDistanceBetweenNodes(GraphNode node1, GraphNode node2) {
+		return calculateDistanceBetweenCoordinates(node1.getLongitude(),
+				node1.getLatitude(), node2.getLongitude(), node2.getLatitude());
 	}
 
 	@Override
-	public double calculateDistanceBetweenCoordinates(Double x1,
-			Double y1, Double x2, Double y2) 
-	{
-	
-		double xDiff  = x2 -x1;
-		double yDiff =  y2 -y1;
-		
-		// Negate the differences		
+	public double calculateDistanceBetweenCoordinates(Double x1, Double y1,
+			Double x2, Double y2) {
+
+		double xDiff = x2 - x1;
+		double yDiff = y2 - y1;
+
+		// Negate the differences
 		double sumXY = Math.abs(yDiff) + Math.abs(xDiff);
-		double square = Math.pow(sumXY,2);
+		double square = Math.pow(sumXY, 2);
 		return Math.sqrt(square);
-		
+
 	}
 
 }

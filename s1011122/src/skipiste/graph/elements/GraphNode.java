@@ -56,5 +56,9 @@ public interface GraphNode {
 	 * @return double the longitude of this node.
 	 */
 	public double getLatitude();
+	
+	public int hashCode();
+	
+	public boolean equals(Object obj);
 
 }

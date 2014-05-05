@@ -31,7 +31,7 @@ public class Node implements GraphNode, Comparable<Node> {
 	/**
 	 * Edges that are in-bound/terminate at this node
 	 */
-	protected Set<Edge> inboundEdges;
+	protected Set<Edge> inbound;
 	/**
 	 * Edges that are out-bound/originate from this node
 	 */
@@ -82,7 +82,7 @@ public class Node implements GraphNode, Comparable<Node> {
 		// For convenience initialise these with the constructor, don't worry
 		// about space.
 		outbound = new HashSet<Edge>();
-		inboundEdges = new HashSet<Edge>();
+		inbound = new HashSet<Edge>();
 		pistes = new HashSet<Piste>();
 		// by default assume this is not a predicted node.
 		predicted = false;
@@ -147,7 +147,7 @@ public class Node implements GraphNode, Comparable<Node> {
 		this.latitude = latitude;
 		this.altitude = altitude;
 		this.outbound = new HashSet<Edge>(outboundEdges);
-		this.inboundEdges = new HashSet<Edge>(inboundEdges);
+		this.inbound = new HashSet<Edge>(inboundEdges);
 		this.pistes = new HashSet<Piste>(pistes);
 		this.start = start;
 		this.end = end;
@@ -234,7 +234,7 @@ public class Node implements GraphNode, Comparable<Node> {
 	 * @return the inboundEdges
 	 */
 	public Set<Edge> getInboundEdges() {
-		return inboundEdges;
+		return inbound;
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class Node implements GraphNode, Comparable<Node> {
 	 *            the inboundEdges to set
 	 */
 	public void setInboundEdges(Set<Edge> inboundEdges) {
-		this.inboundEdges = inboundEdges;
+		this.inbound = inboundEdges;
 	}
 
 	/**
@@ -305,9 +305,7 @@ public class Node implements GraphNode, Comparable<Node> {
 		this.pistes = pistes;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -317,8 +315,6 @@ public class Node implements GraphNode, Comparable<Node> {
 		long temp;
 		temp = Double.doubleToLongBits(altitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(cost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + (end ? 1231 : 1237);
 		result = prime * result + (intersection ? 1231 : 1237);
 		temp = Double.doubleToLongBits(latitude);
@@ -326,17 +322,12 @@ public class Node implements GraphNode, Comparable<Node> {
 		temp = Double.doubleToLongBits(longitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((pistes == null) ? 0 : pistes.hashCode());
 		result = prime * result + (predicted ? 1231 : 1237);
-		result = prime * result
-				+ ((previous == null) ? 0 : previous.hashCode());
 		result = prime * result + (start ? 1231 : 1237);
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -350,9 +341,6 @@ public class Node implements GraphNode, Comparable<Node> {
 		Node other = (Node) obj;
 		if (Double.doubleToLongBits(altitude) != Double
 				.doubleToLongBits(other.altitude))
-			return false;
-		if (Double.doubleToLongBits(cost) != Double
-				.doubleToLongBits(other.cost))
 			return false;
 		if (end != other.end)
 			return false;
@@ -369,17 +357,7 @@ public class Node implements GraphNode, Comparable<Node> {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (pistes == null) {
-			if (other.pistes != null)
-				return false;
-		} else if (!pistes.equals(other.pistes))
-			return false;
 		if (predicted != other.predicted)
-			return false;
-		if (previous == null) {
-			if (other.previous != null)
-				return false;
-		} else if (!previous.equals(other.previous))
 			return false;
 		if (start != other.start)
 			return false;
@@ -463,5 +441,33 @@ public class Node implements GraphNode, Comparable<Node> {
 		if (this.getCost() > o.getCost())
 			return +1;
 		return 0;
+	}
+
+	/**
+	 * @return the inbound
+	 */
+	public Set<Edge> getInbound() {
+		return inbound;
+	}
+
+	/**
+	 * @param inbound the inbound to set
+	 */
+	public void setInbound(Set<Edge> inbound) {
+		this.inbound = inbound;
+	}
+
+	/**
+	 * @return the outbound
+	 */
+	public Set<Edge> getOutbound() {
+		return outbound;
+	}
+
+	/**
+	 * @param outbound the outbound to set
+	 */
+	public void setOutbound(Set<Edge> outbound) {
+		this.outbound = outbound;
 	}
 }

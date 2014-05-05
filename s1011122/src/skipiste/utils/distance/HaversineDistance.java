@@ -1,6 +1,6 @@
 package skipiste.utils.distance;
 
-import skipiste.graph.elements.Node;
+import skipiste.graph.elements.GraphNode;
 
 /**
  * Calculates the distance between two nodes using the Haversine formula.
@@ -14,7 +14,7 @@ public class HaversineDistance implements DistanceCalculator {
 	 * @see skipiste.utils.distance.DistanceCalculator#calculateDistance(skipiste.graph.elements.Node, skipiste.graph.elements.Node)
 	 */
 	@Override
-	public double calculateDistanceBetweenNodes(Node node1, Node node2) {
+	public double calculateDistanceBetweenNodes(GraphNode node1, GraphNode node2) {
 		return calculateDistanceBetweenCoordinates(node1.getLongitude(), node1.getLatitude(),
 				node2.getLongitude(), node2.getLatitude());
 	}

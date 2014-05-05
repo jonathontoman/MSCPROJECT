@@ -33,7 +33,7 @@ public class TestDijkstra {
 	public void testCase1() throws IOException {
 		graphBuidler = new NewGraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
-				.getResource("PlanMontalbertPistesPlanDePisteNl.kml").getFile());
+				.getResource("WhistlerBlackcomb.kml").getFile());
 		Dijkstra algorithm = new Dijkstra();
 		
 				

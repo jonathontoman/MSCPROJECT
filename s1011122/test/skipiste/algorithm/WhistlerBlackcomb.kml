@@ -2,33 +2,22 @@
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Document>
 	<name>whistleblackcomb.kml</name>
+	<open>1</open>
+	<Style id="style-Ski_Run_Downhill_Easy">
+		<LineStyle>
+			<color>ff00ff00</color>
+			<width>6</width>
+		</LineStyle>
+	</Style>
 	<Style id="style-Ski_Run_Downhill_Intermediate_Gladed">
 		<LineStyle>
 			<color>ffff0000</color>
 			<width>0</width>
 		</LineStyle>
 	</Style>
-	<Style id="style-Ski_Run_Downhill_Expert">
-		<LineStyle>
-			<color>ff0066ff</color>
-			<width>6</width>
-		</LineStyle>
-	</Style>
 	<Style id="style-Ski_Run_Downhill_Intermediate">
 		<LineStyle>
 			<color>ffff0000</color>
-			<width>6</width>
-		</LineStyle>
-	</Style>
-	<Style id="style-Ski_Run_Downhill_Expert_Gladed">
-		<LineStyle>
-			<color>ff0066ff</color>
-			<width>0</width>
-		</LineStyle>
-	</Style>
-	<Style id="style-Ski_Run_Downhill_Generic">
-		<LineStyle>
-			<color>ffff3cc1</color>
 			<width>6</width>
 		</LineStyle>
 	</Style>
@@ -38,16 +27,44 @@
 			<width>6</width>
 		</LineStyle>
 	</Style>
-	<Style id="style-Ski_Run_Downhill_Easy">
+	<Style id="style-Ski_Run_Downhill_Expert_Gladed">
 		<LineStyle>
-			<color>ff00ff00</color>
-			<width>6</width>
+			<color>ff0066ff</color>
+			<width>0</width>
 		</LineStyle>
 	</Style>
 	<Style id="style-Ski_Run_Downhill_Advanced_Gladed">
 		<LineStyle>
 			<color>ff000000</color>
 			<width>0</width>
+		</LineStyle>
+	</Style>
+	<Style id="style-Ski_Run_Downhill_Expert">
+		<LineStyle>
+			<color>ff0066ff</color>
+			<width>6</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="style-Ski_Run_Downhill_Easy0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#style-Ski_Run_Downhill_Easy1</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#style-Ski_Run_Downhill_Easy2</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="style-Ski_Run_Downhill_Easy1">
+		<LineStyle>
+			<color>ff00ff00</color>
+			<width>6</width>
+		</LineStyle>
+	</Style>
+	<Style id="style-Ski_Run_Downhill_Easy2">
+		<LineStyle>
+			<color>ff00ff00</color>
+			<width>6</width>
 		</LineStyle>
 	</Style>
 	<Folder>
@@ -58,6 +75,7 @@
 			<open>1</open>
 			<Folder>
 				<name>Ski_Run_Downhill_Easy</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Easy">
 					<LineStyle>
 						<color>ff00ff00</color>
@@ -75,19 +93,10 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w29166972">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9470052,50.0698752,0 -122.9469678,50.0695337,0 -122.9468736,50.06936279999999,0 -122.9467835,50.0692183,0 -122.9464559,50.0690737,0 -122.9462866,50.0690643,0 -122.945862,50.0690408,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w29166974">
+					<name>Join route 1</name>
 					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
+					<styleUrl>#style-Ski_Run_Downhill_Easy0</styleUrl>
 					<LineString>
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
@@ -114,76 +123,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.8835927,50.0918442,0 -122.8838658,50.0918008,0 -122.8840334,50.09173129999999,0 -122.8836232,50.0914776,0 -122.8832284,50.0910701,0 -122.8826705,50.0905139,0 -122.8818379,50.0895227,0 -122.8813159,50.089058,0 -122.8813925,50.0889886,0 -122.8814826,50.0889997,0 -122.8815968,50.0890841,0 -122.8819642,50.0893555,0 -122.8823302,50.089526,0 -122.8826734,50.089771,0 -122.8832773,50.0901387,0 -122.8834385,50.09020099999999,0 -122.8835724,50.09022,0 -122.8836453,50.0901795,0 -122.8836773,50.09012140000001,0 -122.8836427,50.09001279999999,0 -122.8833465,50.08965500000001,0 -122.883185,50.0894156,0 -122.8830432,50.0892561,0 -122.8831109,50.089187,0 -122.8832524,50.08917910000001,0 -122.8837263,50.0893884,0 -122.8842494,50.0896628,0 -122.8843879,50.0896549,0 -122.884431,50.0895838,0 -122.8842679,50.08936070000001,0 -122.8841517,50.08915549999999,0 -122.8841502,50.0888609,0 -122.8838051,50.0882288,0 -122.883723,50.08807830000001,0 -122.883688,50.087972,0 -122.8837588,50.087893,0 -122.8840525,50.0879402,0 -122.8846103,50.08811840000001,0 -122.8850308,50.08831670000001,0 -122.8851682,50.0883222,0 -122.8853656,50.0883938,0 -122.8855372,50.0884543,0 -122.8857089,50.0884874,0 -122.8864213,50.0886526,0 -122.8867389,50.0887737,0 -122.8869792,50.0889114,0 -122.8871423,50.088961,0 -122.8872453,50.0889059,0 -122.8872453,50.0888563,0 -122.8872195,50.0886911,0 -122.8871337,50.08842129999999,0 -122.8870987,50.0883164,0 -122.887065,50.08818999999999,0 -122.8870994,50.0880854,0 -122.8872281,50.0880633,0 -122.8873007,50.0880892,0 -122.8875628,50.0882175,0 -122.8878547,50.0882726,0 -122.8884212,50.08836070000001,0 -122.8885267,50.0883712,0 -122.8888074,50.08839930000001,0 -122.8889533,50.08842129999999,0 -122.8890391,50.0885094,0 -122.8896228,50.0889445,0 -122.8905326,50.0894456,0 -122.8911506,50.0897264,0 -122.8916484,50.0899082,0 -122.8920604,50.0899908,0 -122.8925668,50.0901449,0 -122.8930217,50.0903322,0 -122.8932448,50.0904533,0 -122.8937255,50.0906846,0 -122.8939315,50.09077270000001,0 -122.8943435,50.0908828,0 -122.8946525,50.0909214,0 -122.8950129,50.0909324,0 -122.8954764,50.0909104,0 -122.8957339,50.0909214,0 -122.8959485,50.0909434,0 -122.8961202,50.0909875,0 -122.8962575,50.091037,0 -122.8963862,50.0911582,0 -122.8966695,50.09143350000001,0 -122.8968583,50.09165380000001,0 -122.8970214,50.0918079,0 -122.8975278,50.0921934,0 -122.8980428,50.0925954,0 -122.8982745,50.09281009999999,0 -122.8983603,50.0929863,0 -122.8983775,50.0931736,0 -122.8983003,50.0934268,0 -122.8982217,50.0936268,0 -122.8980596,50.09386119999999,0 -122.8979837,50.0940043,0 -122.8979048,50.0941299,0 -122.8978366,50.0943099,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33198825">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8978366,50.0943099,0 -122.8981646,50.09426730000001,0 -122.8982457,50.0942568,0 -122.8995151,50.0955906,0 -122.8997905,50.09588000000001,0 -122.9002367,50.0958026,0 -122.901079,50.0954888,0 -122.9012504,50.0954814,0 -122.9015681,50.0950956,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33198963">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9049791,50.1034063,0 -122.9048458,50.10335789999999,0 -122.9043395,50.1034755,0 -122.9040908,50.1035332,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33198964">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9008583,50.1066012,0 -122.9007188,50.1063049,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33199488">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9230847,50.1118899,0 -122.9229458,50.11175229999999,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33199489">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9236691,50.111227,0 -122.9234407,50.1112376,0 -122.9232716,50.1114962,0 -122.9229458,50.11175229999999,0 -122.9228735,50.1117114,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33202692">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9573719,50.0592356,0 -122.9576373,50.0589533,0 -122.9574468,50.0584641,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33205312">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9437501,50.1110868,0 -122.9432781,50.1109558,0 -122.9431597,50.1109742,0 -122.9430583,50.11099,0 -122.942998,50.1110361,0 -122.942539,50.1113871,0 -122.942482,50.1114641,0 -122.9421661,50.111891,0 -122.9421301,50.11213050000001,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -242,16 +181,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w33209921">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9475523,50.0561779,0 -122.9481881,50.05613339999999,0 -122.948774,50.056106,0 -122.949368,50.0560598,0 -122.9503867,50.0559504,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w33209938">
 					<name>Expressway</name>
 					<description>Expressway, Downhill Run Difficulty: Easy</description>
@@ -260,16 +189,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9639161,50.0857494,0 -122.9638361,50.0861192,0 -122.963802,50.0863325,0 -122.9639036,50.08698819999999,0 -122.9640168,50.0873428,0 -122.9641196,50.08849000000001,0 -122.9643774,50.08938229999999,0 -122.9641336,50.0903418,0 -122.9639873,50.09111359999999,0 -122.9636459,50.09152030000001,0 -122.9627843,50.0922921,0 -122.9627355,50.0925528,0 -122.9626543,50.0931994,0 -122.9622479,50.093846,0 -122.9616952,50.0941485,0 -122.9610124,50.0943049,0 -122.9575824,50.0950245,0 -122.9568598,50.0950295,0 -122.9559367,50.0950358,0 -122.9538982,50.0950083,0 -122.9522889,50.0950771,0 -122.9519267,50.09515459999999,0 -122.9510658,50.0953387,0 -122.9504435,50.0957654,0 -122.9500144,50.0963848,0 -122.9515164,50.0965362,0 -122.952243,50.0972687,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33209949">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9538968,50.11299459999999,0 -122.9535193,50.1132845,0 -122.9532774,50.11340010000001,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -317,36 +236,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w33211819">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9421084,50.08431399999999,0 -122.9423454,50.08481110000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33211821">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9459799,50.0676751,0 -122.9459008,50.06795589999999,0 -122.9461338,50.0684581,0 -122.9460209,50.06885040000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33211824">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9472993,50.0668774,0 -122.9471918,50.066816,0 -122.9471528,50.06686260000001,0 -122.9469593,50.0670014,0 -122.9466458,50.0672263,0 -122.9463325,50.0674375,0 -122.9459799,50.0676751,0 -122.945687,50.06793149999999,0 -122.9454206,50.0681409,0 -122.9452489,50.0682492,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w33213610">
 					<name>Easy Out</name>
 					<description>Easy Out, Downhill Run Difficulty: Easy</description>
@@ -355,16 +244,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9034415,50.0929533,0 -122.9031986,50.0921438,0 -122.9032799,50.0918518,0 -122.9037513,50.0918205,0 -122.9044666,50.09206039999999,0 -122.9052631,50.0923941,0 -122.9066287,50.09322840000001,0 -122.9078271,50.0939674,0 -122.908303,50.0942609,0 -122.9090346,50.0949283,0 -122.9093501,50.0953171,0 -122.9096523,50.0956896,0 -122.9097656,50.0957957,0 -122.9108552,50.0968158,0 -122.9115705,50.09754579999999,0 -122.9119119,50.09781690000001,0 -122.9129848,50.0982445,0 -122.9135213,50.0986095,0 -122.9141552,50.0988389,0 -122.9146104,50.0991204,0 -122.9152102,50.0993294,0 -122.9157129,50.0994614,0 -122.9157566,50.0996761,0 -122.9158427,50.1000993,0 -122.9157719,50.1003669,0 -122.915714,50.10058510000001,0 -122.9157856,50.10080289999999,0 -122.915537,50.1010495,0 -122.915602,50.1020714,0 -122.9155419,50.1022863,0 -122.9153745,50.1028847,0 -122.9151258,50.1034151,0 -122.9150085,50.1036652,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33213621">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9203038,50.1062894,0 -122.9205887,50.106397,0 -122.9207035,50.10638820000001,0 -122.9207525,50.1063326,0 -122.9206179,50.1062593,0 -122.9205063,50.1061901,0 -122.9203976,50.10612749999999,0 -122.9203171,50.1060412,0 -122.9203562,50.10596399999999,0 -122.9204359,50.1059295,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -442,16 +321,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w39993396">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.888641,50.0831255,0 -122.8888179,50.0830698,0 -122.8897929,50.0827628,0 -122.8902504,50.0826745,0 -122.8909681,50.0825359,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w39993399">
 					<name>Last Resort</name>
 					<description>Last Resort, Downhill Run Difficulty: Easy</description>
@@ -485,16 +354,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w39994998">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9040908,50.1035332,0 -122.903527,50.104307,0 -122.9033421,50.105562,0 -122.9032331,50.1058172,0 -122.9028595,50.1066915,0 -122.9024897,50.1070349,0 -122.9019865,50.1071208,0 -122.9015038,50.1070349,0 -122.9008583,50.1066012,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w39994999">
 					<name>Yellow Brick Road</name>
 					<description>Yellow Brick Road, Downhill Run Difficulty: Easy</description>
@@ -514,36 +373,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9512482,50.073309,0 -122.9526,50.0746242,0 -122.9532437,50.07495470000001,0 -122.9541128,50.0750442,0 -122.9551964,50.0749685,0 -122.9571812,50.0749272,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48083116">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9471528,50.06686260000001,0 -122.9480651,50.0680063,0 -122.9482914,50.0682973,0 -122.9488986,50.06904649999999,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48083117">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9469674,50.0688261,0 -122.9474287,50.0681926,0 -122.9480651,50.0680063,0 -122.9495637,50.0675108,0 -122.950068,50.0671251,0 -122.9504221,50.06701499999999,0 -122.9513233,50.0668221,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48083118">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9513233,50.0668221,0 -122.9508298,50.0677794,0 -122.9508512,50.0681926,0 -122.950937,50.068654,0 -122.9509263,50.0689019,0 -122.9506688,50.0691085,0 -122.9504006,50.06943209999999,0 -122.9502075,50.0697076,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -623,46 +452,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w48109137">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.947418,50.0667119,0 -122.9471918,50.066816,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48109149">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9513233,50.0668221,0 -122.9509156,50.0665467,0 -122.9507868,50.0666018,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48109153">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9452217,50.0618637,0 -122.9454041,50.0618017,0 -122.945447,50.0614505,0 -122.9446102,50.0607617,0 -122.9441559,50.0600964,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48269886">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9485363,50.0992434,0 -122.9490065,50.099652,0 -122.9494495,50.0997107,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w48269887">
 					<name>Lower Olympic</name>
 					<description>Lower Olympic, Downhill Run Difficulty: Easy</description>
@@ -682,26 +471,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9508304,50.09877109999999,0 -122.9504871,50.0992115,0 -122.9499292,50.0994317,0 -122.9494495,50.0997107,0 -122.9499721,50.1000098,0 -122.9503154,50.1010421,0 -122.9505086,50.1016615,0 -122.9510021,50.1025011,0 -122.9520321,50.1035333,0 -122.9526901,50.10396279999999,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48269892">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9509555,50.0789442,0 -122.9508621,50.07864850000001,0 -122.9504328,50.0772889,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48269894">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9532086,50.0973513,0 -122.9528045,50.0972019,0 -122.952243,50.0972687,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -735,86 +504,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9453705,50.0694352,0 -122.9454231,50.0702566,0 -122.946217,50.0710278,0 -122.946732,50.07144099999999,0 -122.9469251,50.0719781,0 -122.9476547,50.0726392,0 -122.9480195,50.0729697,0 -122.9482555,50.07378219999999,0 -122.9484915,50.0745672,0 -122.9495215,50.0755587,0 -122.9499507,50.0761784,0 -122.9499507,50.0766879,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48269910">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9504328,50.0772889,0 -122.9499507,50.0766879,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427910">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9353217,50.1191585,0 -122.9361837,50.1183563,0 -122.9369991,50.11792980000001,0 -122.9376811,50.1176499,0 -122.938072,50.11748949999999,0 -122.9391449,50.1172694,0 -122.9399029,50.1170848,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427911">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9376811,50.1176499,0 -122.9390136,50.1181673,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427913">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9369991,50.11792980000001,0 -122.9364412,50.1184389,0 -122.9360764,50.1191956,0 -122.9356473,50.1196359,0 -122.9355185,50.1199798,0 -122.9357331,50.1202275,0 -122.9357545,50.1206127,0 -122.9366343,50.1205164,0 -122.9374497,50.1202275,0 -122.9386817,50.1196759,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427914">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9345041,50.11187919999999,0 -122.9346602,50.11290750000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427915">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9359874,50.1120188,0 -122.9366343,50.113224,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427918">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9319589,50.11142270000001,0 -122.9321166,50.1120087,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w48427920">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9390913,50.11232190000001,0 -122.9406236,50.1122129,0 -122.940673,50.1122102,0 -122.9421301,50.11213050000001,0 -122.9418485,50.11246719999999,0 -122.9417842,50.1127699,0 -122.9418969,50.1134184,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -905,36 +594,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w89527915">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9024897,50.1070349,0 -122.9024418,50.1072094,0 -122.9024522,50.1074581,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w89527920">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.906735,50.1072001,0 -122.9063127,50.10730590000001,0 -122.9060334,50.1074423,0 -122.9055611,50.1077753,0 -122.9051484,50.1081059,0 -122.9049628,50.1083271,0 -122.9048598,50.1086417,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w89527922">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9047744,50.1079556,0 -122.904822,50.1084058,0 -122.9048598,50.1086417,0 -122.905105,50.1088958,0 -122.9054019,50.1092026,0 -122.9057447,50.109439,0 -122.9057257,50.1095824,0 -122.9054613,50.1095423,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w89773857">
 					<name>Easy Out</name>
 					<description>Easy Out, Downhill Run Difficulty: Easy</description>
@@ -1022,39 +681,10 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w123000195">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9321166,50.1120087,0 -122.932214,50.1123709,0 -122.9325359,50.1130451,0 -122.9326861,50.1135818,0 -122.9327076,50.114201,0 -122.9329221,50.1142698,0 -122.9332869,50.114201,0 -122.9336302,50.1139396,0 -122.9343169,50.1130176,0 -122.9344456,50.112825,0 -122.9346602,50.11290750000001,0 -122.9346602,50.11347170000001,0 -122.9346817,50.1139258,0 -122.9345958,50.1142698,0 -122.9345744,50.114545,0 -122.9348319,50.1145587,0 -122.935025,50.1143248,0 -122.9354541,50.1141047,0 -122.936055,50.1136231,0 -122.9363983,50.113224,0 -122.9366343,50.113224,0 -122.9369133,50.1134167,0 -122.937042,50.1140084,0 -122.9371064,50.1148339,0 -122.937042,50.1154531,0 -122.936806,50.1158797,0 -122.9366772,50.1162512,0 -122.9366655,50.1163679,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w123005988">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9366655,50.1163679,0 -122.9367329,50.11658440000001,0 -122.9360979,50.1175858,0 -122.9355185,50.1184526,0 -122.9353217,50.1191585,0 -122.9343813,50.119911,0 -122.9338448,50.1204338,0 -122.9335229,50.121053,0 -122.933244,50.1216858,0 -122.9338383,50.12193010000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w140799434">
-					<description>, Downhill Run Difficulty: Easy</description>
-					<styleUrl>#style-Ski_Run_Downhill_Easy</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8826698,50.0746925,0 -122.8830845,50.0746222,0 -122.8837653,50.0746775,0 -122.8848609,50.0750793,0 -122.885255,50.0753903,0 -122.88583,50.0755684,0 -122.8867043,50.0762787,0 -122.8869754,50.07652370000001,0 -122.8869699,50.0768327,0 -122.8871857,50.0772695,0 -122.8876561,50.077859,0 -122.8881541,50.0782886,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 			</Folder>
 			<Folder>
 				<name>Ski_Run_Downhill_Intermediate</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Intermediate">
 					<LineStyle>
 						<color>ffff0000</color>
@@ -1160,26 +790,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w33203468">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8815167,50.0946156,0 -122.8814002,50.0945611,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33203471">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8812173,50.0958439,0 -122.8811194,50.0957764,0 -122.8812507,50.0956987,0 -122.8813945,50.09565429999999,0 -122.8815063,50.0955757,0 -122.8815916,50.095439,0 -122.8816129,50.0953194,0 -122.881549,50.0951349,0 -122.8814637,50.0949264,0 -122.8814637,50.0947897,0 -122.8815167,50.0946156,0 -122.8819056,50.0941953,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w33203473">
 					<name>Crystal Traverse</name>
 					<description>Crystal Traverse, Downhill Run Difficulty: Intermediate</description>
@@ -1188,36 +798,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.8835927,50.0918442,0 -122.8838658,50.0918008,0 -122.8838391,50.0920186,0 -122.8839323,50.0922963,0 -122.8839723,50.0926722,0 -122.8840122,50.0928943,0 -122.8837011,50.0930227,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33204000">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8824419,50.0938669,0 -122.8819056,50.0941953,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33204002">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8819056,50.0941953,0 -122.8823872,50.0945337,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w33204004">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8917597,50.10754220000001,0 -122.8913809,50.1075105,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -1341,26 +921,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w39993407">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8997905,50.09588000000001,0 -122.8999517,50.0960056,0 -122.9005169,50.0964457,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w39993424">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9018888,50.09556419999999,0 -122.902031,50.09624980000001,0 -122.9016222,50.0970787,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w39993426">
 					<name>Springboard</name>
 					<description>Springboard, Downhill Run Difficulty: Intermediate</description>
@@ -1424,36 +984,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9215728,50.1036236,0 -122.9219866,50.1036964,0 -122.9225438,50.10367600000001,0 -122.9233968,50.1030994,0 -122.9239446,50.10270070000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w45900724">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9150085,50.1036652,0 -122.9153092,50.1039733,0 -122.9154265,50.1043207,0 -122.9154036,50.1046099,0 -122.9153756,50.104964,0 -122.9152884,50.1053696,0 -122.9151576,50.1056073,0 -122.915114,50.1058078,0 -122.9153618,50.1063283,0 -122.9161556,50.10702079999999,0 -122.9169643,50.1070426,0 -122.9183731,50.1069534,0 -122.9186358,50.10692390000001,0 -122.9188645,50.10689810000001,0 -122.9191843,50.1068622,0 -122.9196398,50.106811,0 -122.9203062,50.1066101,0 -122.9205589,50.10644,0 -122.9203038,50.1062894,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w45900725">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9150085,50.1036652,0 -122.9145824,50.10422090000001,0 -122.9141509,50.1049639,0 -122.9137874,50.10582339999999,0 -122.9137647,50.10648629999999,0 -122.9139351,50.1069306,0 -122.9141622,50.1071199,0 -122.9144461,50.1071491,0 -122.9150367,50.1071199,0 -122.9157294,50.1070253,0 -122.9161556,50.10702079999999,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w45900726">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.915114,50.1058078,0 -122.9157674,50.1060298,0 -122.916319,50.1061074,0 -122.9171604,50.1061585,0 -122.9180352,50.1063784,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -1841,16 +1371,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w49618442">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8848695,50.0810385,0 -122.8847172,50.0803642,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w49618443">
 					<name>Panorama</name>
 					<description>Panorama, Downhill Run Difficulty: Intermediate</description>
@@ -1892,16 +1412,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.8949703,50.1129924,0 -122.8951527,50.1136667,0 -122.8958393,50.1143409,0 -122.8964187,50.11500139999999,0 -122.8970088,50.1156068,0 -122.897159,50.11630170000001,0 -122.8969873,50.1166457,0 -122.8960325,50.1171616,0 -122.8955282,50.1177533,0 -122.895485,50.1184679,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w62252092">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8964187,50.11500139999999,0 -122.896923,50.1148707,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -1993,16 +1503,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w88149190">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9251809,50.0513605,0 -122.9247383,50.0514016,0 -122.9242039,50.0515462,0 -122.9239059,50.0516953,0 -122.9232055,50.05228420000001,0 -122.92295,50.052806,0 -122.922625,50.0532384,0 -122.9225398,50.0535515,0 -122.9222612,50.05379250000001,0 -122.9220058,50.05415780000001,0 -122.9216884,50.05440130000001,0 -122.9216149,50.05461500000001,0 -122.9215298,50.0548833,0 -122.9211157,50.055097,0 -122.9205858,50.0553351,0 -122.9204965,50.0553753,0 -122.9200862,50.05551690000001,0 -122.9195754,50.0556511,0 -122.9191381,50.05588219999999,0 -122.9186582,50.05628469999999,0 -122.918337,50.0565307,0 -122.9178726,50.0566972,0 -122.9176326,50.0568114,0 -122.9174237,50.05712450000001,0 -122.9171489,50.0576065,0 -122.9169012,50.0577655,0 -122.9168199,50.0578674,0 -122.916847,50.05801900000001,0 -122.9171373,50.0584091,0 -122.917323,50.0585979,0 -122.9175707,50.05867739999999,0 -122.9178454,50.0587075,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w88149195">
 					<name>Jeffs Ode To Joy</name>
 					<description>Jeffs Ode To Joy, Downhill Run Difficulty: Intermediate</description>
@@ -2022,16 +1522,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9369554,50.04528390000001,0 -122.9365109,50.0451292,0 -122.9358384,50.044977,0 -122.9349532,50.045036,0 -122.9340679,50.0452783,0 -122.933301,50.045463,0 -122.9324812,50.0456884,0 -122.9302722,50.04563519999999,0 -122.9276148,50.04552140000001,0 -122.9262921,50.04571099999999,0 -122.9249339,50.0466818,0 -122.9249122,50.04708650000001,0 -122.9246779,50.0474845,0 -122.9244851,50.0484792,0 -122.9250874,50.04929069999999,0 -122.9251142,50.04985850000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w88149203">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9255266,50.0496348,0 -122.9253924,50.0496915,0 -122.9251142,50.04985850000001,0 -122.924957,50.05008759999999,0 -122.924824,50.05049519999999,0 -122.924697,50.05085250000001,0 -122.9246849,50.051198,0 -122.9247383,50.0514016,0 -122.924939,50.0517053,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -2156,16 +1646,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w89773871">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9200572,50.108839,0 -122.9202281,50.1092388,0 -122.9207894,50.1095018,0 -122.9215035,50.1100769,0 -122.9219974,50.1105311,0 -122.9225626,50.1109296,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w89773877">
 					<name>Merlins</name>
 					<description>Merlins, Downhill Run Difficulty: Intermediate</description>
@@ -2174,16 +1654,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.9266088,50.10787749999999,0 -122.9273635,50.1082959,0 -122.9299447,50.10919079999999,0 -122.9314321,50.1095741,0 -122.9324344,50.1100842,0 -122.9347106,50.1108753,0 -122.9356731,50.1114601,0 -122.9374154,50.1121255,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w89773878">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9180352,50.1063784,0 -122.9188412,50.1065518,0 -122.9193523,50.1065809,0 -122.9198293,50.10660279999999,0 -122.9203062,50.1066101,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -2206,16 +1676,6 @@
 						<altitudeMode>relativeToGround</altitudeMode>
 						<coordinates>
 							-122.8981018,50.1108185,0 -122.8983928,50.1115476,0 -122.8983961,50.112787,0 -122.8985285,50.1133555,0 -122.8982637,50.1138908,0 -122.8982867,50.1142489,0 -122.8986091,50.11472139999999,0 -122.8991848,50.1149909,0 -122.8996568,50.1150684,0 -122.9010039,50.1151681,0 -122.9009661,50.11614079999999,0 -122.9007925,50.1167551,0 -122.900833,50.11757490000001,0 -122.900839,50.11809720000001,0 -122.9006746,50.11852459999999,0 -122.9006857,50.1189285,0 -122.900822,50.1192168,0 -122.9010651,50.11936560000001,0 -122.9015976,50.11949880000001,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w89867172">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8917597,50.10754220000001,0 -122.8917956,50.1077242,0 -122.8919663,50.10801719999999,0 -122.8920209,50.1081732,0 -122.8920533,50.1082662,0 -122.8922666,50.1085683,0 -122.8925442,50.108852,0 -122.893063,50.10893369999999,0 -122.8933581,50.109103,0 -122.893814,50.1094255,0 
 						</coordinates>
 					</LineString>
 				</Placemark>
@@ -2285,26 +1745,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w89867185">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9043271,50.1102138,0 -122.9044762,50.1104684,0 -122.9045976,50.11074910000001,0 -122.9046643,50.1111027,0 -122.9046703,50.1117447,0 -122.904725,50.1122739,0 -122.9048706,50.1128031,0 -122.9051982,50.1133673,0 -122.9053196,50.113772,0 -122.9055694,50.1140064,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w89867187">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9001218,50.1094007,0 -122.900404,50.1094819,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w89867191">
 					<name>Straight Shot</name>
 					<description>Straight Shot, Downhill Run Difficulty: Intermediate</description>
@@ -2360,29 +1800,10 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w140799431">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8847172,50.0803642,0 -122.8849838,50.0793312,0 -122.8857973,50.0790116,0 -122.8866937,50.0786458,0 -122.8878447,50.07846120000001,0 -122.8881541,50.0782886,0 -122.8890565,50.07778290000001,0 -122.8894494,50.0776906,0 -122.8899695,50.0776409,0 -122.8906225,50.077719,0 -122.8912446,50.0777363,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-				<Placemark id="w140799449">
-					<description>, Downhill Run Difficulty: Intermediate</description>
-					<styleUrl>#style-Ski_Run_Downhill_Intermediate</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.882049,50.07352960000001,0 -122.8819547,50.0737735,0 -122.8821622,50.0742121,0 -122.8824898,50.0745419,0 -122.8826698,50.0746925,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 			</Folder>
 			<Folder>
 				<name>Ski_Run_Downhill_Advanced</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Advanced">
 					<LineStyle>
 						<color>ff000000</color>
@@ -2818,16 +2239,6 @@
 						</coordinates>
 					</LineString>
 				</Placemark>
-				<Placemark id="w89634500">
-					<description>, Downhill Run Difficulty: Advanced</description>
-					<styleUrl>#style-Ski_Run_Downhill_Advanced</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.8884259,50.0843345,0 -122.8891206,50.08422630000001,0 -122.8900748,50.0842411,0 -122.8905549,50.0842273,0 -122.8906511,50.0841451,0 -122.8908995,50.0839561,0 -122.8910489,50.0837384,0 -122.8913027,50.0834797,0 -122.891673,50.0830474,0 -122.891956,50.08276290000001,0 -122.8921739,50.0824984,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
 				<Placemark id="w89634501">
 					<name>Everglades</name>
 					<description>Everglades, Downhill Run Difficulty: Advanced</description>
@@ -3040,6 +2451,7 @@
 			</Folder>
 			<Folder>
 				<name>Ski_Run_Downhill_Expert</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Expert">
 					<LineStyle>
 						<color>ff0066ff</color>
@@ -3092,26 +2504,8 @@
 				</Placemark>
 			</Folder>
 			<Folder>
-				<name>Ski_Run_Downhill_Generic</name>
-				<Style id="style-Ski_Run_Downhill_Generic">
-					<LineStyle>
-						<color>ffff3cc1</color>
-						<width>6</width>
-					</LineStyle>
-				</Style>
-				<Placemark id="w33213615">
-					<description>, Downhill Run Difficulty: Unknown</description>
-					<styleUrl>#style-Ski_Run_Downhill_Generic</styleUrl>
-					<LineString>
-						<altitudeMode>relativeToGround</altitudeMode>
-						<coordinates>
-							-122.9205207,50.1059587,0 -122.9204359,50.1059295,0 
-						</coordinates>
-					</LineString>
-				</Placemark>
-			</Folder>
-			<Folder>
 				<name>Ski_Run_Downhill_Intermediate_Gladed</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Intermediate_Gladed">
 					<LineStyle>
 						<color>ffff0000</color>
@@ -3165,6 +2559,7 @@
 			</Folder>
 			<Folder>
 				<name>Ski_Run_Downhill_Advanced_Gladed</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Advanced_Gladed">
 					<LineStyle>
 						<color>ff000000</color>
@@ -3350,6 +2745,7 @@
 			</Folder>
 			<Folder>
 				<name>Ski_Run_Downhill_Expert_Gladed</name>
+				<open>1</open>
 				<Style id="style-Ski_Run_Downhill_Expert_Gladed">
 					<LineStyle>
 						<color>ff0066ff</color>
