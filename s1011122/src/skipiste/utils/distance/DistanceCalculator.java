@@ -1,6 +1,6 @@
 package skipiste.utils.distance;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.graph.elements.Node;
 
 public interface DistanceCalculator {
 
@@ -11,7 +11,7 @@ public interface DistanceCalculator {
 	 * @return double - the distance in between the two points.
 	 * 
 	 */
-	public abstract double calculateDistanceBetweenNodes(GraphNode node1, GraphNode node2);
+	public abstract double calculateDistanceBetweenNodes(Node node1, Node node2);
 
 	/**
 	 * Calculates the straight line distance between two sets of longitude and

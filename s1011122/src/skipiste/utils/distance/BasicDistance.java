@@ -1,6 +1,6 @@
 package skipiste.utils.distance;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.graph.elements.Node;
 
 /**
  * Calculates distance between two points on a plain using standard trigonometry
@@ -11,7 +11,7 @@ import skipiste.graph.elements.GraphNode;
 public class BasicDistance implements DistanceCalculator {
 
 	@Override
-	public double calculateDistanceBetweenNodes(GraphNode node1, GraphNode node2) {
+	public double calculateDistanceBetweenNodes(Node node1, Node node2) {
 		return calculateDistanceBetweenCoordinates(node1.getLongitude(),
 				node1.getLatitude(), node2.getLongitude(), node2.getLatitude());
 	}

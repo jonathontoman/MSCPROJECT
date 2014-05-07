@@ -10,7 +10,7 @@ import java.util.Set;
  * @author s1011122
  * 
  */
-public class Node implements GraphNode, Comparable<Node> {
+public class Node  {
 
 	/**
 	 * The longitude of this node.
@@ -62,23 +62,11 @@ public class Node implements GraphNode, Comparable<Node> {
 	 */
 	protected boolean predicted;
 
-	// These are used for the path finding and for keeping track of the route
-	// used for pathfinding.
-	/**
-	 * The assoicated cost to reach this node.
-	 */
-	protected double cost;
-	/**
-	 * The previous node in the path from the origin.
-	 */
-	protected GraphNode previous;
 
 	/**
 	 * No argmument constructor.
 	 */
 	public Node() {
-		// set distance to largest possible double
-		cost = Double.MAX_VALUE;
 		// For convenience initialise these with the constructor, don't worry
 		// about space.
 		outbound = new HashSet<Edge>();
@@ -261,36 +249,6 @@ public class Node implements GraphNode, Comparable<Node> {
 	}
 
 	/**
-	 * @return the distanceFromOrigin
-	 */
-	public double getDistanceFromOrigin() {
-		return cost;
-	}
-
-	/**
-	 * @param distanceFromOrigin
-	 *            the distanceFromOrigin to set
-	 */
-	public void setDistanceFromOrigin(double distanceFromOrigin) {
-		this.cost = distanceFromOrigin;
-	}
-
-	/**
-	 * @return the previousNodeInPath
-	 */
-	public GraphNode getPrevious() {
-		return previous;
-	}
-
-	/**
-	 * @param previousNodeInPath
-	 *            the previousNodeInPath to set
-	 */
-	public void setPrevious(GraphNode previousNodeInPath) {
-		this.previous = previousNodeInPath;
-	}
-
-	/**
 	 * @return the pistes
 	 */
 	public Set<Piste> getPistes() {
@@ -422,25 +380,6 @@ public class Node implements GraphNode, Comparable<Node> {
 	 */
 	public void setPredicted(boolean predicted) {
 		this.predicted = predicted;
-	}
-
-	@Override
-	public double getCost() {
-		return cost;
-	}
-
-	@Override
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-
-	@Override
-	public int compareTo(Node o) {
-		if (this.getCost() < o.getCost())
-			return -1;
-		if (this.getCost() > o.getCost())
-			return +1;
-		return 0;
 	}
 
 	/**

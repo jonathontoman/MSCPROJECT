@@ -1,6 +1,6 @@
 package skipiste.algorithm;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.graph.elements.Node;
 
 /**
  * Interface that all search algorithms must implement
@@ -9,5 +9,5 @@ import skipiste.graph.elements.GraphNode;
  */
 public interface SearchAlgorithm {
 	
-	public Path findPath(GraphNode start, GraphNode end);
+	public Path findPath(Node start, Node end);
 }

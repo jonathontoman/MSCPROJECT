@@ -1,26 +1,37 @@
 package skipiste.algorithm.dijkstra;
 
+import java.util.HashSet;
+
 import skipiste.algorithm.AbstractSearchAlgorithm;
+import skipiste.algorithm.astar.AStarNode;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.GraphNode;
+import skipiste.graph.elements.Node;
 
 /**
  * Implementation of Djikstra's algorithm designed to run against a graph of
  * Nodes
  */
-public class Dijkstra extends AbstractSearchAlgorithm {
+public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 
 	/**
 	 * @{inheritDoc
 	 */
 	public void execute() {
 
-		openList.add(this.start);
-		start.setCost(0);
+		// Cost to the start node is zero as we are already at the start node.
+		this.start.setCost(0);
+		openList.add(start);
 
 		while (!openList.isEmpty()) {
 			// The Node we are currently search from
-			GraphNode currentNode = openList.poll();
+			DijkstraNode currentNode = openList.poll();
+
+			if (currentNode.equals(end)) {
+				end = currentNode;
+				return;
+			}
+
 			// If this is our target we can give up searching as we know the
 			// addition of a heuristic value of an underestimate of the distance
 			// of a node to the destination node guarantees an optimal route
@@ -30,28 +41,42 @@ public class Dijkstra extends AbstractSearchAlgorithm {
 			for (Edge e : currentNode.getOutboundEdges()) {
 				// now we need to relax the PisteSections, examine each
 				// destination Node of these PisteSections.
-				GraphNode prospectiveNode = e.getTo();
-				
+
+				DijkstraNode prospectiveNode = new DijkstraNode(e.getTo());
+				// if we have already evaluated this node then move on.
+				if (closedList.contains(prospectiveNode))
+					continue;
+				// see if this is already on the priorityqueue, if so make sure
+				// we get that a reference to that object
+				prospectiveNode = findInQueue(prospectiveNode);
+
 				// get cost of getting to n from current Node u
-				double cost = e.getWeight();
-				// find the distance to the Node being examined via the current
-				// Node.
-				double newCostToProspectiveNode = cost + currentNode.getCost();
-				double oldCostToProspectiveNode = prospectiveNode.getCost();
-				// if new distance is less than current distance to prospective
-				// node then
-				// update the information in the priority queue, thanks to
-				// java.util.PriorityQueue we have to remove it and re add it
-				if (newCostToProspectiveNode < oldCostToProspectiveNode) 
-				{					
-					// No side effect if n is not already in queue.
-					prospectiveNode.setCost(newCostToProspectiveNode);
+				double cost = e.getWeight() + currentNode.getCost();
+
+				if (cost < prospectiveNode.getCost()) {
+					// No side effect if prospectiveNode is not already in
+					// queue.
+					prospectiveNode.setCost(cost);
+					
 					// set the previous Node so we can later rebuild the path.
 					prospectiveNode.setPrevious(currentNode);
 					openList.remove(prospectiveNode);
-					openList.add(prospectiveNode);			
+					openList.add(prospectiveNode);
 				}
 			}
+			closedList.add(currentNode);
 		}
+	}
+
+	@Override
+	protected void setStartNode(Node start) {
+		this.start = new DijkstraNode(start);
+
+	}
+
+	@Override
+	protected void setEndNode(Node end) {
+		this.end = new DijkstraNode(end);
+
 	}
 }

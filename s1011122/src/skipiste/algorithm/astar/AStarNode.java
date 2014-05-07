@@ -1,18 +1,25 @@
 package skipiste.algorithm.astar;
 
 import skipiste.algorithm.NodeDecorator;
-import skipiste.graph.elements.GraphNode;
+import skipiste.graph.elements.Node;
 
-public class AStarNode extends NodeDecorator{
-
-	
-	public AStarNode(GraphNode g)
+public class AStarNode extends NodeDecorator
+{
+	public AStarNode(Node n)
 	{
-		this.n =g;
+		super();
+		this.setNode(n);
 	}
-
-
 	
-
 	
+	@Override
+	public int compareTo(NodeDecorator o) {
+		if (this.getCost() + this.getHeuristic() < o.getCost()
+				+ o.getHeuristic())
+			return -1;
+		if (this.getCost() + this.getHeuristic() > o.getCost()
+				+ o.getHeuristic())
+			return +1;
+		return 0;
+	}
 }
