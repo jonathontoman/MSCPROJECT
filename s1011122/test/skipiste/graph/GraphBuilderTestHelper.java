@@ -239,11 +239,11 @@ public class GraphBuilderTestHelper {
 
 		// build edges between s1 -s2, s2-s1 and e1-e2 and e2-e1
 
-		s1.getOutboundEdges().add(new Edge(s1, s2));
-		s2.getOutboundEdges().add(new Edge(s2, s1));
+		s1.getOutbound().add(new Edge(s1, s2));
+		s2.getOutbound().add(new Edge(s2, s1));
 
-		e1.getOutboundEdges().add(new Edge(e1, e2));
-		e2.getOutboundEdges().add(new Edge(e2, e1));
+		e1.getOutbound().add(new Edge(e1, e2));
+		e2.getOutbound().add(new Edge(e2, e1));
 
 		nodes.add(s1);
 		nodes.add(s2);

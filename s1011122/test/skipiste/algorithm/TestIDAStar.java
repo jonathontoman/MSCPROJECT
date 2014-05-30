@@ -8,13 +8,14 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import skipiste.algorithm.arastar.AnytimeRepairingAStar;
+import skipiste.algorithm.idastar.IterativeDeepeningAStar;
 import skipiste.graph.Graph;
 import skipiste.graph.GraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
+import skipiste.utils.OutputKML;
 
-public class TestAStarAnytime {
+public class TestIDAStar {
 
 	private GraphBuilder graphBuidler;
 	private Graph g;
@@ -34,7 +35,7 @@ public class TestAStarAnytime {
 		graphBuidler = new GraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
 				.getResource("PlanMontalbert.kml").getFile());
-		AnytimeRepairingAStar algorithm = new AnytimeRepairingAStar();
+		IterativeDeepeningAStar algorithm = new IterativeDeepeningAStar();
 		
 				
 
@@ -66,6 +67,11 @@ public class TestAStarAnytime {
 		System.out.println("Enter destination node");
 		input = br.readLine();
 		Integer desinationI = new Integer(input);
+		
+		for (Piste p : g.getPistes())
+		{
+			System.out.println(OutputKML.outputRoutes(p.getNodes()));
+		}
 
 		Node destination = endOptions.get(desinationI);
 		Path p = algorithm.findPath(source,destination);

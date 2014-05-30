@@ -13,9 +13,9 @@ public class Edge {
 	 */
 	private Difficulty diff;
 	/**
-	 * The Weight of this edge.
+	 * The Weight of this edge. Set to to a double as the edge weight should be null by default not zero.
 	 */
-	private double weight;
+	private Double weight;
 	/**
 	 * Id of Vertex/Node that comes to this edge.
 	 */
@@ -95,7 +95,7 @@ public class Edge {
 	/**
 	 * @return the weight
 	 */
-	public double getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
@@ -103,7 +103,7 @@ public class Edge {
 	 * @param weight
 	 *            the weight to set
 	 */
-	public void setWeight(double weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 

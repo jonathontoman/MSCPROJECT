@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.xml.sax.helpers.DefaultHandler;
 
-import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
@@ -22,10 +21,4 @@ public abstract class KMLHandler  extends DefaultHandler{
 	 */
 	public abstract ArrayList<Node> getNodes();
 
-	/**
-	 * Get the Edges built from the KML
-	 * @return
-	 */
-	public abstract ArrayList<Edge> getEdges();
-	
 }

@@ -89,7 +89,6 @@ public class TestKMLHandler {
 			xmlReader.parse(this.getClass().getResource(KML).getFile());
 			pistes = handler.getPistes();
 			nodes = handler.getNodes();
-			edges = handler.getEdges();
 		} catch (IOException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,28 +201,28 @@ public class TestKMLHandler {
 			if (n.isStart()) {
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getOutboundEdges().size());
+						.getOutbound().size());
 				// expect 0 inboud node
 				assertEquals("Node " + n + "is incorrect", 0, n
-						.getInboundEdges().size());
+						.getInbound().size());
 
 			} else if (n.isEnd()) {
 				// expect 1 inboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getInboundEdges().size());
+						.getInbound().size());
 				// expect 0 outboud node
 				assertEquals("Node " + n + "is incorrect", 0, n
-						.getOutboundEdges().size());
+						.getOutbound().size());
 
 			} else {
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getOutboundEdges().size());
+						.getOutbound().size());
 				// expect 1 outboud node
 				assertEquals("Node " + n + "is incorrect", 1, n
-						.getInboundEdges().size());
+						.getInbound().size());
 				assertNotEquals("Node " + n + "is incorrect",
-						n.getOutboundEdges(), n.getInboundEdges());
+						n.getOutbound(), n.getInbound());
 			}
 		}
 	}

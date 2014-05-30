@@ -1,6 +1,5 @@
 package skipiste.utils.distance;
 
-import skipiste.graph.elements.GraphNode;
 import skipiste.graph.elements.Node;
 
 /**
@@ -10,6 +9,11 @@ import skipiste.graph.elements.Node;
  * 
  */
 public class HaversineDistance implements DistanceCalculator {
+	
+	/**
+	 * Radius of the earth
+	 */
+	private static Double R = 6371.00877;
 
 	@Override
 	public double calculateDistanceBetweenNodes(Node node1, Node node2) {
@@ -20,8 +24,6 @@ public class HaversineDistance implements DistanceCalculator {
 	@Override
 	public double calculateDistanceBetweenCoordinates(Double x1, Double y1,
 			Double x2, Double y2) {
-
-		final double R = 6371.009; // Radius of the earth
 		Double lat1 = y1;
 		Double lon1 = x1;
 		Double lat2 = y2;
@@ -37,7 +39,6 @@ public class HaversineDistance implements DistanceCalculator {
 		Double distance = R * c;
 
 		return distance * 1000;
-
 	}
 
 	/**
@@ -48,9 +49,7 @@ public class HaversineDistance implements DistanceCalculator {
 	 * @return radian value
 	 */
 	private static double deg2rad(double deg) {
-
 		return (deg * Math.PI / 180.0);
-
 	}
 
 }

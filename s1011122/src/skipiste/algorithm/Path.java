@@ -29,14 +29,8 @@ public class Path {
 	 * 
 	 * @return
 	 */
-	public String printPath() {
-		StringBuilder sb = new StringBuilder();
-		for (GraphNode n : nodesInPath) {
-			sb.append(OutputKML.outputPlaceMark(n.getLongitude(),
-					n.getLatitude()));
-			sb.append("\r\n");
-		}
-		return sb.toString();
+	public String printPath() {		
+		return OutputKML.outputRoute(nodesInPath);
 	}
 
 	/**
@@ -56,10 +50,22 @@ public class Path {
 	 */
 	public Path(GraphNode n) {
 		this();
-		while (n.getPrevious() != null) {
+		distance = n.getCost();
+		while (true)
+		{
 			nodesInPath.addFirst(n);
-			n = n.getPrevious();
+			
+			
+			if (n.getPrevious() != null)
+			{
+				n = n.getPrevious();
+			}
+			else
+			{
+				break;
+			}			
 		}
+		
 	}
 
 	/**

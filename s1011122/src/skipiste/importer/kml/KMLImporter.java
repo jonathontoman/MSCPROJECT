@@ -15,7 +15,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
@@ -37,10 +36,7 @@ public class KMLImporter {
 	 * Nodes that we build up from the KML file and modify in this class.
 	 */
 	private List<Node> nodes;
-	/**
-	 * Edges that we build up from the KML file and modify in this class.
-	 */
-	private List<Edge> edges;
+	
 	/**
 	 * Pistes that we build up from the KML file and modify in this class.
 	 */
@@ -76,7 +72,6 @@ public class KMLImporter {
 		// unconnected graphs, one for each named piste in the origin data.
 		// we need to go through three processes to connected theses graphs.
 		nodes = handler.getNodes();
-		edges = handler.getEdges();
 		pistes = handler.getPistes();
 
 	}
@@ -93,20 +88,6 @@ public class KMLImporter {
 	 */
 	public void setNodes(List<Node> nodes) {
 		this.nodes = nodes;
-	}
-
-	/**
-	 * @return the edges
-	 */
-	public List<Edge> getEdges() {
-		return edges;
-	}
-
-	/**
-	 * @param edges the edges to set
-	 */
-	public void setEdges(List<Edge> edges) {
-		this.edges = edges;
 	}
 
 	/**

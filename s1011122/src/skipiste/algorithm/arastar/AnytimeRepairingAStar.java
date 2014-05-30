@@ -1,13 +1,13 @@
 package skipiste.algorithm.arastar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.PriorityQueue;
+import java.util.List;
 
 import skipiste.algorithm.AbstractSearchAlgorithm;
+import skipiste.algorithm.Path;
 import skipiste.graph.elements.Edge;
-import skipiste.graph.elements.GraphNode;
-import skipiste.utils.OutputKML;
+import skipiste.graph.elements.Node;
 import skipiste.utils.distance.DistanceCalculator;
 import skipiste.utils.distance.HaversineDistance;
 
@@ -18,132 +18,124 @@ import skipiste.utils.distance.HaversineDistance;
  * @author s1011122
  * 
  */
-public class AnytimeRepairingAStar extends AbstractSearchAlgorithm {
-
-	double heuristicMultiplier;
-	/**
-	 * Current estimate of path weight
-	 */
-	double fValue;
-	/**
-	 * cost of the best path so far from the source node to the node under
-	 * consideration(u) at the time of the last expansion.
-	 */
-	double iValue;
-	/**
-	 * cost of the best path so far from the source node to the node under
-	 * consideration (u);
-	 */
-	double gValue;
-	/**
-	 * cost of the best path so far from source node to the destination.
-	 */
-	double distnaceToDesination;
-	/**
-	 * Distance to our origin node
-	 */
-	double distanceToOrigin;
+public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> {
 
 	DistanceCalculator calc;
-	
-	HashSet<GraphNode> inconsistentList = new HashSet<GraphNode>();
-	HashSet<GraphNode> closedList = new  HashSet<GraphNode>();
+	int heuristicMultiplier;
+	HashSet<ARAStarNode> inconsistent = new HashSet<ARAStarNode>();
 
-	/**
-	 * Run AnytimeAStar algorithm against our graph.
-	 * 
-	 * @param s
-	 *            - the start Node
-	 * @param t
-	 *            - the target Node.
-	 */
-	public void execute(GraphNode source, GraphNode destination) {
-
-		// Initialise the lists.
-		openList = new PriorityQueue<GraphNode>();
-		closedList = new HashSet<GraphNode>();
-		inconsistentList = new HashSet<GraphNode>();
-		
-		// Cost to the start node is zero as we are already at the start node.
-		this.start.setCost(0);
-		// add the start node to the openList
-		openList.add(this.start);
-		
-		// set our heuristic multiplier
+	public void execute() {
+		calc = new HaversineDistance();
+		// cost to reach start node is 0
 		heuristicMultiplier = 10;
-		// first time round our previous multiplier will be 1
-		int oldHeuristicMultiplier = 1;
-		while (heuristicMultiplier >= 1) 
-		{
-			// add the contents of the inconsistentList to the openList as these will be reviewed again
-			openList.addAll(inconsistentList);			
-			updatePriorities(openList, oldHeuristicMultiplier, heuristicMultiplier);
-			subroutine(source, destination);
+		start.setCost(0);
+		start.setHeuristic(heuristic(start));
+		openList.add(start);
+		start.setHeuristicMultiplier(heuristicMultiplier);
+		
+
+		
+		while (heuristicMultiplier >= 1) {
+			
+			nodeCount = 0;
+			openList.addAll(inconsistent);
+			
+			
+			
+			// remove all elements to queue and read them after the heuristic is changed to change the order based on new heurisitc
+			
+			List<ARAStarNode> nodes = new ArrayList<ARAStarNode>();
+			for (ARAStarNode n : openList)
+			{
+				n.setHeuristicMultiplier(heuristicMultiplier);
+				nodes.add(n);
+			}
+			
+			openList.removeAll(nodes);
+			openList.addAll(nodes);
+			
+			ara();
+			System.out.println("ARA* output for inflation factor " + heuristicMultiplier);
+			System.out.println("Number of Nodes expanded: " + nodeCount);			
+			System.out.println("Time taken = "  + (System.currentTimeMillis() - startTime));
+			System.out.println("Path Length (meters) = " + end.getCost() );
+			System.out.println("Path Route KML: ");
+			System.out.println(new Path(end).printPath());
+			heuristicMultiplier--;
 		}
 	}
-	
 
-	public void subroutine(GraphNode source, GraphNode destination) {
+	public void ara() {
 
-		closedList = new HashSet<GraphNode>();
-		inconsistentList = new HashSet<GraphNode>();
+		closedList = new HashSet<ARAStarNode>();
+		inconsistent = new HashSet<ARAStarNode>();
 
-		while (destination.getCost() > openList.peek()
-				.getCost()) {
-			GraphNode u = openList.poll();
-			closedList.add(u);
-			// set ivalue to equal the cost of the best paht found so far from
-			iValue = u.getCost();
-			
-			for (Edge e : u.getOutboundEdges()) {
+		while (openList.peek() != null
+				&& openList.peek().getFCost() < end.getFCost()) {
+			// The Node we are currently search from
+			ARAStarNode currentNode = openList.poll();			
+			closedList.add(currentNode);
+
+			if (currentNode.equals(end)) {
+				end = currentNode;
+				return;
+			}
+			// set the inconsistency value of this node.
+			currentNode.setInconsistentCost(currentNode.getCost());
+			nodeCount++;
+			for (Edge e : currentNode.getOutboundEdges()) {
 				// now we need to relax the PisteSections, examine each
 				// destination Node of these PisteSections.
-				GraphNode n = e.getTo();
-				// is the new route to node n less than the current route?
-				double distance = u.getCost()
-						+ e.getWeight()
-						+ (calc.calculateDistanceBetweenNodes(n, destination) * heuristicMultiplier);
 
-				if (n.getCost() > distance) {
-					n.setCost(distance);
-					n.setPrevious(u);
-					if (!closedList.contains(n)) {
-						// No side effect if n is not already in queue, but this
-						// is how we update it
-						openList.remove(n);
+				ARAStarNode prospectiveNode = new ARAStarNode(e.getTo());
+				// see if this is already on the priorityQueue, if so make sure
+				// we get that a reference to that object
+				prospectiveNode = findInQueue(prospectiveNode);
+				prospectiveNode.setHeuristicMultiplier(heuristicMultiplier);
+
+				// set the heuristic cost if it hasnt already been set
+				if (prospectiveNode.getHeuristic() == 0  )
+				{
+					prospectiveNode.setHeuristic(heuristic(prospectiveNode));
+				}
+				// get cost of getting to n from current Node u
+				double cost = e.getWeight() + currentNode.getCost();
+				
+
+				// if the new cost is less than the old cost update/
+				if (cost < prospectiveNode.getCost()) {
+					prospectiveNode.setCost(cost);
+
+					// if this node has already been expanded add it to the inconsistent list					
+					if (closedList.contains(prospectiveNode)) {
+						inconsistent.add(prospectiveNode);
+					} else {
+
 						// set the previous Node so we can later rebuild the
 						// path.
-						openList.add(n);
-					} else {
-						inconsistentList = new HashSet<GraphNode>();
+						prospectiveNode.setPrevious(currentNode);
+						openList.remove(prospectiveNode);
+						openList.add(prospectiveNode);
 					}
 				}
 			}
+			closedList.add(currentNode);
 		}
+	}
 
+	
+	public double heuristic(ARAStarNode n)
+	{
+		return calc
+				.calculateDistanceBetweenCoordinates(
+						n.getLongitude(),
+						n.getLatitude(),
+						end.getLongitude(), end.getLatitude());
 	}
 	
-	private void updatePriorities (PriorityQueue<GraphNode> queue, double oldMultiplier, double newMultiplier)
-	{
-		for (GraphNode n : queue)
-		{
-			// the current cost to the node n is the heuristicMultiplier  * real cost to node, so we will divide by the old multiplier and multiply by the new
-			n.setCost((n.getCost()/oldMultiplier)* newMultiplier );
-		}
-	}
-
-	public void printShortestPath(GraphNode destination) {
-		while (destination.getPrevious() != null) {
-			System.out.println(OutputKML.outputPlaceMark(destination
-					.getPrevious().getLongitude(), destination
-					.getPrevious().getLatitude()));
-			destination = destination.getPrevious();
-		}
-	}
-
 	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-
+	protected ARAStarNode buildSpecificNode(Node n) {
+		return new ARAStarNode(n);
 	}
+
 }

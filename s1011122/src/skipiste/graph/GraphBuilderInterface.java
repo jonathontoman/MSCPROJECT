@@ -1,4 +1,4 @@
-package skipiste.graph.elements;
+package skipiste.graph;
 
 import skipiste.graph.Graph;
 
@@ -10,5 +10,4 @@ public interface GraphBuilderInterface {
 	 * @return
 	 */
 	public Graph buildGraph(String KMLFile);
-
 }

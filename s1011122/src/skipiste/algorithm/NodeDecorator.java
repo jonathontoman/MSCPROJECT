@@ -58,7 +58,7 @@ public abstract class NodeDecorator implements GraphNode,
 
 	@Override
 	public Set<Edge> getOutboundEdges() {
-		return this.node.getOutboundEdges();
+		return this.node.getOutbound();
 	}
 
 	@Override

@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import skipiste.algorithm.astar.AStar;
 import skipiste.graph.Graph;
-import skipiste.graph.NewGraphBuilder;
+import skipiste.graph.GraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
 public class TestAStar {
 
-	private NewGraphBuilder graphBuidler;
+	private GraphBuilder graphBuidler;
 	private Graph g;
 
 	@Before
@@ -31,7 +31,7 @@ public class TestAStar {
 	 */
 	@Test
 	public void testCase1() throws IOException {
-		graphBuidler = new NewGraphBuilder();
+		graphBuidler = new GraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
 				.getResource("PlanMontalbert.kml").getFile());
 		AStar algorithm = new AStar();
@@ -70,6 +70,7 @@ public class TestAStar {
 		Node destination = endOptions.get(desinationI);
 		Path p = algorithm.findPath(source,destination);
 		System.out.println("Total Time taken = " + algorithm.getDuration());
+		System.out.println("Nodes expanded  =" + algorithm.getNodeCount());
 		System.out.println(p.printPath());	
 	}
 }

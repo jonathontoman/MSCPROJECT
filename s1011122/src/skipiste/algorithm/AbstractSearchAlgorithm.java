@@ -26,16 +26,27 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 */
 	protected HashSet<T> closedList;
 
+	/**
+	 * The duration of the algorithm.
+	 */
 	protected long duration;
+	
+	protected long startTime;
+
+	/**
+	 * The number of nodes that are expanded by the algorithm.
+	 */
+	protected int nodeCount;
 
 	@Override
 	public Path findPath(Node start, Node end) {
 
+		nodeCount =0;
 		openList = new PriorityQueue<T>();
 		closedList = new HashSet<T>();
 		setStartNode(start);
 		setEndNode(end);
-		long startTime = System.currentTimeMillis();
+		startTime = System.currentTimeMillis();
 		execute();
 		duration = System.currentTimeMillis() - startTime;
 		return new Path(this.end);
@@ -51,20 +62,45 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 * @param graphNode
 	 *            - the node we want to see if we already have it on the
 	 *            openList;
-	 * @return - if there is an equal object on the openList return that, if not reutrn this object passed to this method.
+	 * @return - if there is an equal object on the openList return that, if not
+	 *         reutrn this object passed to this method.
 	 */
 	protected T findInQueue(T node) {
 		for (T node2 : openList) {
 			if (node.equals(node2)) {
+
 				return node2;
 			}
 		}
 		return node;
 	}
 
-	protected abstract void setStartNode(Node start);
+	/**
+	 * Build an node for the algorithm specific implementation.
+	 * 
+	 * @return
+	 */
+	protected abstract T buildSpecificNode(Node n);
 
-	protected abstract void setEndNode(Node end);
+	/**
+	 * Build the algorithm specific end node
+	 * 
+	 * @param start
+	 *            - the algorithm specific start node.
+	 */
+	protected void setStartNode(Node start) {
+		this.start = buildSpecificNode(start);
+	}
+
+	/**
+	 * Build the algorithm specific end node.
+	 * 
+	 * @param end
+	 *            - the algorithm specific end node.
+	 */
+	protected void setEndNode(Node end) {
+		this.end = buildSpecificNode(end);
+	}
 
 	/**
 	 * Execute the algorithm
@@ -129,5 +165,19 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 */
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * @return the nodeCount
+	 */
+	public int getNodeCount() {
+		return nodeCount;
+	}
+
+	/**
+	 * @param nodeCount the nodeCount to set
+	 */
+	public void setNodeCount(int nodeCount) {
+		this.nodeCount = nodeCount;
 	}
 }

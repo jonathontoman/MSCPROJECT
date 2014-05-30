@@ -1,11 +1,7 @@
 package skipiste.algorithm.dijkstra;
 
-import java.util.HashSet;
-
 import skipiste.algorithm.AbstractSearchAlgorithm;
-import skipiste.algorithm.astar.AStarNode;
 import skipiste.graph.elements.Edge;
-import skipiste.graph.elements.GraphNode;
 import skipiste.graph.elements.Node;
 
 /**
@@ -38,9 +34,12 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 			// when we find our node, we don't need to be greedy and cycle
 			// through all routes to our destination.1
 
+			nodeCount++;
 			for (Edge e : currentNode.getOutboundEdges()) {
 				// now we need to relax the PisteSections, examine each
 				// destination Node of these PisteSections.
+				// increment node counter
+
 
 				DijkstraNode prospectiveNode = new DijkstraNode(e.getTo());
 				// if we have already evaluated this node then move on.
@@ -69,14 +68,8 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 	}
 
 	@Override
-	protected void setStartNode(Node start) {
-		this.start = new DijkstraNode(start);
-
+	protected DijkstraNode buildSpecificNode(Node n) {
+		return new DijkstraNode(n);
 	}
 
-	@Override
-	protected void setEndNode(Node end) {
-		this.end = new DijkstraNode(end);
-
-	}
 }

@@ -56,7 +56,7 @@ public class LineSegment {
 	 * 
 	 * @param line
 	 *            the line we are calculating against.
-	 * @return
+	 * @return the X intesection point.
 	 */
 	private double getIntersectionXCoordinate(LineSegment line) {
 		if (s.isVertical()) {
@@ -78,7 +78,7 @@ public class LineSegment {
 	 * @param the
 	 *            line we are calculating against.
 	 * @param x
-	 * @return
+	 * @return the Y intersection point.
 	 */
 	private double getIntersectionYCoordinate(LineSegment line, double x) {
 		if (s.isVertical()) {

@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import skipiste.algorithm.dijkstra.Dijkstra;
 import skipiste.graph.Graph;
-import skipiste.graph.NewGraphBuilder;
+import skipiste.graph.GraphBuilder;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
 public class TestDijkstra {
 
-	private NewGraphBuilder graphBuidler;
+	private GraphBuilder graphBuidler;
 	private Graph g;
 
 	@Before
@@ -31,7 +31,7 @@ public class TestDijkstra {
 	 */
 	@Test
 	public void testCase1() throws IOException {
-		graphBuidler = new NewGraphBuilder();
+		graphBuidler = new GraphBuilder();
 		g = graphBuidler.buildGraph(this.getClass()
 				.getResource("PlanMontalbert.kml").getFile());
 		Dijkstra algorithm = new Dijkstra();
@@ -70,6 +70,7 @@ public class TestDijkstra {
 		Node destination = endOptions.get(desinationI);
 		Path p = algorithm.findPath(source,destination);
 		System.out.println("Total Time taken = " + algorithm.getDuration());
+		System.out.println("Nodes expanded  =" + algorithm.getNodeCount() + "milliseconds");
 		System.out.println(p.printPath());		
 	}
  }

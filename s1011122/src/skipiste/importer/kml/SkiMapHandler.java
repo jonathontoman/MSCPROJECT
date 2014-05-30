@@ -6,7 +6,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import skipiste.graph.elements.Difficulty;
-import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
@@ -27,10 +26,7 @@ public class SkiMapHandler extends KMLHandler {
 	 * The nodes that we build from the KML
 	 */
 	private ArrayList<Node> nodes;
-	/**
-	 * The edges that we build from the KML
-	 */
-	private ArrayList<Edge> edges;
+
 	/**
 	 * The pistes that are represented in the KML
 	 */
@@ -83,7 +79,6 @@ public class SkiMapHandler extends KMLHandler {
 
 	public void startDocument() throws SAXException {
 		nodes = new ArrayList<Node>();
-		edges = new ArrayList<Edge>();
 		pistes = new ArrayList<Piste>();
 		i=1;
 		unknownCounter =1;
@@ -246,7 +241,7 @@ public class SkiMapHandler extends KMLHandler {
 						// if this is the last node in the piste mark it as such
 						n.setEnd(true);
 					} 
-					// Add this to the list of nodes
+
 					nodes.add(n);
 					// Add this node to the piste
 					piste.getNodes().add(n);
@@ -267,19 +262,5 @@ public class SkiMapHandler extends KMLHandler {
 
 	public void setNodes(ArrayList<Node> nodes) {
 		this.nodes = nodes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see skipiste.importer.kml.KMLHandlerInterface#getEdges()
-	 */
-	@Override
-	public ArrayList<Edge> getEdges() {
-		return edges;
-	}
-
-	public void setEdges(ArrayList<Edge> edges) {
-		this.edges = edges;
 	}
 }
