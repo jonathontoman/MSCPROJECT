@@ -3,7 +3,7 @@ package skipiste.algorithm;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.algorithm.GraphNode;
 import skipiste.graph.elements.Node;
 
 public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
@@ -37,10 +37,13 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 * The number of nodes that are expanded by the algorithm.
 	 */
 	protected int nodeCount;
+	
+	protected String algorithmName;
 
 	@Override
 	public Path findPath(Node start, Node end) {
-
+		
+		setAlgorithmName();
 		nodeCount =0;
 		openList = new PriorityQueue<T>();
 		closedList = new HashSet<T>();
@@ -49,7 +52,7 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 		startTime = System.currentTimeMillis();
 		execute();
 		duration = System.currentTimeMillis() - startTime;
-		return new Path(this.end);
+		return new Path(this.end,  algorithmName);
 	}
 
 	/**
@@ -81,6 +84,8 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 * @return
 	 */
 	protected abstract T buildSpecificNode(Node n);
+	
+	protected abstract void setAlgorithmName();
 
 	/**
 	 * Build the algorithm specific end node

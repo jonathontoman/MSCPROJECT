@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.algorithm.GraphNode;
+import skipiste.algorithm.Path;
 import skipiste.graph.elements.Node;
 
 /**
@@ -34,8 +35,52 @@ public class OutputKML {
 	private static final String CLOSE_PLACEMARK= "</Placemark>";
 	private static final String OPEN_COORDS = "<coordinates>";
 	private static final String CLOSE_COORDS = "</coordinates>";
+	private static final String OPEN_NAME ="<name>";
+	private static final String CLOSE_NAME ="</name>";
 
 
+	public static String outputGroupOfRoutes(List<Path> paths)
+	{
+		
+		StringBuilder content = new StringBuilder();
+		content.append(OPEN);
+		for (Path p : paths)
+		{
+			content.append(OPEN_PLACEMARK);
+			if (p.getName() != null)
+			{
+				content.append(OPEN_NAME);
+				content.append(p.getName());
+				content.append(CLOSE_NAME);
+			}
+			
+			content.append(OPEN_LINESTRING);
+			content.append(OPEN_COORDS);
+			
+			
+			for (GraphNode n : p.getNodesInPath())
+			{
+				// at latitude
+				content.append(n.getLongitude());
+				// at comma
+				content.append(",");
+				// add longitude
+				content.append(n.getLatitude());
+				// add comma
+				content.append(",");
+				// add space
+				content.append(" ");
+
+			}
+			content.append(CLOSE_COORDS);
+			content.append(CLOSE_LINESTRING);
+			
+			content.append(CLOSE_PLACEMARK);
+		}
+		content.append(CLOSE);
+		return content.toString();
+	}
+	
 	/**
 	 * Return a String marked up with KML as a KML placemark
 	 * @param d - the latitude of the placemak

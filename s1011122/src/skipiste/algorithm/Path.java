@@ -2,7 +2,7 @@ package skipiste.algorithm;
 
 import java.util.LinkedList;
 
-import skipiste.graph.elements.GraphNode;
+import skipiste.algorithm.GraphNode;
 import skipiste.utils.OutputKML;
 
 /**
@@ -17,19 +17,20 @@ public class Path {
 	/**
 	 * The algorithm nodes that make up this path in order from start to finish.
 	 */
-	LinkedList<GraphNode> nodesInPath;
+	private LinkedList<GraphNode> nodesInPath;
 
 	/**
 	 * The total distance of this route
 	 */
-	double distance;
+	private double distance;
+	private String name;
 
 	/**
 	 * Builds a string of kml representing the path
 	 * 
 	 * @return
 	 */
-	public String printPath() {		
+	public String printPath() {
 		return OutputKML.outputRoute(nodesInPath);
 	}
 
@@ -51,21 +52,24 @@ public class Path {
 	public Path(GraphNode n) {
 		this();
 		distance = n.getCost();
-		while (true)
-		{
+		while (true) {
 			nodesInPath.addFirst(n);
-			
-			
-			if (n.getPrevious() != null)
-			{
+
+			if (n.getPrevious() != null) {
 				n = n.getPrevious();
-			}
-			else
-			{
+			} else {
 				break;
-			}			
+			}
 		}
-		
+
+	}
+
+	/**
+	 * Builds path from end node n with name.
+	 */
+	public Path(GraphNode n, String name) {
+		this(n);
+		this.name = name;
 	}
 
 	/**
@@ -96,6 +100,20 @@ public class Path {
 	 */
 	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

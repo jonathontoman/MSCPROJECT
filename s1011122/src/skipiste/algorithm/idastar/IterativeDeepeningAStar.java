@@ -117,4 +117,10 @@ public class IterativeDeepeningAStar extends
 		return new IDAStarNode(n);
 	}
 
+	@Override
+	protected void setAlgorithmName() {
+		this.algorithmName = "IDAStar";
+		
+	}
+
 }

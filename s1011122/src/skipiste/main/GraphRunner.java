@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 
 import skipiste.algorithm.Path;
 import skipiste.algorithm.arastar.AnytimeRepairingAStar;
@@ -20,7 +20,7 @@ import skipiste.graph.elements.Piste;
 import skipiste.utils.OutputKML;
 
 /**
- * Runs the route planning applicaiton against a graph
+ * Runs the route planning application against a graph
  * 
  * @author s1011122
  * 
@@ -57,6 +57,11 @@ public class GraphRunner {
 	 * End node of the search
 	 */
 	Node end;
+	
+	public GraphRunner(String kml)
+	{
+		this.pisteKML = kml;
+	}
 
 	/**
 	 * Run the application.
@@ -64,7 +69,8 @@ public class GraphRunner {
 	 * @throws IOException
 	 */
 	public void run() {
-		pisteKML = this.getClass().getResource("PlanMontalbert.kml").getFile();
+									
+		
 		startOptions = new HashMap<Integer, Node>();
 		endOptions = new HashMap<Integer, Node>();
 
@@ -73,9 +79,7 @@ public class GraphRunner {
 		System.out.println("Building Graph from file : " + pisteKML);
 
 		GraphBuilder builder = new GraphBuilder();
-		
-
-		
+				
 		
 		long startTime = System.currentTimeMillis();
 		g = builder.buildGraph(pisteKML);
@@ -95,10 +99,14 @@ public class GraphRunner {
 		
 		System.out.println("Outputing all pistes");
 		
+		ArrayList<LinkedList<Node>> pistes = new ArrayList<LinkedList<Node>>();
 		for (Piste p : g.getPistes())
 		{
-			System.out.println(OutputKML.outputRoutes(p.getNodes()));
+			
+			pistes.add(p.getNodes());
+			
 		}
+		System.out.println(OutputKML.outputGroupOfRoutes(pistes));
 		
 		
 		
@@ -112,7 +120,7 @@ public class GraphRunner {
 		
 		System.out.println("Graph Built");
 		
-		while(true)
+		do
 		{
 			
 		
@@ -132,7 +140,6 @@ public class GraphRunner {
 		.println("Select a End Location (enter number of piste in console):");
 		i = 1;
 		for (Piste p : g.getPistes()) {
-			System.out.println(p.getName() + ":" + i);
 			endOptions.put(i, p.getNodes().getLast());
 			i++;
 		}
@@ -140,23 +147,30 @@ public class GraphRunner {
 		end = endOptions.get(new Integer(readInFromConsole()));
 
 		runAlgorithms();
+		
+		System.out.println("Press any key to continue");
 		}
+		while(readInFromConsole() != null);
 
 	}
-
+	
 	/**
 	 * Run the route searching algorithms
 	 */
 	private void runAlgorithms() {
+		
+		Path dPath = null;
+		Path aPath = null;
+		Path idaPath = null;
+		Path ara1Path = null;
+		
 		try {
 			dijkstra = new Dijkstra();
 			System.out.println("Dijkstra Results: ");
-			Path p = dijkstra.findPath(start,end);
+			dPath = dijkstra.findPath(start,end);
 			System.out.println("Total Time taken = " + dijkstra.getDuration()  + " milliseconds");
 			System.out.println("Nodes expanded  =" + dijkstra.getNodeCount());
-			System.out.println("Path Length (meters) = " + p.getDistance() );
-			System.out.println("Path Route KML: ");
-			System.out.println(p.printPath());		
+			System.out.println("Path Length (meters) = " + dPath.getDistance() );
 
 			OutputKML.outputRoute(dijkstra.findPath(start, end)
 					.getNodesInPath());
@@ -169,12 +183,10 @@ public class GraphRunner {
 		try {
 			aStar = new AStar();
 			System.out.println("A* Results: ");
-			Path p = aStar.findPath(start,end);
+			aPath = aStar.findPath(start,end);
 			System.out.println("Total Time taken = " + aStar.getDuration() + " milliseconds");
 			System.out.println("Nodes expanded  =" + aStar.getNodeCount() );
-			System.out.println("Path Length (meters) = " + p.getDistance() );
-			System.out.println("Path Route KML: ");
-			System.out.println(p.printPath());		
+			System.out.println("Path Length (meters) = " + aPath.getDistance() );
 
 
 		} catch (Exception e) {
@@ -186,26 +198,25 @@ public class GraphRunner {
 			
 			idaStar = new IterativeDeepeningAStar();
 			System.out.println("IDA* Results: ");
-			Path p = idaStar.findPath(start,end);
+			idaPath = idaStar.findPath(start,end);
 			System.out.println("Total Time taken = " + idaStar.getDuration() + " milliseconds");
 			System.out.println("Nodes expanded  =" + idaStar.getNodeCount());
-			System.out.println("Path Length (meters) = " + p.getDistance() );
-			System.out.println("Path Route KML: ");
-			System.out.println(p.printPath());	
+			System.out.println("Path Length (meters) = " + idaPath.getDistance() );	
 		} catch (Exception e) {
 			System.out.println("IDA* Algorithm Failed");
 			e.printStackTrace();
 		}
 
 		try {
+			
+			System.out.println("Printing the results of each ARA* iteration.");
 			araStar = new AnytimeRepairingAStar();
-			System.out.println("ARA* Results: ");
-			Path p = araStar.findPath(start,end);			
+			System.out.println("Final ARA* Results: ");
+			ara1Path = araStar.findPath(start,end);			
 			System.out.println("Total Time taken = " + araStar.getDuration()+ " milliseconds");
 			System.out.println("Nodes expanded  =" + araStar.getNodeCount() );
-			System.out.println("Path Length (meters) = " + p.getDistance() );
-			System.out.println("Path Route KML: ");
-			System.out.println(p.printPath());	
+			System.out.println("Path Length (meters) = " + ara1Path.getDistance() );
+	
 
 			OutputKML.outputRoute(dijkstra.findPath(start, end)
 					.getNodesInPath());
@@ -214,6 +225,15 @@ public class GraphRunner {
 			e.printStackTrace();
 		}
 
+		ArrayList<Path> paths = new ArrayList<Path>();
+		paths.add(dPath);
+		paths.add(aPath);
+		paths.add(idaPath);
+		paths.add(ara1Path);
+		
+		System.out.println("Printing shortest Paths found by algorithms.");
+		System.out.println(OutputKML.outputGroupOfRoutes(paths));
+		
 	}
 
 	/**

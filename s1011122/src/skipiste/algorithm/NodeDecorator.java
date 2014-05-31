@@ -3,7 +3,7 @@ package skipiste.algorithm;
 import java.util.Set;
 
 import skipiste.graph.elements.Edge;
-import skipiste.graph.elements.GraphNode;
+
 import skipiste.graph.elements.Node;
 
 /**

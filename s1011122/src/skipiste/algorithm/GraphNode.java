@@ -1,6 +1,8 @@
-package skipiste.graph.elements;
+package skipiste.algorithm;
 
 import java.util.Set;
+
+import skipiste.graph.elements.Edge;
 
 /**
  * Interface implemented by the Node class that guarantees the getCost and

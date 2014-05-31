@@ -72,4 +72,10 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 		return new DijkstraNode(n);
 	}
 
+	@Override
+	protected void setAlgorithmName() {
+		this.algorithmName = "Dijkstra";
+		
+	}
+
 }

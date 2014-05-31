@@ -85,4 +85,10 @@ public class AStar extends AbstractSearchAlgorithm<AStarNode> {
 	protected AStarNode buildSpecificNode(Node n) {
 		return new AStarNode(n);
 	}
+
+	@Override
+	protected void setAlgorithmName() {
+		this.algorithmName  = "AStar";
+		
+	}
 }

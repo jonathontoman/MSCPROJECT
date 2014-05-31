@@ -3,6 +3,7 @@ package skipiste.algorithm.arastar;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import skipiste.algorithm.AbstractSearchAlgorithm;
 import skipiste.algorithm.Path;
@@ -60,7 +61,7 @@ public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> 
 			System.out.println("Time taken = "  + (System.currentTimeMillis() - startTime));
 			System.out.println("Path Length (meters) = " + end.getCost() );
 			System.out.println("Path Route KML: ");
-			System.out.println(new Path(end).printPath());
+			System.out.println(new Path(end, "Anytime Repairing A Star with inflation factor " + heuristicMultiplier).printPath());
 			heuristicMultiplier--;
 		}
 	}
@@ -136,6 +137,11 @@ public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> 
 	@Override
 	protected ARAStarNode buildSpecificNode(Node n) {
 		return new ARAStarNode(n);
+	}
+
+	@Override
+	protected void setAlgorithmName() {
+		this.algorithmName = "AnytimeRepairingAStar";
 	}
 
 }
