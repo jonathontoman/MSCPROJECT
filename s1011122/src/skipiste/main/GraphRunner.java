@@ -3,7 +3,9 @@ package skipiste.main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import skipiste.algorithm.Path;
 import skipiste.algorithm.arastar.AnytimeRepairingAStar;
@@ -62,7 +64,7 @@ public class GraphRunner {
 	 * @throws IOException
 	 */
 	public void run() {
-		pisteKML = this.getClass().getResource("WhistlerBlackcomb.kml").getFile();
+		pisteKML = this.getClass().getResource("PlanMontalbert.kml").getFile();
 		startOptions = new HashMap<Integer, Node>();
 		endOptions = new HashMap<Integer, Node>();
 
@@ -72,8 +74,34 @@ public class GraphRunner {
 
 		GraphBuilder builder = new GraphBuilder();
 		
+
+		
+		
 		long startTime = System.currentTimeMillis();
 		g = builder.buildGraph(pisteKML);
+		
+		System.out.println("Outputting all Start End and Intersection Nodes:");
+		
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		for (Node n : g.getNodes())
+		{
+			if (n.isStart()| n.isEnd() | n.isIntersection())
+			{
+				nodes.add(n);
+			}
+		}
+		
+		System.out.println(OutputKML.outputPlaceMarks(nodes));
+		
+		System.out.println("Outputing all pistes");
+		
+		for (Piste p : g.getPistes())
+		{
+			System.out.println(OutputKML.outputRoutes(p.getNodes()));
+		}
+		
+		
+		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Graph Build Time : " + (endTime - startTime) + " milliseconds.");
 		System.out.println("Nodes built: " + g.getNodes().size());
