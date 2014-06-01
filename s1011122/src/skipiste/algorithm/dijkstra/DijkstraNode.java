@@ -3,11 +3,16 @@ package skipiste.algorithm.dijkstra;
 import skipiste.algorithm.NodeDecorator;
 import skipiste.graph.elements.Node;
 
+/**
+ * Specific implementation of a GraphNode used by the Dijkstra Algorithm
+ * @author s1011122
+ *
+ */
 public class DijkstraNode extends NodeDecorator{
 
-	
 	/**
-	 * No argument constructor
+	 * Constructor.
+	 * @param n - node that this object wraps.
 	 */
 	public DijkstraNode(Node n)
 	{

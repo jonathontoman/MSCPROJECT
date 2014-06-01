@@ -52,11 +52,7 @@ public class AStar extends AbstractSearchAlgorithm<AStarNode> {
 
 				AStarNode prospectiveNode = new AStarNode(e.getTo());
 				// Set the heuristic value;
-				prospectiveNode.setHeuristic(calc
-						.calculateDistanceBetweenCoordinates(
-								prospectiveNode.getLongitude(),
-								prospectiveNode.getLatitude(),
-								end.getLongitude(), end.getLatitude()));
+				prospectiveNode.setHeuristic(heuristic(prospectiveNode));
 				// if we have already evaluated this node then move on.
 				if (closedList.contains(prospectiveNode))
 					continue;

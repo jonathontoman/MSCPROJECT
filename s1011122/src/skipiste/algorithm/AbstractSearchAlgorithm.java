@@ -3,9 +3,20 @@ package skipiste.algorithm;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-import skipiste.algorithm.GraphNode;
 import skipiste.graph.elements.Node;
+import skipiste.utils.distance.DistanceCalculator;
+import skipiste.utils.distance.HaversineDistance;
 
+/**
+ * AbstractSearchAlgorithm provides a Generic Abstract Superclass for Shortest
+ * Path algorithms and some basic functionality commonly shared. This enables
+ * simple implementation of new algorithms without changing the graph building
+ * or other classes, it does however introduce some inefficiency for execution speeds.
+ * 
+ * @author s1011122
+ * 
+ * @param <T>
+ */
 public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 		SearchAlgorithm {
 
@@ -25,26 +36,32 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	 * A list of the nodes that we have already visited for this algorithm
 	 */
 	protected HashSet<T> closedList;
-
 	/**
 	 * The duration of the algorithm.
 	 */
 	protected long duration;
-	
-	protected long startTime;
 
+	/**
+	 * Start time of the algorithm
+	 */
+	protected long startTime;
+	/**
+	 * Calculator used to calculate distnace between nodes of heuristic values.
+	 */
+	protected DistanceCalculator calc;
 	/**
 	 * The number of nodes that are expanded by the algorithm.
 	 */
 	protected int nodeCount;
-	
+
 	protected String algorithmName;
 
 	@Override
 	public Path findPath(Node start, Node end) {
-		
+
 		setAlgorithmName();
-		nodeCount =0;
+		calc = new HaversineDistance();
+		nodeCount = 0;
 		openList = new PriorityQueue<T>();
 		closedList = new HashSet<T>();
 		setStartNode(start);
@@ -52,7 +69,7 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 		startTime = System.currentTimeMillis();
 		execute();
 		duration = System.currentTimeMillis() - startTime;
-		return new Path(this.end,  algorithmName);
+		return new Path(this.end, algorithmName);
 	}
 
 	/**
@@ -81,11 +98,22 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	/**
 	 * Build an node for the algorithm specific implementation.
 	 * 
-	 * @return
+	 * @return node - specific algorithm implementation of a graph node.
 	 */
 	protected abstract T buildSpecificNode(Node n);
-	
+
+	/**
+	 * Sets the name of the algorithm
+	 */
 	protected abstract void setAlgorithmName();
+
+	/**
+	 * Calculate the heuristic cost between two nodes
+	 */
+	public double heuristic(T n) {
+		return calc.calculateDistanceBetweenCoordinates(n.getLongitude(),
+				n.getLatitude(), end.getLongitude(), end.getLatitude());
+	}
 
 	/**
 	 * Build the algorithm specific end node
@@ -180,7 +208,8 @@ public abstract class AbstractSearchAlgorithm<T extends GraphNode> implements
 	}
 
 	/**
-	 * @param nodeCount the nodeCount to set
+	 * @param nodeCount
+	 *            the nodeCount to set
 	 */
 	public void setNodeCount(int nodeCount) {
 		this.nodeCount = nodeCount;

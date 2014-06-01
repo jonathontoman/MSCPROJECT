@@ -7,6 +7,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import skipiste.graph.elements.Node;
 import skipiste.graph.elements.Piste;
 
+/**
+ * Abstract class to be extended by classes handling KML files.
+ * @author s101122
+ *
+ */
 public abstract class KMLHandler  extends DefaultHandler{
 
 	/**

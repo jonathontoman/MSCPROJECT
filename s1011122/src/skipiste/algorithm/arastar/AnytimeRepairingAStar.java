@@ -3,14 +3,11 @@ package skipiste.algorithm.arastar;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import skipiste.algorithm.AbstractSearchAlgorithm;
 import skipiste.algorithm.Path;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
-import skipiste.utils.distance.DistanceCalculator;
-import skipiste.utils.distance.HaversineDistance;
 
 /**
  * Anytime Repairing A Start (ARA*) Algorithm as adapted from pseudocode
@@ -21,62 +18,78 @@ import skipiste.utils.distance.HaversineDistance;
  */
 public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> {
 
-	DistanceCalculator calc;
 	int heuristicMultiplier;
 	HashSet<ARAStarNode> inconsistent = new HashSet<ARAStarNode>();
 
+	/**
+	 * @{inheritDoc
+	 */
 	public void execute() {
-		calc = new HaversineDistance();
-		// cost to reach start node is 0
+
+		// start heuristic mutliplier at 10.
 		heuristicMultiplier = 10;
+		// cost to reach start node is 0
 		start.setCost(0);
 		start.setHeuristic(heuristic(start));
+		// add our start node to the open list to begin with.
 		openList.add(start);
 		start.setHeuristicMultiplier(heuristicMultiplier);
-		
 
-		
 		while (heuristicMultiplier >= 1) {
-			
+
 			nodeCount = 0;
 			openList.addAll(inconsistent);
-			
-			
-			
-			// remove all elements to queue and read them after the heuristic is changed to change the order based on new heurisitc
-			
+
+			// remove all elements to queue and read them after the heuristic is
+			// changed to change the order based on new heurisitc
+
 			List<ARAStarNode> nodes = new ArrayList<ARAStarNode>();
-			for (ARAStarNode n : openList)
-			{
+			for (ARAStarNode n : openList) {
 				n.setHeuristicMultiplier(heuristicMultiplier);
 				nodes.add(n);
 			}
-			
+
 			openList.removeAll(nodes);
 			openList.addAll(nodes);
-			
+
 			ara();
-			System.out.println("ARA* output for inflation factor " + heuristicMultiplier);
-			System.out.println("Number of Nodes expanded: " + nodeCount);			
-			System.out.println("Time taken = "  + (System.currentTimeMillis() - startTime));
-			System.out.println("Path Length (meters) = " + end.getCost() );
+			// Print out the route so far and some detail.
+			System.out.println("ARA* output for inflation factor "
+					+ heuristicMultiplier);
+			System.out.println("Number of Nodes expanded: " + nodeCount);
+			System.out.println("Time taken = "
+					+ (System.currentTimeMillis() - startTime));
+			System.out.println("Path Length (meters) = " + end.getCost());
 			System.out.println("Path Route KML: ");
-			System.out.println(new Path(end, "Anytime Repairing A Star with inflation factor " + heuristicMultiplier).printPath());
+			System.out.println(new Path(end,
+					"Anytime Repairing A Star with inflation factor "
+							+ heuristicMultiplier).printPath());
+
+			// decrease the multiplier
 			heuristicMultiplier--;
 		}
 	}
 
-	public void ara() {
+	/**
+	 * This method carries out the search
+	 */
+	private void ara() {
 
+		// reset the closed list
 		closedList = new HashSet<ARAStarNode>();
+		// reset the inconsistent list
 		inconsistent = new HashSet<ARAStarNode>();
 
+		// repeat while there are nodes on the openList AND the cost to reach
+		// that node + (heuristic * heuristic multiplier) is less than the
+		// currently calculate cost to get to the end node
 		while (openList.peek() != null
 				&& openList.peek().getFCost() < end.getFCost()) {
 			// The Node we are currently search from
-			ARAStarNode currentNode = openList.poll();			
+			ARAStarNode currentNode = openList.poll();
 			closedList.add(currentNode);
 
+			// termination criteria
 			if (currentNode.equals(end)) {
 				end = currentNode;
 				return;
@@ -95,19 +108,18 @@ public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> 
 				prospectiveNode.setHeuristicMultiplier(heuristicMultiplier);
 
 				// set the heuristic cost if it hasnt already been set
-				if (prospectiveNode.getHeuristic() == 0  )
-				{
+				if (prospectiveNode.getHeuristic() == 0) {
 					prospectiveNode.setHeuristic(heuristic(prospectiveNode));
 				}
-				// get cost of getting to n from current Node u
+				// get cost of getting to prospective node from current node.
 				double cost = e.getWeight() + currentNode.getCost();
-				
 
 				// if the new cost is less than the old cost update/
 				if (cost < prospectiveNode.getCost()) {
 					prospectiveNode.setCost(cost);
 
-					// if this node has already been expanded add it to the inconsistent list					
+					// if this node has already been expanded add it to the
+					// inconsistent list
 					if (closedList.contains(prospectiveNode)) {
 						inconsistent.add(prospectiveNode);
 					} else {
@@ -120,20 +132,11 @@ public class AnytimeRepairingAStar extends AbstractSearchAlgorithm<ARAStarNode> 
 					}
 				}
 			}
+			// we have now dealt with the current node, add it to the closed list.
 			closedList.add(currentNode);
 		}
 	}
 
-	
-	public double heuristic(ARAStarNode n)
-	{
-		return calc
-				.calculateDistanceBetweenCoordinates(
-						n.getLongitude(),
-						n.getLatitude(),
-						end.getLongitude(), end.getLatitude());
-	}
-	
 	@Override
 	protected ARAStarNode buildSpecificNode(Node n) {
 		return new ARAStarNode(n);

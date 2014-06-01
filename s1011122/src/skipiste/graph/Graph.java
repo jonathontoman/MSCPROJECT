@@ -14,11 +14,13 @@ import skipiste.graph.elements.Piste;
 public class Graph {
 
 	/**
-	 * Set of nodes that are held within this graph
+	 * Set of nodes that are held within this graph. This data is all already
+	 * held within the pistes structure. This is here for convenience.
 	 */
 	private Set<Node> nodes;
 	/**
-	 * Set of edges that are held within this graph.
+	 * Set of edges that are held within this graph. This data is all already
+	 * held within the pistes structure. This is here for convenience.
 	 */
 	private Set<Edge> edges;
 	/**
@@ -29,7 +31,7 @@ public class Graph {
 	public Graph(HashSet<Piste> pistes, HashSet<Node> nodes, HashSet<Edge> edges) {
 		// Use sets so we dont have duplicates.
 
-		this.nodes = nodes;		
+		this.nodes = nodes;
 		this.edges = edges;
 		this.pistes = pistes;
 	}

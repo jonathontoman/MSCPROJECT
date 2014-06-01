@@ -10,7 +10,11 @@ import java.util.Set;
  * @author s1011122
  * 
  */
-public class Node  {
+public class Node {
+
+	// attributes are protected to allow inheritance and easy unit testing
+	// doubles are used to keep precision, some of which will be lost when
+	// calculating distances etc.
 
 	/**
 	 * The longitude of this node.
@@ -36,7 +40,7 @@ public class Node  {
 	 * Edges that are out-bound/originate from this node
 	 */
 	protected Set<Edge> outbound;
-	
+
 	/**
 	 * The pistes this node belongs to.
 	 */
@@ -149,8 +153,9 @@ public class Node  {
 		return pistename;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -171,7 +176,9 @@ public class Node  {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -214,7 +221,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param longitude the longitude to set
+	 * @param longitude
+	 *            the longitude to set
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
@@ -228,7 +236,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param latitude the latitude to set
+	 * @param latitude
+	 *            the latitude to set
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
@@ -242,7 +251,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param altitude the altitude to set
+	 * @param altitude
+	 *            the altitude to set
 	 */
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
@@ -256,7 +266,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -270,7 +281,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param inbound the inbound to set
+	 * @param inbound
+	 *            the inbound to set
 	 */
 	public void setInbound(Set<Edge> inbound) {
 		this.inbound = inbound;
@@ -284,7 +296,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param outbound the outbound to set
+	 * @param outbound
+	 *            the outbound to set
 	 */
 	public void setOutbound(Set<Edge> outbound) {
 		this.outbound = outbound;
@@ -298,7 +311,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param pistes the pistes to set
+	 * @param pistes
+	 *            the pistes to set
 	 */
 	public void setPistes(Set<Piste> pistes) {
 		this.pistes = pistes;
@@ -312,7 +326,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param start the start to set
+	 * @param start
+	 *            the start to set
 	 */
 	public void setStart(boolean start) {
 		this.start = start;
@@ -326,7 +341,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param end the end to set
+	 * @param end
+	 *            the end to set
 	 */
 	public void setEnd(boolean end) {
 		this.end = end;
@@ -340,7 +356,8 @@ public class Node  {
 	}
 
 	/**
-	 * @param intersection the intersection to set
+	 * @param intersection
+	 *            the intersection to set
 	 */
 	public void setIntersection(boolean intersection) {
 		this.intersection = intersection;

@@ -13,7 +13,8 @@ public class Edge {
 	 */
 	private Difficulty diff;
 	/**
-	 * The Weight of this edge. Set to to a double as the edge weight should be null by default not zero.
+	 * The Weight of this edge. Set to to a double as the edge weight should be
+	 * null by default not zero.
 	 */
 	private Double weight;
 	/**
@@ -39,9 +40,13 @@ public class Edge {
 
 	/**
 	 * Simple constructor
-	 * @param from - the node this edge originates from. 
-	 * @param to - the node the edge terminates at
-	 * @param piste - the piste which this edge is part of.
+	 * 
+	 * @param from
+	 *            - the node this edge originates from.
+	 * @param to
+	 *            - the node the edge terminates at
+	 * @param piste
+	 *            - the piste which this edge is part of.
 	 */
 	public Edge(Node from, Node to, Piste piste) {
 		super();
@@ -49,12 +54,16 @@ public class Edge {
 		this.to = to;
 		this.piste = piste;
 	}
-	
+
 	/**
 	 * Simple constructor
-	 * @param from - the node this edge originates from. 
-	 * @param to - the node the edge terminates at
-	 * @param piste - the piste which this edge is part of.
+	 * 
+	 * @param from
+	 *            - the node this edge originates from.
+	 * @param to
+	 *            - the node the edge terminates at
+	 * @param piste
+	 *            - the piste which this edge is part of.
 	 */
 	public Edge(Node from, Node to) {
 		super();
@@ -137,7 +146,9 @@ public class Edge {
 		this.to = to;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -149,7 +160,9 @@ public class Edge {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

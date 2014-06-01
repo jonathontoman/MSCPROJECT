@@ -11,7 +11,7 @@ import skipiste.graph.elements.Node;
 public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 
 	/**
-	 * @{inheritDoc
+	 * @{inheritDoc}
 	 */
 	public void execute() {
 
@@ -22,24 +22,18 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 		while (!openList.isEmpty()) {
 			// The Node we are currently search from
 			DijkstraNode currentNode = openList.poll();
+			nodeCount++;
 
+			// Termination criteria
 			if (currentNode.equals(end)) {
 				end = currentNode;
 				return;
 			}
 
-			// If this is our target we can give up searching as we know the
-			// addition of a heuristic value of an underestimate of the distance
-			// of a node to the destination node guarantees an optimal route
-			// when we find our node, we don't need to be greedy and cycle
-			// through all routes to our destination.1
-
-			nodeCount++;
 			for (Edge e : currentNode.getOutboundEdges()) {
 				// now we need to relax the PisteSections, examine each
 				// destination Node of these PisteSections.
 				// increment node counter
-
 
 				DijkstraNode prospectiveNode = new DijkstraNode(e.getTo());
 				// if we have already evaluated this node then move on.
@@ -56,7 +50,7 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 					// No side effect if prospectiveNode is not already in
 					// queue.
 					prospectiveNode.setCost(cost);
-					
+
 					// set the previous Node so we can later rebuild the path.
 					prospectiveNode.setPrevious(currentNode);
 					openList.remove(prospectiveNode);
@@ -75,7 +69,7 @@ public class Dijkstra extends AbstractSearchAlgorithm<DijkstraNode> {
 	@Override
 	protected void setAlgorithmName() {
 		this.algorithmName = "Dijkstra";
-		
+
 	}
 
 }

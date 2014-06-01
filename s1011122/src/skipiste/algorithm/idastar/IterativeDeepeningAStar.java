@@ -3,20 +3,16 @@ package skipiste.algorithm.idastar;
 import skipiste.algorithm.AbstractSearchAlgorithm;
 import skipiste.graph.elements.Edge;
 import skipiste.graph.elements.Node;
-import skipiste.utils.distance.DistanceCalculator;
 import skipiste.utils.distance.HaversineDistance;
+
 /**
- * The Iterative Deepening A* (IDA*)  Algorithm.
+ * The Iterative Deepening A* (IDA*) Algorithm.
+ * 
  * @author s1011122
- *
+ * 
  */
 public class IterativeDeepeningAStar extends
 		AbstractSearchAlgorithm<IDAStarNode> {
-
-	/**
-	 * Calculator to calculate distance between nodes.
-	 */
-	DistanceCalculator calc;
 
 	/**
 	 * The local threshold value.
@@ -30,10 +26,7 @@ public class IterativeDeepeningAStar extends
 	/**
 	 * The best path to the destination node.
 	 */
-	boolean pathFound;
-	 
-	int nodes;
-
+	private boolean pathFound;
 
 	/**
 	 * Run AStar's algorithm against our graph.
@@ -51,11 +44,9 @@ public class IterativeDeepeningAStar extends
 				end.getLatitude());
 		pathFound = false;
 		// set cost to start node
-		start.setCost(0);	
-		nodes =0;
-		
-		while (pathFound == false && globalThreshold < Double.MAX_VALUE)
-		{			 
+		start.setCost(0);
+
+		while (pathFound == false && globalThreshold < Double.MAX_VALUE) {
 			// set local threshold value.
 			localThreshold = globalThreshold;
 			// reset global threshold to infinity
@@ -64,51 +55,57 @@ public class IterativeDeepeningAStar extends
 		}
 	}
 
+	/**
+	 * The recursive IDA star method. recursively searches for all nodes within
+	 * the given f-value bounds.
+	 * 
+	 * @param currentNode
+	 *            - the node we begin this sub search from.
+	 * @param pathLength
+	 *            - the path length calculted to the current node.
+	 * @param upperBound
+	 *            - the ceiling of our search critiera, nodes with an f-value
+	 *            greater than this will not be searched.
+	 * @return
+	 */
 	protected boolean ida(IDAStarNode currentNode, double pathLength,
-			double upperBound) 
-	{
-		if (currentNode.equals(end))
-		{			
+			double upperBound) {
+
+		// termination criteria
+		if (currentNode.equals(end)) {
 			end = currentNode;
 			return true;
 		}
-		
+
 		// increment node expansion counter
 		nodeCount++;
-		for (Edge e : currentNode.getOutboundEdges()) {	
+		for (Edge e : currentNode.getOutboundEdges()) {
 			// now we need to relax the PisteSections, examine each
 			// destination Node of these PisteSections.
 
 			IDAStarNode prospectiveNode = new IDAStarNode(e.getTo());
 			// Set the heuristic value;
-			prospectiveNode.setHeuristic(calc
-					.calculateDistanceBetweenCoordinates(
-							prospectiveNode.getLongitude(),
-							prospectiveNode.getLatitude(),
-							end.getLongitude(), end.getLatitude()));
+			prospectiveNode.setHeuristic(heuristic(prospectiveNode));
 
-							
 			// set the cost of getting to n from current Node u
 			prospectiveNode.setCost(e.getWeight() + currentNode.getCost());
-			if (prospectiveNode.fValue() > localThreshold)
-			{
-				if (prospectiveNode.fValue() < globalThreshold)
-				{
+			if (prospectiveNode.fValue() > localThreshold) {
+				if (prospectiveNode.fValue() < globalThreshold) {
 					// set the new global threshold
 					globalThreshold = prospectiveNode.fValue();
-				}
+				}				
 			}
-			else
-			{
+			// node is within threshold
+			else {
 				prospectiveNode.setPrevious(currentNode);
-				
-				boolean found = ida(prospectiveNode, prospectiveNode.getCost(), upperBound); 
-				if (found)
-				{
+				// continue depth search
+				boolean found = ida(prospectiveNode, prospectiveNode.getCost(),
+						upperBound);
+				if (found) {
 					return true;
 				}
-			}	
-		}		
+			}
+		}
 		return false;
 	}
 
@@ -120,7 +117,7 @@ public class IterativeDeepeningAStar extends
 	@Override
 	protected void setAlgorithmName() {
 		this.algorithmName = "IDAStar";
-		
+
 	}
 
 }

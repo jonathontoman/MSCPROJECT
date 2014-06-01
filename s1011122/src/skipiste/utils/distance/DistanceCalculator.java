@@ -2,6 +2,13 @@ package skipiste.utils.distance;
 
 import skipiste.graph.elements.Node;
 
+/**
+ * Interface for classes calculating distances. Will allow for easy swapping in
+ * and out of ways to calculate the distances.
+ * 
+ * @author s1011122
+ * 
+ */
 public interface DistanceCalculator {
 
 	/**
@@ -20,7 +27,7 @@ public interface DistanceCalculator {
 	 * @return double - the distance between the two points.
 	 * 
 	 */
-	public abstract double calculateDistanceBetweenCoordinates(Double x1, Double y1,
-			Double x2, Double y2);
+	public abstract double calculateDistanceBetweenCoordinates(Double x1,
+			Double y1, Double x2, Double y2);
 
 }

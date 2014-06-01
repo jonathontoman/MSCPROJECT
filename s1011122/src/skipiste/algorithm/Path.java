@@ -7,7 +7,7 @@ import skipiste.utils.OutputKML;
 
 /**
  * Represents a the path calculated by the route planning algorithms. Holds the
- * nodes visted and other data.
+ * nodes visited and other data.
  * 
  * @author s1011122
  * 
@@ -23,7 +23,10 @@ public class Path {
 	 * The total distance of this route
 	 */
 	private double distance;
-	private String name;
+	/**
+	 * The name of the algorithm that built this path.
+	 */
+	private String algorithmName;
 
 	/**
 	 * Builds a string of kml representing the path
@@ -69,7 +72,7 @@ public class Path {
 	 */
 	public Path(GraphNode n, String name) {
 		this(n);
-		this.name = name;
+		this.algorithmName = name;
 	}
 
 	/**
@@ -106,14 +109,14 @@ public class Path {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return algorithmName;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.algorithmName = name;
 	}
 
 }

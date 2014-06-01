@@ -5,8 +5,8 @@ import java.util.Set;
 import skipiste.graph.elements.Edge;
 
 /**
- * Interface implemented by the Node class that guarantees the getCost and
- * setCost methods are implemented.
+ * Interface implemented by the Node class that guarantees methods required by
+ * the shortes path algorithms and the path builder are implemented.
  * 
  * @author s1011122
  * 
@@ -40,27 +40,30 @@ public interface GraphNode {
 	 * @return GraphNode - the previousNode in the path to reach this node.
 	 */
 	public GraphNode getPrevious();
-	
+
 	/**
 	 * Get the previous node in the path to reach this node.
 	 * 
 	 * @return GraphNode - the previousNode in the path to reach this node.
 	 */
 	public void setPrevious(GraphNode n);
+
 	/**
 	 * Get the latitude of this node.
+	 * 
 	 * @return double - the latitude of this node
 	 */
 	public double getLongitude();
 
 	/**
 	 * Get the longitude of this node.
+	 * 
 	 * @return double the longitude of this node.
 	 */
 	public double getLatitude();
-	
+
 	public int hashCode();
-	
+
 	public boolean equals(Object obj);
 
 }

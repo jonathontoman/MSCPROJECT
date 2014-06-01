@@ -2,9 +2,17 @@ package skipiste.algorithm.idastar;
 
 import skipiste.algorithm.NodeDecorator;
 import skipiste.graph.elements.Node;
-
+/**
+ * Specific implementation of a GraphNode used by the IterativeDeepeningAStar.java
+ * @author s1011122
+ *
+ */
 public class IDAStarNode extends NodeDecorator
 {
+	/**
+	 * Constructor.
+	 * @param n - node that this object wraps.
+	 */
 	public IDAStarNode(Node n)
 	{
 		super();

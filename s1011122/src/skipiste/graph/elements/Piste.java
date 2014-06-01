@@ -3,10 +3,10 @@ package skipiste.graph.elements;
 import java.util.LinkedList;
 
 /**
- * Represents a Ski Piste
+ * Represents a Ski Piste. The ski pistes holds the nodes of a pistes in the
+ * correct order from the start of a piste to the end of a piste. And additional data such as difficulty and name of the piste.
  */
 public class Piste {
-
 
 	/**
 	 * The difficulty of this piste
@@ -17,9 +17,9 @@ public class Piste {
 	 * The Piste Name
 	 */
 	private String name;
-	
+
 	/**
-	 * List of Nodes that make up this piste.
+	 * List of Nodes that make up this piste in order from first to last.
 	 */
 	private LinkedList<Node> nodes;
 
@@ -33,22 +33,27 @@ public class Piste {
 
 	/**
 	 * Basic constructor
-	 * @param name - the name of this piste
+	 * 
+	 * @param name
+	 *            - the name of this piste
 	 */
 	public Piste(String name) {
 		this();
 		this.name = name;
 	}
-	
+
 	/**
 	 * Complete constructor
-	 * @param name - the name of this piste
-	 * @param nodes - the nodes that make up this piste in the correct order(start to finish)
+	 * 
+	 * @param name
+	 *            - the name of this piste
+	 * @param nodes
+	 *            - the nodes that make up this piste in the correct order(start
+	 *            to finish)
 	 */
-	public Piste(String name, LinkedList<Node> nodes)
-	{
+	public Piste(String name, LinkedList<Node> nodes) {
 		this.name = name;
-		this.nodes = nodes;		
+		this.nodes = nodes;
 	}
 
 	/**
@@ -65,8 +70,6 @@ public class Piste {
 		this.name = name;
 		this.nodes = new LinkedList<Node>();
 	}
-
-
 
 	/**
 	 * @return the difficulty
@@ -112,8 +115,10 @@ public class Piste {
 	public void setNodes(LinkedList<Node> nodes) {
 		this.nodes = nodes;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -126,7 +131,9 @@ public class Piste {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -148,7 +155,9 @@ public class Piste {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -156,6 +165,5 @@ public class Piste {
 		return "Piste [difficulty=" + difficulty + ", name=" + name
 				+ ", nodes=" + nodes + "]";
 	}
-
 
 }

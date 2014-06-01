@@ -75,8 +75,10 @@ public class SkiMapHandler extends KMLHandler {
 	 */
 	private StringBuilder sb = new StringBuilder();
 
-
-
+	
+	/**
+	 * start of the kml document initialise lists and counters.
+	 */
 	public void startDocument() throws SAXException {
 		nodes = new ArrayList<Node>();
 		pistes = new ArrayList<Piste>();
@@ -84,6 +86,9 @@ public class SkiMapHandler extends KMLHandler {
 		unknownCounter =1;
 	}
 
+	/**
+	 * Nothing to do at the end of the document.
+	 */
 	public void endDocument() throws SAXException {
 	}
 

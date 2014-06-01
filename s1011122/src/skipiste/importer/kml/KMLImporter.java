@@ -20,7 +20,7 @@ import skipiste.graph.elements.Piste;
 
 /**
  * 
- * Builds a graph from a KML source file.
+ * Builds the pistes from the kml file.
  * 
  * @author s1011122
  * 
@@ -31,6 +31,9 @@ public class KMLImporter {
 	 * The SAX handler for the KML file
 	 */
 	private SAXParserFactory spf;
+	/**
+	 * SaxParser for the kml file.
+	 */
 	private SAXParser saxParser;
 	/**
 	 * Nodes that we build up from the KML file and modify in this class.
@@ -67,13 +70,8 @@ public class KMLImporter {
 			// Do Nothing other than print stack trace
 			e.printStackTrace();
 		}
-
-		// the graph built by the KML handler will produce n number of
-		// unconnected graphs, one for each named piste in the origin data.
-		// we need to go through three processes to connected theses graphs.
-		nodes = handler.getNodes();
+		// The KML handler produces linkedlist of nodes that are in the correct order, these are the pistes.
 		pistes = handler.getPistes();
-
 	}
 
 	/**

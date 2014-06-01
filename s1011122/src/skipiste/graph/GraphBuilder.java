@@ -18,8 +18,8 @@ import skipiste.utils.distance.DistanceCalculator;
 import skipiste.utils.distance.HaversineDistance;
 
 /**
- * 
- * @author s1011122 builds the graphs for use by the search alogrithms.
+ * Builds the network graph from input from a Set<Piste> objects.
+ * @author s1011122
  * 
  */
 public class GraphBuilder implements GraphBuilderInterface {
@@ -27,25 +27,25 @@ public class GraphBuilder implements GraphBuilderInterface {
 	/**
 	 * The pistes in this graph
 	 */
-	protected HashSet<Piste> pistes;
+	private HashSet<Piste> pistes;
 
 	/**
 	 * Calculate the distance between two points
 	 */
-	protected DistanceCalculator calc;
+	private DistanceCalculator calc;
 
 	/**
 	 * Start or End nodes less to or equal to this distance apart from each
 	 * other will be clustered together into a single node.
 	 */
-	private int clusterDistance;
+	private static final int clusterDistance = 20;
 
 	/**
 	 * The tolerance we allow for line intersections, if the intersection of
 	 * line a and line b is within this distance of both lines then the
 	 * intersection node will be created.
 	 */
-	protected double lineInterSectionTolerance;
+	private static final int lineInterSectionTolerance = 15;
 
 	/**
 	 * The no argument no operation constructor.
@@ -57,14 +57,16 @@ public class GraphBuilder implements GraphBuilderInterface {
 	@Override
 	public Graph buildGraph(String KMLFile) {
 
+		// initialise 
+		calc = new HaversineDistance();
+
+		
+		// Import the KML.
 		System.out.println("Importing KML");
 		KMLHandler handler = new SkiMapHandler();
 		KMLImporter importer = new KMLImporter(handler, KMLFile);
-
+		// Get the pistes, at this stage they are just nodes in the correct order.
 		pistes = new HashSet<Piste>(importer.getPistes());
-		calc = new HaversineDistance();
-		clusterDistance = 20;
-		lineInterSectionTolerance = 15;
 
 		// Step 1: build the Edges in the graph, we will do this again later
 		System.out.println("Building edges for first time");

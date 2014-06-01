@@ -131,8 +131,6 @@ public class LineSegment {
 	 */
 	public Point closestPointOnLine(Point p3) {
 
-		
-
 		// the x axis difference of the ends of this line segment
 		double xDelta = p2.getX() - p1.getX();
 		// the y axis difference of the ends of this line segmenet

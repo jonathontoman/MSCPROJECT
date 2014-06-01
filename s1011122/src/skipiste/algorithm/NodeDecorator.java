@@ -35,12 +35,12 @@ public abstract class NodeDecorator implements GraphNode,
 	protected Node node;
 
 	/**
-	 * the no argument constructor called by extending classes
+	 * The no argument construcutor. Classes extending NodeDecorator should call super() in their own constructor.
 	 */
 	protected NodeDecorator() {
 		// We don't know the cost to the current node when create it so set it
 		// to
-		// the maximum possible value;
+		// the maximum possible value to represent infinity.
 		this.cost = Double.MAX_VALUE;
 
 	}

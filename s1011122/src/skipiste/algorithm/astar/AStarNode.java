@@ -3,8 +3,18 @@ package skipiste.algorithm.astar;
 import skipiste.algorithm.NodeDecorator;
 import skipiste.graph.elements.Node;
 
+/**
+ * Specific implementation of a GraphNode used by the AnytimeRepairingAStarAlgorithm
+ * @author s1011122
+ *
+ */
 public class AStarNode extends NodeDecorator
 {
+	
+	/**
+	 * Constructor.
+	 * @param n - node that this object wraps.
+	 */
 	public AStarNode(Node n)
 	{
 		super();
